@@ -1,3 +1,18 @@
-# INE5420-CG
+# Federal University of Santa Catarina (UFSC)
+Department of Informatics and Statistics
 
-Read me or not.
+Computer Science 
+
+INE5420 - Computer Graphics
+
+Professor: Dr. rer. nat. Aldo von Wangenheim
+
+Group Members:
+
+Marcio Monteiro
+Rodrigo Pedro Marques
+
+Semester: 2017/1
+
+
+Works of computer graphics (CG) implemented using C++.
