@@ -15,4 +15,4 @@ Rodrigo Pedro Marques
 Semester: 2017/1
 
 
-Works of computer graphics (CG) implemented using C++.
+Works of computer graphics (CG) using C++.
