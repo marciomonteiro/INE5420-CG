@@ -1,0 +1,5 @@
+# compiled source
+exec
+
+# glade generated file
+*.glade~
