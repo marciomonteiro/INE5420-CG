@@ -12,6 +12,7 @@
     <property name="title" translatable="yes">CG GUI</property>
     <property name="default_width">900</property>
     <property name="default_height">720</property>
+    <signal name="destroy" handler="gtk_main_quit" swapped="no"/>
     <child>
       <object class="GtkPaned" id="MainPanel">
         <property name="name">MainPanel</property>
@@ -51,6 +52,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <signal name="clicked" handler="quick_message" swapped="no"/>
                               </object>
                             </child>
                           </object>
@@ -582,6 +584,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <signal name="clicked" handler="btn_ok_insert_actived" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
