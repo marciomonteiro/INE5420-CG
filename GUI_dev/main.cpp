@@ -7,6 +7,15 @@ GtkWidget *window_widget;
 GtkWidget *drawing_area;
 GtkWidget *dialog;
 
+GtkEntry *entryStep;
+GtkEntry *entryDegrees;
+GtkEntry *entryNameNewObject;
+
+
+const gchar *entryStepText;
+const gchar *entryDegreesText;
+const gchar *entryObjectName;
+
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){
 	cairo_t *cr;
@@ -90,15 +99,6 @@ extern "C" G_MODULE_EXPORT void btn_right_clicked(){
 	gtk_widget_queue_draw (window_widget);
 } 
 
-/*Function that will be called when the button in is pressed*/
-extern "C" G_MODULE_EXPORT void btn_in_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 20, 10);
-	cairo_line_to(cr, 30, 50);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
-} 
 
  /*Function that will be called when the button out is pressed*/
 extern "C" G_MODULE_EXPORT void btn_out_clicked(){
@@ -110,35 +110,6 @@ extern "C" G_MODULE_EXPORT void btn_out_clicked(){
 	gtk_widget_queue_draw (window_widget);
 } 
 
- /*Function that will be called when the button x is pressed*/
-extern "C" G_MODULE_EXPORT void btn_x_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 20, 100);
-	cairo_line_to(cr, 400, 50);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
-} 
-
- /*Function that will be called when the button y is pressed*/
-extern "C" G_MODULE_EXPORT void btn_y_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 20, 100);
-	cairo_line_to(cr, 30, 500);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
-} 
-
- /*Function that will be called when the button z is pressed*/
-extern "C" G_MODULE_EXPORT void btn_z_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 20, 40);
-	cairo_line_to(cr, 30, 250);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
-} 
 
   /*Function that will be called when the button get_window is pressed*/
 extern "C" G_MODULE_EXPORT void btn_get_window_clicked(){
@@ -170,6 +141,35 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_actived(){
 	gtk_widget_queue_draw (window_widget);
 }
 
+ /*Function that will be called when the button x is pressed*/
+extern "C" G_MODULE_EXPORT void btn_x_clicked(){
+	cairo_t *cr;
+	cr = cairo_create (surface);
+	cairo_move_to(cr, 20, 100);
+	cairo_line_to(cr, 400, 50);
+	cairo_stroke(cr);
+	gtk_widget_queue_draw (window_widget);
+} 
+
+ /*Function that will be called when the button y is pressed*/
+extern "C" G_MODULE_EXPORT void btn_y_clicked(){
+	cairo_t *cr;
+	cr = cairo_create (surface);
+	cairo_move_to(cr, 20, 100);
+	cairo_line_to(cr, 30, 500);
+	cairo_stroke(cr);
+	gtk_widget_queue_draw (window_widget);
+} 
+
+ /*Function that will be called when the button z is pressed*/
+extern "C" G_MODULE_EXPORT void btn_z_clicked(){
+	cairo_t *cr;
+	cr = cairo_create (surface);
+	cairo_move_to(cr, 20, 40);
+	cairo_line_to(cr, 30, 250);
+	cairo_stroke(cr);
+	gtk_widget_queue_draw (window_widget);
+} 
 // ///////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////
 // Function that will display the dialog to insert new objects
@@ -179,6 +179,36 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_actived(){
 /*Function that will display the window to insert new objects*/
 extern "C" G_MODULE_EXPORT void quick_message () {
   	gtk_widget_show(dialog);
+}
+
+// // ///////////////////////////////////////////////////////////////////////
+// // ///////////////////////////////////////////////////////////////////////
+// // Functions that will get the text from dialog screen
+// // ///////////////////////////////////////////////////////////////////////
+// // ///////////////////////////////////////////////////////////////////////
+
+/* Function that get the value put in the field EntryStepSize from GUI*/ 
+extern "C" G_MODULE_EXPORT void get_text_step()
+{
+    /* cast the data back to a GtkEntry*  */
+    entryStepText = gtk_entry_get_text (entryStep);
+    g_print ("Step: %s\n", entryStepText);
+}
+
+/* Function that get the value put in the field entryDegreesText from GUI*/ 
+extern "C" G_MODULE_EXPORT void get_text_degrees()
+{
+    /* cast the data back to a GtkEntry*  */
+    entryDegreesText = gtk_entry_get_text (entryDegrees);
+    g_print ("Degrees: %s\n", entryDegreesText);
+}
+
+/* Function that get the value put in the field entryDegreesText from GUI*/ 
+extern "C" G_MODULE_EXPORT void get_text_name_new_object()
+{
+    /* cast the data back to a GtkEntry*  */
+    entryObjectName = gtk_entry_get_text (entryDegrees);
+    g_print ("Name: %s\n", entryObjectName);
 }
 
 int main(int argc, char *argv[]){
@@ -191,9 +221,14 @@ int main(int argc, char *argv[]){
 	window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "MainWindow") );
 	drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
 	dialog = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "dialog1") );
+
 	g_signal_connect (drawing_area, "draw", G_CALLBACK (draw_cb), NULL);
 	g_signal_connect (drawing_area,"configure-event", G_CALLBACK (configure_event_cb), NULL);
-	// g_signal_connect (dialog,"delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+	
+	entryStep = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryStepSize"));
+	entryDegrees = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryDegreesSize"));
+	entryNameNewObject = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryNameNewObject"));
+
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 	gtk_widget_show_all(window_widget);
 	gtk_main ();
