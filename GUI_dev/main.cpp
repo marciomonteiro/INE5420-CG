@@ -8,6 +8,8 @@ GtkWidget *window_widget;
 GtkWidget *drawing_area;
 GtkWidget *windowInsertion;
 
+double windowSizeStep = 100;
+
 GtkEntry *entryStep;
 GtkEntry *entryDegrees;
 
@@ -58,12 +60,9 @@ const gchar *entryZ2LineAux;
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){
 	cairo_t *cr;
-
 	cr = cairo_create (surface);
-
 	cairo_set_source_rgb (cr, 1, 1, 1);
 	cairo_paint (cr);
-
 	cairo_destroy (cr);
 }
 
@@ -94,129 +93,65 @@ static gboolean draw_cb (GtkWidget *widget, cairo_t   *cr,  gpointer   data){
 // ///////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////
 
-/*Function that will be called when the button up is pressed*/
 extern "C" G_MODULE_EXPORT void btn_up_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 10, 10);
-	cairo_line_to(cr, 20, 10);
-	cairo_line_to(cr, 20, 20);
-	cairo_line_to(cr, 10, 20);
-	cairo_line_to(cr, 10, 10);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
+	printf("btn_up_clicked\n");
 } 
 
-
-/*Function that will be called when the button left is pressed*/
 extern "C" G_MODULE_EXPORT void btn_left_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 200, 10);
-	cairo_line_to(cr, 300, 50);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
+	printf("btn_left_clicked\n");
 } 
 
-/*Function that will be called when the button down is pressed*/
 extern "C" G_MODULE_EXPORT void btn_down_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 100, 10);
-	cairo_line_to(cr, 300, 80);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
+	printf("btn_down_clicked\n");
 } 
 
-/*Function that will be called when the button right is pressed*/
 extern "C" G_MODULE_EXPORT void btn_right_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 500, 10);
-	cairo_line_to(cr, 300, 650);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
-} 
+	printf("btn_right_clicked\n");
+}
 
-
- /*Function that will be called when the button out is pressed*/
 extern "C" G_MODULE_EXPORT void btn_out_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 20, 10);
-	cairo_line_to(cr, 10, 100);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
+	printf("btn_out_clicked\n");
 } 
 
-
-  /*Function that will be called when the button get_window is pressed*/
 extern "C" G_MODULE_EXPORT void btn_get_window_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 20, 10);
-	cairo_line_to(cr, 30, 850);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
+	printf("btn_get_window_clicked\n");
 }
 
- /*Function that will be called when the button parallel change state*/
 extern "C" G_MODULE_EXPORT void btn_parallel_actived(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 20, 50);
-	cairo_line_to(cr, 130, 160);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
+	printf("btn_parallel_actived\n");
 }
 
-
- /*Function that will be called when the button x is pressed*/
 extern "C" G_MODULE_EXPORT void btn_x_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 20, 100);
-	cairo_line_to(cr, 400, 50);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
+	printf("btn_x_clicked\n");
 } 
 
- /*Function that will be called when the button y is pressed*/
 extern "C" G_MODULE_EXPORT void btn_y_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 20, 100);
-	cairo_line_to(cr, 30, 500);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
+	printf("btn_y_clicked\n");
 } 
 
- /*Function that will be called when the button z is pressed*/
 extern "C" G_MODULE_EXPORT void btn_z_clicked(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 20, 40);
-	cairo_line_to(cr, 30, 250);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
+	printf("btn_z_clicked\n");
 } 
 
+extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked(){
+	printf("btn_zoom_in_clicked\n");
+} 
+
+extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
+	printf("btn_zoom_out_clicked\n");
+} 
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
+	printf("btn_ok_insert_point_actived\n");
 	// Change this code to draw one dot.
 	entryPointName = gtk_entry_get_text (entryNameNewPoint);
 	entryXPointAux = gtk_entry_get_text (entryXPoint);
 	entryYPointAux = gtk_entry_get_text (entryYPoint);
 	g_print ("Point: %s\tX: %s\tY: %s\n", entryPointName, entryXPointAux, entryYPointAux);
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 0, 0);
-	cairo_line_to (cr, (double) *entryXPointAux *2, (double) *entryYPointAux *2);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
+	printf("btn_ok_insert_line_actived\n");
 	// Change this code to draw one dot.
 	entryLineName = gtk_entry_get_text (entryNameNewLine);
 	entryX1LineAux = gtk_entry_get_text (entryX1Line);
@@ -224,12 +159,6 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	entryX2LineAux = gtk_entry_get_text (entryX2Line);
 	entryY2LineAux = gtk_entry_get_text (entryY2Line);
 	g_print ("Line: %s\tX1: %s\tY1: %s\tX2: %s\tY2: %s\n", entryLineName, entryX1LineAux, entryY1LineAux, entryX2LineAux, entryY2LineAux);
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, (double) *entryX1LineAux, (double) *entryY1LineAux);
-	cairo_line_to (cr, (double) *entryX2LineAux, (double) *entryY2LineAux);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
 }
 // ///////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////
@@ -238,7 +167,8 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 // ///////////////////////////////////////////////////////////////////////
 
 /*Function that will display the window to insert new objects*/
-extern "C" G_MODULE_EXPORT void quick_message () {
+extern "C" G_MODULE_EXPORT void insert_new_object_window () {
+	printf("insert_new_object_window\n");
   	gtk_widget_show(windowInsertion);
 }
 
@@ -249,17 +179,15 @@ extern "C" G_MODULE_EXPORT void quick_message () {
 // // ///////////////////////////////////////////////////////////////////////
 
 /* Function that get the value put in the field EntryStepSize from GUI*/ 
-extern "C" G_MODULE_EXPORT void get_text_step()
-{
-    /* cast the data back to a GtkEntry*  */
+extern "C" G_MODULE_EXPORT void get_text_step(){
+	printf("get_text_step\n");
     entryStepText = gtk_entry_get_text (entryStep);
     g_print ("Step: %s\n", entryStepText);
 }
 
 /* Function that get the value put in the field entryDegreesText from GUI*/ 
-extern "C" G_MODULE_EXPORT void get_text_degrees()
-{
-    /* cast the data back to a GtkEntry*  */
+extern "C" G_MODULE_EXPORT void get_text_degrees(){
+	printf("get_text_degrees\n");
     entryDegreesText = gtk_entry_get_text (entryDegrees);
     g_print ("Degrees: %s\n", entryDegreesText);
 }
