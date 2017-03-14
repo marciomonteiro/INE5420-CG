@@ -59,6 +59,22 @@
                                     <child internal-child="selection">
                                       <object class="GtkTreeSelection" id="treeview-selection1"/>
                                     </child>
+                                    <child>
+                                      <object class="GtkTreeViewColumn" id="ColumnName">
+                                        <property name="resizable">True</property>
+                                        <property name="sizing">autosize</property>
+                                        <property name="title" translatable="yes">Name</property>
+                                        <property name="sort_column_id">0</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkTreeViewColumn" id="ColumnType">
+                                        <property name="resizable">True</property>
+                                        <property name="sizing">autosize</property>
+                                        <property name="title" translatable="yes">Type</property>
+                                        <property name="sort_column_id">1</property>
+                                      </object>
+                                    </child>
                                   </object>
                                 </child>
                               </object>

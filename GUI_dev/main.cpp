@@ -8,7 +8,11 @@ GtkWidget *window_widget;
 GtkWidget *drawing_area;
 GtkWidget *windowInsertion;
 
+GtkTreeModel* objectListTree;
+
+
 double windowSizeStep = 100;
+double zoomStepSize = 2;
 
 GtkEntry *entryStep;
 GtkEntry *entryDegrees;
@@ -148,6 +152,12 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
 	entryXPointAux = gtk_entry_get_text (entryXPoint);
 	entryYPointAux = gtk_entry_get_text (entryYPoint);
 	g_print ("Point: %s\tX: %s\tY: %s\n", entryPointName, entryXPointAux, entryYPointAux);
+	cairo_t *cr;
+	cr = cairo_create (surface);
+	cairo_move_to(cr, 0, 0);
+	cairo_line_to (cr, (double) *entryXPointAux *2, (double) *entryYPointAux *2);
+	cairo_stroke(cr);
+	gtk_widget_queue_draw (window_widget);
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
@@ -159,6 +169,12 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	entryX2LineAux = gtk_entry_get_text (entryX2Line);
 	entryY2LineAux = gtk_entry_get_text (entryY2Line);
 	g_print ("Line: %s\tX1: %s\tY1: %s\tX2: %s\tY2: %s\n", entryLineName, entryX1LineAux, entryY1LineAux, entryX2LineAux, entryY2LineAux);
+	cairo_t *cr;
+	cr = cairo_create (surface);
+	cairo_move_to(cr, (double) *entryX1LineAux, (double) *entryY1LineAux);
+	cairo_line_to (cr, (double) *entryX2LineAux, (double) *entryY2LineAux);
+	cairo_stroke(cr);
+	gtk_widget_queue_draw (window_widget);
 }
 // ///////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////
@@ -170,6 +186,13 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 extern "C" G_MODULE_EXPORT void insert_new_object_window () {
 	printf("insert_new_object_window\n");
   	gtk_widget_show(windowInsertion);
+}
+static gboolean add_object_on_list_to_store(const std::string name, const char* type){
+	GtkListStore *listToStore = GTK_LIST_STORE(objectListTree);
+	GtkTreeIter it;
+
+	gtk_list_store_append(listToStore, &it);
+	gtk_list_store_set(listToStore, &it, 0, name.c_str(), 1, type, -1);
 }
 
 // // ///////////////////////////////////////////////////////////////////////
@@ -226,6 +249,9 @@ int main(int argc, char *argv[]){
 	entryX2Line = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryX2Line"));
 	entryY2Line = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryY2Line"));
 	entryZ2Line = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryZ2Line"));
+
+	// Tree object list
+	objectListTree = gtk_tree_view_get_model(GTK_TREE_VIEW( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "ObjectTreeViewList" ) ));
 
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 	gtk_widget_show_all(window_widget);
