@@ -10,9 +10,21 @@
 
 class Coordenadas {
 public:
+	void setX(double x);
+	void setY(double y);
+	void setZ(double z);
+	void setAux(double aux);
 
+	double getX();
+	double getY();
+	double getZ();
+	double getAux();
 
 private:
+	double x;
+	double y;
+	double z;
+	double aux;
 };
 
 

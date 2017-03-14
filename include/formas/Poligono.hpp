@@ -8,7 +8,7 @@
 #ifndef INCLUDE_POLIGONO_HPP_
 #define INCLUDE_POLIGONO_HPP_
 
-#include "include/Objeto.hpp"
+#include "../Objeto.hpp"
 
 class Poligono{
 private:
