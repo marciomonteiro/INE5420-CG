@@ -9,10 +9,9 @@ Professor: Dr. rer. nat. Aldo von Wangenheim
 
 Group Members:
 
-Marcio Monteiro
-Rodrigo Pedro Marques
+- Marcio Monteiro
+- Rodrigo Pedro Marques
 
-Semester: 2017/1
+Semester: 2017.1
 
-
-Works of computer graphics (CG) using C++.
+Computer graphics' homeworks using C++.
