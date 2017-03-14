@@ -3,18 +3,57 @@
 #include <vector>
 
 static cairo_surface_t *surface = NULL;
+
 GtkWidget *window_widget;
 GtkWidget *drawing_area;
-GtkWidget *dialog;
+GtkWidget *windowInsertion;
 
 GtkEntry *entryStep;
 GtkEntry *entryDegrees;
-GtkEntry *entryNameNewObject;
+
+// Point
+GtkEntry *entryNameNewPoint;
+GtkEntry *entryXPoint;
+GtkEntry *entryYPoint;
+GtkEntry *entryZPoint;
+
+// Line
+GtkEntry *entryNameNewLine;
+GtkEntry *entryX1Line;
+GtkEntry *entryY1Line;
+GtkEntry *entryZ1Line;
+GtkEntry *entryX2Line;
+GtkEntry *entryY2Line;
+GtkEntry *entryZ2Line;
+
+// GtkEntry *entryNameNew???;
+// GtkEntry *entryNameNew???;
+// GtkEntry *entryNameNew???;
+// GtkEntry *entryNameNew???;
+// GtkEntry *entryNameNew???;
+// GtkEntry *entryNameNew???;
+// GtkEntry *entryNameNew???;
+// GtkEntry *entryNameNew???;
+// GtkEntry *entryNameNew???;
 
 
 const gchar *entryStepText;
 const gchar *entryDegreesText;
-const gchar *entryObjectName;
+
+// point name and position
+const gchar *entryPointName;
+const gchar *entryXPointAux;
+const gchar *entryYPointAux;
+const gchar *entryZPointAux;
+
+// line name and points
+const gchar *entryLineName;
+const gchar *entryX1LineAux;
+const gchar *entryY1LineAux;
+const gchar *entryZ1LineAux;
+const gchar *entryX2LineAux;
+const gchar *entryY2LineAux;
+const gchar *entryZ2LineAux;
 
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){
@@ -131,15 +170,6 @@ extern "C" G_MODULE_EXPORT void btn_parallel_actived(){
 	gtk_widget_queue_draw (window_widget);
 }
 
- /*Function that will be called when the button parallel change state*/
-extern "C" G_MODULE_EXPORT void btn_ok_insert_actived(){
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, 20, 50);
-	cairo_line_to(cr, 130, 160);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
-}
 
  /*Function that will be called when the button x is pressed*/
 extern "C" G_MODULE_EXPORT void btn_x_clicked(){
@@ -170,20 +200,51 @@ extern "C" G_MODULE_EXPORT void btn_z_clicked(){
 	cairo_stroke(cr);
 	gtk_widget_queue_draw (window_widget);
 } 
+
+
+extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
+	// Change this code to draw one dot.
+	entryPointName = gtk_entry_get_text (entryNameNewPoint);
+	entryXPointAux = gtk_entry_get_text (entryXPoint);
+	entryYPointAux = gtk_entry_get_text (entryYPoint);
+	g_print ("Point: %s\tX: %s\tY: %s\n", entryPointName, entryXPointAux, entryYPointAux);
+	cairo_t *cr;
+	cr = cairo_create (surface);
+	cairo_move_to(cr, 0, 0);
+	cairo_line_to (cr, (double) *entryXPointAux *2, (double) *entryYPointAux *2);
+	cairo_stroke(cr);
+	gtk_widget_queue_draw (window_widget);
+}
+
+extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
+	// Change this code to draw one dot.
+	entryLineName = gtk_entry_get_text (entryNameNewLine);
+	entryX1LineAux = gtk_entry_get_text (entryX1Line);
+	entryY1LineAux = gtk_entry_get_text (entryY1Line);
+	entryX2LineAux = gtk_entry_get_text (entryX2Line);
+	entryY2LineAux = gtk_entry_get_text (entryY2Line);
+	g_print ("Line: %s\tX1: %s\tY1: %s\tX2: %s\tY2: %s\n", entryLineName, entryX1LineAux, entryY1LineAux, entryX2LineAux, entryY2LineAux);
+	cairo_t *cr;
+	cr = cairo_create (surface);
+	cairo_move_to(cr, (double) *entryX1LineAux, (double) *entryY1LineAux);
+	cairo_line_to (cr, (double) *entryX2LineAux, (double) *entryY2LineAux);
+	cairo_stroke(cr);
+	gtk_widget_queue_draw (window_widget);
+}
 // ///////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////
-// Function that will display the dialog to insert new objects
+// Function that will display the windowInsertion to insert new objects
 // ///////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////
 
 /*Function that will display the window to insert new objects*/
 extern "C" G_MODULE_EXPORT void quick_message () {
-  	gtk_widget_show(dialog);
+  	gtk_widget_show(windowInsertion);
 }
 
 // // ///////////////////////////////////////////////////////////////////////
 // // ///////////////////////////////////////////////////////////////////////
-// // Functions that will get the text from dialog screen
+// // Functions that will get the text from windowInsertion screen
 // // ///////////////////////////////////////////////////////////////////////
 // // ///////////////////////////////////////////////////////////////////////
 
@@ -203,14 +264,6 @@ extern "C" G_MODULE_EXPORT void get_text_degrees()
     g_print ("Degrees: %s\n", entryDegreesText);
 }
 
-/* Function that get the value put in the field entryDegreesText from GUI*/ 
-extern "C" G_MODULE_EXPORT void get_text_name_new_object()
-{
-    /* cast the data back to a GtkEntry*  */
-    entryObjectName = gtk_entry_get_text (entryDegrees);
-    g_print ("Name: %s\n", entryObjectName);
-}
-
 int main(int argc, char *argv[]){
 	GtkBuilder  *gtkBuilder;
 	gtk_init(&argc, &argv);
@@ -220,14 +273,31 @@ int main(int argc, char *argv[]){
 
 	window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "MainWindow") );
 	drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
-	dialog = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "dialog1") );
+	windowInsertion = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowInsertion") );
 
 	g_signal_connect (drawing_area, "draw", G_CALLBACK (draw_cb), NULL);
 	g_signal_connect (drawing_area,"configure-event", G_CALLBACK (configure_event_cb), NULL);
 	
+	// size of step
 	entryStep = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryStepSize"));
+	
+	// degree to change
 	entryDegrees = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryDegreesSize"));
-	entryNameNewObject = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryNameNewObject"));
+	
+	// Point
+	entryNameNewPoint = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryNameNewPoint"));
+	entryXPoint = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryXPoint"));
+	entryYPoint = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryYPoint"));
+	entryZPoint = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryZPoint"));
+	
+	// Line 
+	entryNameNewLine = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryNameNewLine"));
+	entryX1Line = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryX1Line"));
+	entryY1Line = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryY1Line"));
+	entryZ1Line = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryZ1Line"));
+	entryX2Line = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryX2Line"));
+	entryY2Line = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryY2Line"));
+	entryZ2Line = GTK_ENTRY(gtk_builder_get_object(gtkBuilder, "EntryZ2Line"));
 
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 	gtk_widget_show_all(window_widget);
