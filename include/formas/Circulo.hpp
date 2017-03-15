@@ -10,10 +10,10 @@
 
 #include "../Objeto.hpp"
 
-class Circulo {
-public:
-	Circulo(string nomeCirculo, string tipoObjeto = "Circulo", vector<Coordenadas> coordenadas) : Objeto(nomeCirculo, tipoObjeto, coordenadas){}
 
+class Circulo : public Objeto {
+public:
+	Circulo(std::string nome, std::string tipo, std::vector<Coordenadas> coordenadas) : Objeto(nome, tipo, coordenadas){}
 	~Circulo(){}
 
 private:

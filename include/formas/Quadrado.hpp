@@ -9,10 +9,11 @@
 #define INCLUDE_FORMAS_QUADRADO_HPP_
 
 #include "../Objeto.hpp"
+#include "Retangulo.hpp"
 
 class Quadrado : public Retangulo {
 public:
-	Quadrado(string nomeQuadrado, string tipoQuadrado = "Quadrado", vector<Coordenadas> coordenadas) : Objeto(nomeQuadrado, tipoQuadrado, coordenadas){}
+	Quadrado(std::string nomeQuadrado, std::string tipoQuadrado, std::vector<Coordenadas> coordenadas) : Retangulo(nomeQuadrado, tipoQuadrado, coordenadas){}
 	~Quadrado(){}
 
 private:

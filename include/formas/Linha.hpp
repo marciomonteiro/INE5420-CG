@@ -12,7 +12,7 @@
 
 class Linha : public Objeto {
 public:
-	Linha(string nomeLinha, string tipoLinha = "Linha", vector<Coordenadas> coordenadas) : Objeto(nomeLinha, tipoLinha, coordenadas){}
+	Linha(std::string nomeLinha, std::string tipoLinha, std::vector<Coordenadas> coordenadas) : Objeto(nomeLinha, tipoLinha, coordenadas){}
 	~Linha(){}
 
 private:

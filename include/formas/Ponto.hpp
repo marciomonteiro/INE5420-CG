@@ -12,7 +12,7 @@
 
 class Ponto : public Objeto {
 public:
-	Ponto(string nome, string tipo = "Ponto", vector<Coordenadas> coordenadas) : Objeto(nome, tipo, coordenadas){
+	Ponto(std::string nomePonto, std::string tipoPonto, std::vector<Coordenadas> coordenadas) : Objeto(nomePonto, tipoPonto, coordenadas){
 	}
 
 	~Ponto(){}

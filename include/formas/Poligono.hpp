@@ -12,11 +12,11 @@
 
 class Poligono : public Objeto {
 private:
-	vector<Coordenadas> coordenadas;
+	std::vector<Coordenadas> coordenadas;
 
 public:
 
-	Poligono(string nome, string tipoPoligono = "Poligono", vector<Coordenadas> coordenadas) : Objeto(nome, tipoPoligono, coordenadas){
+	Poligono(std::string nomePoligono, std::string tipoPoligono, std::vector<Coordenadas> coordenadas) : Objeto(nomePoligono, tipoPoligono, coordenadas){
 	}
 
 	~Poligono(){}

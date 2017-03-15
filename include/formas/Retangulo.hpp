@@ -10,9 +10,9 @@
 
 #include "../Objeto.hpp"
 
-class Retangulo {
+class Retangulo : public Objeto{
 public:
-	Retangulo(string nome, string tipoRetangulo = "Retangulo", vector<Coordenadas> coordenadas) : Objeto(nome, tipoRetangulo, coordenadas){}
+	Retangulo(std::string nomeRetangulo, std::string tipoRetangulo, std::vector<Coordenadas> coordenadas) : Objeto(nomeRetangulo, tipoRetangulo, coordenadas){}
 	~Retangulo(){}
 
 private:
