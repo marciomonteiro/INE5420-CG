@@ -3,3 +3,6 @@ exec
 
 # glade generated file
 *.glade~
+
+# .sh
+*.sh

@@ -2,6 +2,10 @@
 #include <iostream>
 #include <vector>
 
+
+#include "include/DisplayFile.h"
+
+
 static cairo_surface_t *surface = NULL;
 
 GtkWidget *window_widget;
@@ -220,7 +224,7 @@ int main(int argc, char *argv[]){
 	gtk_init(&argc, &argv);
 
 	gtkBuilder = gtk_builder_new();
-	gtk_builder_add_from_file(gtkBuilder, "Screen1_test_CG.glade", NULL);
+	gtk_builder_add_from_file(gtkBuilder, "mainwindow.glade", NULL);
 
 	window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "MainWindow") );
 	drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
