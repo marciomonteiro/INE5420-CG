@@ -8,11 +8,13 @@
 #ifndef INCLUDE_FORMAS_CIRCULO_HPP_
 #define INCLUDE_FORMAS_CIRCULO_HPP_
 
-
+#include "../Objeto.hpp"
 
 class Circulo {
 public:
+	Circulo(string nomeCirculo, string tipoObjeto = "Circulo", vector<Coordenadas> coordenadas) : Objeto(nomeCirculo, tipoObjeto, coordenadas){}
 
+	~Circulo(){}
 
 private:
 };

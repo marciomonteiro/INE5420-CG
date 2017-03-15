@@ -10,12 +10,20 @@
 
 #include "../Objeto.hpp"
 
-class Poligono{
+class Poligono : public Objeto {
 private:
+	vector<Coordenadas> coordenadas;
 
 public:
 
+	Poligono(string nome, string tipoPoligono = "Poligono", vector<Coordenadas> coordenadas) : Objeto(nome, tipoPoligono, coordenadas){
+	}
 
+	~Poligono(){}
+
+
+
+/**
 	void polígono (Ponto *vertices, int n) { //Desenha um polígono de n vértices
 
 		int i;
@@ -25,6 +33,7 @@ public:
 		}
 		linha (vertices[0].x, vertices[0].y, vertices[i].x, vertices[i].y);
 	}
+ */
 };
 
 

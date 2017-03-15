@@ -8,10 +8,12 @@
 #ifndef INCLUDE_FORMAS_QUADRADO_HPP_
 #define INCLUDE_FORMAS_QUADRADO_HPP_
 
+#include "../Objeto.hpp"
 
 class Quadrado : public Retangulo {
 public:
-
+	Quadrado(string nomeQuadrado, string tipoQuadrado = "Quadrado", vector<Coordenadas> coordenadas) : Objeto(nomeQuadrado, tipoQuadrado, coordenadas){}
+	~Quadrado(){}
 
 private:
 };

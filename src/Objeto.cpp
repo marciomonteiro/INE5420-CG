@@ -29,10 +29,21 @@ void Objeto::setCoordenadas3D(double x, double y, double z){
 }
 
 const string& Objeto::getName() const {
-	return name;
+	return nome;
 }
 
 const string& Objeto::getTipo() const {
 	return tipo;
 }
+
+void Objeto::setName(const string& name){
+	this->nome = name;
+}
+
+void Objeto::setTipo(const string& tipo) {
+	this->tipo = tipo;
+}
+
+
+
 

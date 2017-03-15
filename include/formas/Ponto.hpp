@@ -8,9 +8,14 @@
 #ifndef INCLUDE_FORMAS_PONTO_HPP_
 #define INCLUDE_FORMAS_PONTO_HPP_
 
+#include "../Objeto.hpp"
 
-class Ponto {
+class Ponto : public Objeto {
 public:
+	Ponto(string nome, string tipo = "Ponto", vector<Coordenadas> coordenadas) : Objeto(nome, tipo, coordenadas){
+	}
+
+	~Ponto(){}
 
 
 private:

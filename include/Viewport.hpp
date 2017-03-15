@@ -10,7 +10,8 @@
 
 class Viewport {
 public:
-
+	Viewport(){}
+	~Viewport(){}
 
 private:
 };
