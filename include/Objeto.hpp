@@ -9,20 +9,22 @@
 #define INCLUDE_OBJETO_HPP_
 
 #include <string>
-#include "Coordenadas.hpp"
+#include <vector>
+#include "../src/Coordenadas.cpp"
 
 using namespace std;
 
 class Objeto : public Coordenadas{
 private:
-	string name, tipo;
+	string nome, tipo;
+	vector<Coordenadas> world_coordenadas;
+
+protected:
+	void setName(const string& name);
+	void setTipo(const string& tipo);
 
 public:
-
-	Objeto(string name, string tipo){
-		this->name = name;
-		this->tipo = tipo;
-		setCoordenadas(0,0,0,0);
+	Objeto(string nomeObjeto, string tipoObjeto, vector<Coordenadas> coordenadas) : nome(nomeObjeto), tipo(tipoObjeto), world_coordenadas(coordenadas){
 	}
 
 	~Objeto(){}
@@ -32,7 +34,6 @@ public:
 	void setCoordenadas3D(double x, double y, double z);
 	const string& getName() const;
 	const string& getTipo() const;
-
 };
 
 #endif /* INCLUDE_OBJETO_HPP_ */
