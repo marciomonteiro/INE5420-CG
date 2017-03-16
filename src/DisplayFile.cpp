@@ -15,10 +15,10 @@ void DisplayFile::removeObjectFromTheWorld(std::string objName){
 	objectsInTheWorld.erase(objName);
 }
 
-Objeto::Objeto* DisplayFile::getTheObjectFromTheWorld(std::string objName){
-	return objectsInTheWorld.find(objName);
+Objeto* DisplayFile::getTheObjectFromTheWorld(std::string objName){
+	return objectsInTheWorld.find(objName)->second;
 }
 
-std::unordered_map<std::string, Objeto::Objeto*> DisplayFile::getAllObjectsFromTheWorld(){
+std::unordered_map<std::string, Objeto*> DisplayFile::getAllObjectsFromTheWorld(){
 	return objectsInTheWorld;
 }	

@@ -5,8 +5,8 @@
  *      Author: rodrigo
  */
 
-#ifndef INCLUDE_COORDENADAS_CPP_
-#define INCLUDE_COORDENADAS_CPP_
+#ifndef INCLUDE_COORDENADAS_HPP_
+#define INCLUDE_COORDENADAS_HPP_
 
 class Coordenadas {
 public:
@@ -29,4 +29,4 @@ private:
 
 
 
-#endif /* INCLUDE_COORDENADAS_CPP_ */
+#endif /* INCLUDE_COORDENADAS_HPP_ */

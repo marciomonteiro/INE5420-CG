@@ -5,7 +5,7 @@
  *      Author: rodrigo
  */
 
-#include "../include/Coordenadas.hpp"
+#include "Coordenadas.hpp"
 
 void Coordenadas::setX(double x){
 	this->x = x;

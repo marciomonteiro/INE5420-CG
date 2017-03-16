@@ -7,15 +7,17 @@
 
 #ifndef INCLUDE_VIEWPORT_HPP_
 #define INCLUDE_VIEWPORT_HPP_
-
+#include "Coordenadas.hpp"
 class Viewport {
 public:
-	Viewport(double larguraX, double alturaY) : largura(larguraX), altura(alturaY){}
+	Viewport(Coordenadas& larguraX, Coordenadas& alturaY) : larguraDaViewport(larguraX), alturaDaViewport(alturaY){}
 	~Viewport(){}
 
 	void transformada();
 private:
-	double altura, largura;
+	Coordenadas larguraDaViewport;
+	Coordenadas alturaDaViewport;
+	//double altura, largura;
 };
 
 

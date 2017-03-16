@@ -8,14 +8,18 @@
 #ifndef INCLUDE_WORLD_HPP_
 #define INCLUDE_WORLD_HPP_
 
+#include "DisplayFile.h"
 
 class World {
 public:
 	World(){}
 	~World(){}
-
+	bool adicionaObjetosNoMundo();
+	void removeObjetosDoMundo();
+	void destroiObjetosDoMundo();
+	void redesenha();
 private:
-
+	DisplayFile objetosNoMundo;
 };
 
 

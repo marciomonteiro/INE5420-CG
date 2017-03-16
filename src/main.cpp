@@ -3,11 +3,14 @@
 #include <iostream>
 #include <vector>
 
+#include "Window.hpp"
+//#include "src/Window.cpp"
+
 // #include "include/DisplayFile.h"
 
 static cairo_surface_t *surface = NULL;
 
-GtkBuilder  *gtkBuilder;
+GtkBuilder *gtkBuilder;
 
 GtkWidget *window_widget;
 GtkWidget *drawing_area;
@@ -17,6 +20,7 @@ GtkTextView *showCommandsInserted;
 
 GtkTextBuffer *buffer;
 
+Window *windowP;
 // DisplayFile *displayFile;
 
 /*Clear the surface, removing the scribbles*/
@@ -178,10 +182,14 @@ extern "C" G_MODULE_EXPORT void btn_get_step_out_clicked(){
 
 extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked(){
 	printCommandLogs("btn_zoom_in_clicked\n");
+	windowP->zoom(0.5);
+	gtk_widget_queue_draw(window_widget);
 }
 
 extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
 	printCommandLogs("btn_zoom_out_clicked\n");
+	windowP->zoom(2.0);
+	gtk_widget_queue_draw(window_widget);
 }
 
 // I don't know if this function is really necessary
