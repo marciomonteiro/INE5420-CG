@@ -15,6 +15,8 @@ public:
 
 	void zoom(double porcentagem);
 	void mover(double x, double y, double z);
+
+	//mexer nas coordenadas zoom
 private:
 	double altura, largura;
 };

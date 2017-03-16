@@ -12,7 +12,7 @@
 
 class Poligono : public Objeto {
 private:
-	std::vector<Coordenadas> coordenadas;
+	std::vector<Coordenadas> coordenadas; //vertices
 
 public:
 

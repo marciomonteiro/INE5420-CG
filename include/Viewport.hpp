@@ -13,6 +13,7 @@ public:
 	Viewport(double larguraX, double alturaY) : largura(larguraX), altura(alturaY){}
 	~Viewport(){}
 
+	void transformada();
 private:
 	double altura, largura;
 };
