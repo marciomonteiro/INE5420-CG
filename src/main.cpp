@@ -2,11 +2,19 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
+#include "../include/Window.hpp"
 
-#include "Window.hpp"
-//#include "src/Window.cpp"
-
-// #include "include/DisplayFile.h"
+/**
+ * Note: You need to add the flag "-std=c++11" to the command "g++..."
+ * in order to compile this program.
+ *
+ * Note 2: If you are trying to run it in Eclipse and get the "unordered_map"
+ * could not be resolved, then follow these steps:
+ * 	- Right-click the project and go to "Properties" C/C++ General -> Paths and Symbols
+ * 	 	-> Symbols -> GNU C++.
+ * 	- Click "Add..." and paste __GXX_EXPERIMENTAL_CXX0X__ into "Name" and leave "Value"
+ * 		blank. Hit Apply, do whatever it asks you to do, then hit OK.
+ */
 
 static cairo_surface_t *surface = NULL;
 

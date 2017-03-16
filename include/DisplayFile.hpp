@@ -4,8 +4,7 @@
 #include <unordered_map>
 #include "Objeto.hpp"
 
-class DisplayFile
-{
+class DisplayFile {
 private:
 	std::unordered_map<std::string, Objeto*> objectsInTheWorld;
 public:

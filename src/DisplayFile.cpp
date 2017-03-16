@@ -1,11 +1,4 @@
-#include "DisplayFile.h"
-
-DisplayFile::DisplayFile(){
-	
-}
-DisplayFile::~DisplayFile(){
-	
-}
+#include "../include/DisplayFile.hpp"
 
 bool DisplayFile::addObjectInTheWorld(Objeto* obj){
 	return objectsInTheWorld.insert(std::make_pair(obj->getName(), obj)).second;

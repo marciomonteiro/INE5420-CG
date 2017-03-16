@@ -5,7 +5,7 @@
  *      Author: rodrigo
  */
 
-#include "Objeto.hpp"
+#include "../include/Objeto.hpp"
 
 void Objeto::setCoordenadas(double x, double y, double z, double aux){
 	Coordenadas::setX(x);

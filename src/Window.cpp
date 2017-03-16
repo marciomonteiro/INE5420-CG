@@ -5,7 +5,7 @@
  *      Author: rodrigo
  */
 
-#include "Window.hpp"
+#include "../include/Window.hpp"
 
 Window::Window(){
 	incioDaWindow.setX(0);

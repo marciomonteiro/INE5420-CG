@@ -8,7 +8,7 @@
 #ifndef INCLUDE_WORLD_HPP_
 #define INCLUDE_WORLD_HPP_
 
-#include "DisplayFile.h"
+#include "DisplayFile.hpp"
 
 class World {
 public:
