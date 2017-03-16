@@ -6,7 +6,6 @@
  */
 
 #include "../include/Objeto.hpp"
-// #include "Coordenadas.cpp"
 
 void Objeto::setCoordenadas(double x, double y, double z, double aux){
 	Coordenadas::setX(x);
@@ -29,18 +28,22 @@ void Objeto::setCoordenadas3D(double x, double y, double z){
 	Coordenadas::setAux(0);
 }
 
-const string& Objeto::getName() const {
+const std::string& Objeto::getName() const {
 	return nome;
 }
 
-const string& Objeto::getTipo() const {
+const std::string& Objeto::getTipo() const {
 	return tipo;
 }
 
-void Objeto::setName(const string& name){
+void Objeto::setName(const std::string& name){
 	this->nome = name;
 }
 
-void Objeto::setTipo(const string& tipo) {
+void Objeto::setTipo(const std::string& tipo) {
 	this->tipo = tipo;
 }
+
+
+
+
