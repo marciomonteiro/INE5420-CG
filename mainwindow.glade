@@ -215,7 +215,6 @@
                                   <object class="GtkFixed" id="fixed1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <signal name="check-resize" handler="btn_out_clicked" swapped="no"/>
                                     <child>
                                       <object class="GtkLabel" id="label1">
                                         <property name="width_request">15</property>
@@ -237,7 +236,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <signal name="clicked" handler="get_text_step" swapped="no"/>
+                                        <signal name="clicked" handler="btn_get_step_in_clicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="x">10</property>
@@ -253,7 +252,7 @@
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
                                         <property name="xalign">0.49000000953674316</property>
-                                        <signal name="clicked" handler="get_text_step" swapped="no"/>
+                                        <signal name="clicked" handler="btn_get_step_out_clicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="x">60</property>
@@ -806,6 +805,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="xalign">0.4699999988079071</property>
+                    <signal name="clicked" handler="btn_cancel_insertion_actived" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1125,6 +1125,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="btn_cancel_insertion_actived" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
