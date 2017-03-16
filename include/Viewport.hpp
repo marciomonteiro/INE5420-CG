@@ -10,10 +10,11 @@
 
 class Viewport {
 public:
-	Viewport(){}
+	Viewport(double larguraX, double alturaY) : largura(larguraX), altura(alturaY){}
 	~Viewport(){}
 
 private:
+	double altura, largura;
 };
 
 

@@ -10,10 +10,13 @@
 
 class Window {
 public:
-	Window(){}
+	Window(double larguraX, double alturaY) : largura(larguraX), altura(alturaY){}
 	~Window(){}
 
+	void zoom(double porcentagem);
+	void mover(double x, double y, double z);
 private:
+	double altura, largura;
 };
 
 
