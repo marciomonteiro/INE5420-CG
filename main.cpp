@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <stdlib.h>
 #include <iostream>
 #include <vector>
 
@@ -11,8 +12,6 @@ GtkBuilder  *gtkBuilder;
 GtkWidget *window_widget;
 GtkWidget *drawing_area;
 GtkWidget *windowInsertion;
-GtkWidget *text_view;
-GtkWidget *scrolled_window;
 
 GtkTextView *showCommandsInserted;
 
@@ -50,35 +49,35 @@ static gboolean repaintWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
 }
 
 void printCommandLogs(const char* text) {
-    GtkTextIter it;
-    GtkTextMark *textMarks = gtk_text_buffer_get_insert(buffer);
-    gtk_text_buffer_get_iter_at_mark (buffer, &it, textMarks);
-    gtk_text_buffer_insert(buffer, &it, text, -1);
-    gtk_text_view_scroll_to_mark(showCommandsInserted, textMarks, 0, false, 0, 0);
+	GtkTextIter it;
+	GtkTextMark *textMarks = gtk_text_buffer_get_insert(buffer);
+	gtk_text_buffer_get_iter_at_mark (buffer, &it, textMarks);
+	gtk_text_buffer_insert(buffer, &it, text, -1);
+	gtk_text_view_scroll_to_mark(showCommandsInserted, textMarks, 0, false, 0, 0);
 }
 
 extern "C" G_MODULE_EXPORT void btn_cancel_insertion_actived () {
 	printCommandLogs("btn_cancel_insertion_actived\n");
-  	gtk_widget_hide(windowInsertion);
+	gtk_widget_hide(windowInsertion);
 }
 
 extern "C" G_MODULE_EXPORT void insert_new_object_window () {
 	printCommandLogs("insert_new_object_window\n");
-  	gtk_widget_show(windowInsertion);
+	gtk_widget_show(windowInsertion);
 }
 
 extern "C" G_MODULE_EXPORT void get_text_step(){
 	printCommandLogs("get_text_step\n");
 	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
-    const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
-    printf("Step: %d\n", atoi(entryStepText) );
+	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
+	printf("Step: %d\n", atoi(entryStepText) );
 }
 
 extern "C" G_MODULE_EXPORT void get_text_degrees(){
 	printCommandLogs("get_text_degrees\n");
 	GtkEntry *entryDegrees = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryDegreesSize"));
-    const char *entryDegreesText = gtk_entry_get_text (entryDegrees);
-    // printf("Degrees: %f\n", atof(entryDegreesText));
+	const char *entryDegreesText = gtk_entry_get_text (entryDegrees);
+	// printf("Degrees: %f\n", atof(entryDegreesText));
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
@@ -143,18 +142,25 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	gtk_widget_hide(windowInsertion);
 }
 
+extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
+	printCommandLogs("btn_ok_insert_wireframe_actived\n");
+}
+
+extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
+	printCommandLogs("btn_ok_insert_curve_actived\n");
+}
 
 extern "C" G_MODULE_EXPORT void btn_up_clicked(){
 	printCommandLogs("btn_up_clicked\n");
-} 
+}
 
 extern "C" G_MODULE_EXPORT void btn_down_clicked(){
 	printCommandLogs("btn_down_clicked\n");
-} 
+}
 
 extern "C" G_MODULE_EXPORT void btn_left_clicked(){
 	printCommandLogs("btn_left_clicked\n");
-} 
+}
 
 extern "C" G_MODULE_EXPORT void btn_right_clicked(){
 	printCommandLogs("btn_right_clicked\n");
@@ -168,30 +174,30 @@ extern "C" G_MODULE_EXPORT void btn_get_step_in_clicked(){
 // I don't know if this function is really necessary
 extern "C" G_MODULE_EXPORT void btn_get_step_out_clicked(){
 	printCommandLogs("btn_get_step_out_clicked\n");
-} 
+}
 
 extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked(){
 	printCommandLogs("btn_zoom_in_clicked\n");
-} 
+}
 
 extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
 	printCommandLogs("btn_zoom_out_clicked\n");
-} 
+}
 
 // I don't know if this function is really necessary
 extern "C" G_MODULE_EXPORT void btn_x_clicked(){
 	printCommandLogs("btn_x_clicked\n");
-} 
+}
 
 // I don't know if this function is really necessary
 extern "C" G_MODULE_EXPORT void btn_y_clicked(){
 	printCommandLogs("btn_y_clicked\n");
-} 
+}
 
 // I don't know if this function is really necessary
 extern "C" G_MODULE_EXPORT void btn_z_clicked(){
 	printCommandLogs("btn_z_clicked\n");
-} 
+}
 
 extern "C" G_MODULE_EXPORT void btn_get_window_clicked(){
 	printCommandLogs("btn_get_window_clicked\n");
@@ -201,15 +207,15 @@ extern "C" G_MODULE_EXPORT void btn_parallel_actived(){
 	printCommandLogs("btn_parallel_actived\n");
 }
 
-// TO DO
-// 
+// // TO DO
+
 // extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
 // 	printCommandLogs("btn_ok_insert_wireframe_actived\n");
 // 	gtk_widget_hide(windowInsertion);
 // }
 
-// TO DO
-// 
+// // TO DO
+
 // extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
 // 	printCommandLogs("btn_ok_insert_curve_actived\n");
 // 	gtk_widget_hide(windowInsertion);
@@ -225,7 +231,7 @@ int main(int argc, char *argv[]){
 	window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "MainWindow") );
 	drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
 	windowInsertion = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowInsertion") );
-	showCommandsInserted = GTK_TEXT_VIEW(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "textview1"));
+	showCommandsInserted = GTK_TEXT_VIEW(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "ShowCommandsInsertedInWindow"));
 
 	buffer = gtk_text_buffer_new(NULL);
 	gtk_text_view_set_buffer(showCommandsInserted, buffer);
