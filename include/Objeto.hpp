@@ -29,6 +29,7 @@ public:
 
 	const std::string& getName() const;
 	const std::string& getTipo() const;
+	virtual void desenhar() = 0;
 };
 
 #endif /* INCLUDE_OBJETO_HPP_ */

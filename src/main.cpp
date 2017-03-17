@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
-#include "../include/Window.hpp"
-#include "../include/DisplayFile.hpp"
-#include "../include/Objeto.hpp"
-#include "../include/formas/Ponto.hpp"
-#include "../include/formas/Linha.hpp"
+#include "Window.hpp"
+#include "DisplayFile.hpp"
+#include "Objeto.hpp"
+#include "formas/Ponto.hpp"
+#include "formas/Linha.hpp"
 
 /**
  * Note: You need to add the flag "-std=c++11" to the command "g++..."

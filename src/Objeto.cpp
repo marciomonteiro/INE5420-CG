@@ -5,7 +5,7 @@
  *      Author: rodrigo
  */
 
-#include "../include/Objeto.hpp"
+#include "Objeto.hpp"
 
 const std::string& Objeto::getName() const {
 	return nome;

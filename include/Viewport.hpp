@@ -7,19 +7,20 @@
 
 #ifndef INCLUDE_VIEWPORT_HPP_
 #define INCLUDE_VIEWPORT_HPP_
+
+#include <iostream>
 #include "Coordenadas.hpp"
+
 class Viewport {
 public:
-	Viewport(Coordenadas& larguraX, Coordenadas& alturaY) : larguraDaViewport(larguraX), alturaDaViewport(alturaY){}
+	Viewport();
+	Viewport(Coordenadas& inicio, Coordenadas& fim) : inicioDaViewport(inicio), fimDaViewport(fim){}
 	~Viewport(){}
 
-	void transformada();
+	Coordenadas transformada(Coordenadas inicioDaWindow, Coordenadas fimDaWindow);
 private:
-	Coordenadas larguraDaViewport;
-	Coordenadas alturaDaViewport;
-	//double altura, largura;
+	Coordenadas inicioDaViewport;
+	Coordenadas fimDaViewport;
 };
-
-
 
 #endif /* INCLUDE_VIEWPORT_HPP_ */

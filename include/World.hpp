@@ -9,15 +9,15 @@
 #define INCLUDE_WORLD_HPP_
 
 #include "DisplayFile.hpp"
+#include "Objeto.hpp"
 
 class World {
 public:
 	World(){}
 	~World(){}
-	bool adicionaObjetosNoMundo();
-	void removeObjetosDoMundo();
+	bool adicionaObjetosNoMundo(Objeto* obj);
 	void destroiObjetosDoMundo();
-	void redesenha();
+	void redesenhar();
 private:
 	DisplayFile objetosNoMundo;
 };
