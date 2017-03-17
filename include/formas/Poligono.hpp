@@ -21,6 +21,8 @@ public:
 
 	~Poligono(){}
 
+	void desenhar();
+
 
 
 /**

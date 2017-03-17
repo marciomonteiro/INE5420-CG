@@ -9,18 +9,20 @@
 #define INCLUDE_VIEWPORT_HPP_
 
 #include <iostream>
+#include "DisplayFile.hpp"
 #include "Coordenadas.hpp"
 
 class Viewport {
 public:
 	Viewport();
-	Viewport(Coordenadas& inicio, Coordenadas& fim) : inicioDaViewport(inicio), fimDaViewport(fim){}
+	Viewport(Coordenadas& inicio, Coordenadas& fim) : coordenadas_minimas(inicio), coordenadas_maximas(fim){}
 	~Viewport(){}
 
-	Coordenadas transformada(Coordenadas inicioDaWindow, Coordenadas fimDaWindow);
+	void transformada(Coordenadas inicioDaWindow, Coordenadas fimDaWindow, Coordenadas& coordenadas_objeto);
 private:
-	Coordenadas inicioDaViewport;
-	Coordenadas fimDaViewport;
+	Coordenadas coordenadas_minimas;	//Xmin, Ymin, Zmin
+	Coordenadas coordenadas_maximas;	//Xmax, Ymax, Zmax
+	DisplayFile * displayFile;
 };
 
 #endif /* INCLUDE_VIEWPORT_HPP_ */

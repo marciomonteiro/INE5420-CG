@@ -9,17 +9,17 @@
 #include "World.hpp"
 
 bool World::adicionaObjetosNoMundo(Objeto* obj){
-	return objetosNoMundo.addObjectInTheWorld(obj);
+	return world_displayfile.addObjectInTheWorld(obj);
 }
 
-void World::destroiObjetosDoMundo(){
-	for (auto obj : objetosNoMundo.getAllObjectsFromTheWorld()){
-		objetosNoMundo.removeObjectFromTheWorld((obj.second)->getName());
+void World::destroiTodosObjetosDoMundo(){
+	for (auto obj : world_displayfile.getAllObjectsFromTheWorld()){
+		world_displayfile.removeObjectFromTheWorld((obj.second)->getName());
 	}
 }
 
 void World::redesenhar(){
-	for (auto obj : objetosNoMundo.getAllObjectsFromTheWorld()){
+	for (auto obj : world_displayfile.getAllObjectsFromTheWorld()){
 		(obj.second)->desenhar();
 	}
 }

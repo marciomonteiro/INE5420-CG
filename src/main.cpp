@@ -27,11 +27,16 @@
 
 static cairo_surface_t *surface = NULL;
 
+//Our Classes
+Window *windowP;
+World *world;
+DisplayFile *displayFile;
+
+
+//Gtk and beyond
 GtkBuilder *gtkBuilder;
 
 GtkWidget *window_widget;
-
-//Left Panel
 
 //TreeList
 GtkTreeStore *store;
@@ -52,9 +57,6 @@ GtkTextView *outputCommandsShell;
 GtkWidget *windowInsertion;
 
 GtkTextBuffer *buffer;
-
-Window *windowP;
-DisplayFile *displayFile;
 
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){

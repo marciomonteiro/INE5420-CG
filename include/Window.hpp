@@ -9,12 +9,13 @@
 #define INCLUDE_WINDOW_HPP_
 
 #include <iostream>
+#include "DisplayFile.hpp"
 #include "Coordenadas.hpp"
 
 class Window {
 public:
 	Window();
-	Window(const Coordenadas& inicio, const Coordenadas& fim) : inicioDaWindow(inicio), fimDaWindow(fim){}
+	Window(const Coordenadas& inicio, const Coordenadas& fim, World& world) : inicioDaWindow(inicio), fimDaWindow(fim), widow_world(world){}
 	~Window(){}
 
 	void zoom(double porcentagem);
@@ -22,8 +23,8 @@ public:
 
 	//mexer nas Coordenadas zoom
 private:
+	DisplayFile * displayFile;
 	Coordenadas inicioDaWindow, fimDaWindow;
-//	World mundo;
 };
 
 
