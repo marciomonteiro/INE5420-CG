@@ -1,7 +1,12 @@
 #include "DisplayFile.hpp"
 
 bool DisplayFile::addObjectInTheWorld(Objeto* obj){
-	return objectsInTheWorld.insert(std::make_pair(obj->getName(), obj)).second;
+	if (objectsInTheWorld.insert(std::make_pair(obj->getName(), obj)).second){
+		std::cout<<"DisplayFile::addObjectInTheWorld: "<<obj->getName()<<std::endl;
+		return true;
+	}
+	std::cout<<"false DisplayFile::addObjectInTheWorld: "<<obj->getName()<<std::endl;
+	return false;
 }
 
 void DisplayFile::removeObjectFromTheWorld(std::string objName){

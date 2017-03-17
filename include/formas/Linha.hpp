@@ -15,7 +15,7 @@ public:
 	Linha(std::string nomeLinha, std::string tipoLinha, std::vector<Coordenadas> coordenadas) : Objeto(nomeLinha, tipoLinha, coordenadas){}
 	~Linha(){}
 
-	void desenhar();
+	void desenhar(cairo_t* cr, std::vector<Coordenadas> coords);
 
 private:
 };

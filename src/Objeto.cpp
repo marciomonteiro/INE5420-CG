@@ -7,7 +7,7 @@
 
 #include "Objeto.hpp"
 
-const std::string& Objeto::getName() const {
+const std::string Objeto::getName() const {
 	return nome;
 }
 

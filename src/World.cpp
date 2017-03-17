@@ -18,8 +18,8 @@ void World::destroiTodosObjetosDoMundo(){
 	}
 }
 
-void World::redesenhar(){
-	for (auto obj : world_displayfile.getAllObjectsFromTheWorld()){
-		(obj.second)->desenhar();
-	}
-}
+// void World::redesenhar(){
+// 	for (auto obj : world_displayfile.getAllObjectsFromTheWorld()){
+// 		(obj.second)->desenhar();
+// 	}
+// }

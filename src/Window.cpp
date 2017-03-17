@@ -24,16 +24,19 @@ void Window::zoom(double porcentagem){
 	double larguraDaWindow = fimDaWindow.getX() - inicioDaWindow.getX();
 	double alturaDaWindow = fimDaWindow.getY() - inicioDaWindow.getY();
 
-	double centroDaWindowX = (inicioDaWindow.getX() + fimDaWindow.getX())/porcentagem;
-	double centroDaWindowY = (inicioDaWindow.getY() + fimDaWindow.getY())/porcentagem;
+	double centroDaWindowX = (larguraDaWindow/2)+inicioDaWindow.getX();
+	double centroDaWindowY = (alturaDaWindow/2)+inicioDaWindow.getY();
 
 	std::cout<<"alturaDaWindow: "<<alturaDaWindow<<" larguraDaWindow: "<<larguraDaWindow<<" centroDaWindowX: "<<centroDaWindowX<<" centroDaWindowY: "<<centroDaWindowY<<std::endl;
 	
-	inicioDaWindow.setX((centroDaWindowX - alturaDaWindow)/porcentagem);
-	inicioDaWindow.setY((centroDaWindowY - larguraDaWindow)/porcentagem);
+	larguraDaWindow *= porcentagem;
+	alturaDaWindow *= porcentagem;
 
-	fimDaWindow.setX((centroDaWindowX + larguraDaWindow)/porcentagem);
-	fimDaWindow.setY((centroDaWindowY + alturaDaWindow)/porcentagem);
+	inicioDaWindow.setX(centroDaWindowX - larguraDaWindow);
+	inicioDaWindow.setY(centroDaWindowY - alturaDaWindow);
+
+	fimDaWindow.setX(centroDaWindowX + larguraDaWindow);
+	fimDaWindow.setY(centroDaWindowY + alturaDaWindow);
 	std::cout<<"inicioDaWindow.setX(): "<<inicioDaWindow.getX() << " inicioDaWindow.getY(): "<<inicioDaWindow.getY() << " fimDaWindow.getX(): "<<fimDaWindow.getX() << " fimDaWindow.getY(): "<<fimDaWindow.getY() << std::endl;
 }
 

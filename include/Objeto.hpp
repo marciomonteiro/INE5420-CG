@@ -28,9 +28,9 @@ public:
 
 	virtual ~Objeto(){}
 
-	const std::string& getName() const;
+	const std::string getName() const;
 	const std::string& getTipo() const;
-	virtual void desenhar() = 0;	//=0 obriga implementar desenhar
+	virtual void desenhar(cairo_t* surf, std::vector<Coordenadas> coords) = 0;	//=0 obriga implementar desenhar
 };
 
 #endif /* INCLUDE_OBJETO_HPP_ */

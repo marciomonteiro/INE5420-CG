@@ -15,7 +15,7 @@
 class Window {
 public:
 	Window();
-	Window(const Coordenadas& inicio, const Coordenadas& fim, World& world) : inicioDaWindow(inicio), fimDaWindow(fim), widow_world(world){}
+	Window(const Coordenadas& inicio, const Coordenadas& fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim), displayFile(world){}
 	~Window(){}
 
 	void zoom(double porcentagem);
@@ -24,7 +24,8 @@ public:
 	//mexer nas Coordenadas zoom
 private:
 	DisplayFile * displayFile;
-	Coordenadas inicioDaWindow, fimDaWindow;
+	Coordenadas inicioDaWindow;
+	Coordenadas fimDaWindow;
 };
 
 

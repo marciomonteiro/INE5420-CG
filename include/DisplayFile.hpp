@@ -1,6 +1,7 @@
 #ifndef DISPLAYFILE_H
 #define DISPLAYFILE_H
 
+#include <iostream>
 #include <unordered_map>
 #include "Objeto.hpp"
 

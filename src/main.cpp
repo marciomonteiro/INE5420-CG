@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
+
+
 #include "Window.hpp"
+#include "World.hpp"
 #include "DisplayFile.hpp"
 #include "Objeto.hpp"
 #include "formas/Ponto.hpp"
@@ -95,6 +98,18 @@ void printCommandLogs(const char* text) {
 	gtk_text_view_scroll_to_mark(outputCommandsShell, textMarks, 0, false, 0, 0);
 }
 
+void setupTree(){
+	store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	treeViewList = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+	g_object_unref (G_OBJECT (store));
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("Name", renderer, "text", NOME_OBJETO, NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (treeViewList), column);
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("Type", renderer, "text", TIPO_OBJETO, NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (treeViewList), column);
+}
+
 extern "C" G_MODULE_EXPORT void btn_cancel_insertion_actived () {
 	printCommandLogs("btn_cancel_insertion_actived\n");
 	gtk_widget_hide(windowInsertion);
@@ -138,6 +153,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
 	//Arrumar quando adicionar Z e Aux
 	Ponto * ponto = new Ponto(entryPointName, "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
 	displayFile->addObjectInTheWorld(ponto);
+	std::cout<<"btn_ok_insert_point_actived"<<std::endl;
 
 //	Objeto * test = displayFile->getTheObjectFromTheWorld(entryPointName);
 //	std::cout << test->getName() << std::endl;
@@ -179,8 +195,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 
 
 	//Arrumar quando adicionar Z e Aux
-	Linha * linha = new Linha(entryLineName, "Linha", std::vector<Coordenadas>({Coordenadas(entryX1LineAux, entryY1LineAux, 0, 0)},
-																				{Coordenadas(entryX2LineAux, entryY2LineAux, 0, 0)}));
+	Linha * linha = new Linha(entryLineName, "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
 	displayFile->addObjectInTheWorld(linha);
 
 	cairo_t *cr;
@@ -277,17 +292,6 @@ extern "C" G_MODULE_EXPORT void btn_parallel_actived(){
 // 	gtk_widget_hide(windowInsertion);
 // }
 
-void setupTree(){
-	store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
-	treeViewList = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
-	g_object_unref (G_OBJECT (store));
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes ("Name", renderer, "text", NOME_OBJETO, NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (treeViewList), column);
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes ("Type", renderer, "text", TIPO_OBJETO, NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (treeViewList), column);
-}
 
 int main(int argc, char *argv[]){
 	
@@ -299,13 +303,13 @@ int main(int argc, char *argv[]){
 	window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "MainWindow") );
 	drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
 	windowInsertion = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowInsertion") );
-	outputCommandsShell = GTK_TEXT_VIEW(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "outputCommandsShell"));
-	setupTree();
+	outputCommandsShell = GTK_TEXT_VIEW(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "OutputCommandsShell"));
 
 	buffer = gtk_text_buffer_new(NULL);
 	gtk_text_view_set_buffer(outputCommandsShell, buffer);
-	gtk_text_view_set_wrap_mode (outputCommandsShell, GTK_WRAP_CHAR);
+	gtk_text_view_set_wrap_mode(outputCommandsShell, GTK_WRAP_NONE);
 
+	setupTree();
 	g_signal_connect (drawing_area, "draw", G_CALLBACK (repaintWindow), NULL);
 	g_signal_connect (drawing_area,"configure-event", G_CALLBACK (configure_event_cb), NULL);
 
