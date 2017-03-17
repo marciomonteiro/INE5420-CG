@@ -14,6 +14,10 @@ Viewport::Viewport(){
 	coordenadas_maximas(300, 300, 0);
 }
 
+
+/**
+ * Para cada objeto no mundo, pegar suas coordenadas e aplicar a fórmula.
+ */
 void Viewport::transformada(Coordenadas inicioDaWindow, Coordenadas fimDaWindow, Coordenadas& coordenadas_objeto){
 	std::cout<<"Coordenadas Viewport::transformada(Coordenadas inicioDaWindow, Coordenadas fimDaWindow)"<<std::endl;
 
