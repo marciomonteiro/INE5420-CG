@@ -1,5 +1,5 @@
 /*
- * Coordenadas.cpp
+ * Coordenadas.hpp
  *
  *  Created on: 14 de mar de 2017
  *      Author: rodrigo
@@ -10,6 +10,10 @@
 
 class Coordenadas {
 public:
+
+	Coordenadas(double xE, double yE, double zE, double auxE) : x(xE), y(yE), z(zE), aux(auxE) {};
+	~Coordenadas(){};
+
 	void setX(double x);
 	void setY(double y);
 	void setZ(double z);

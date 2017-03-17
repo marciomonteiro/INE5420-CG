@@ -12,7 +12,7 @@
 #include <vector>
 #include "Coordenadas.hpp"
 
-class Objeto : public Coordenadas{
+class Objeto{
 private:
 	std::string nome, tipo;
 	std::vector<Coordenadas> world_coordenadas;
@@ -27,9 +27,6 @@ public:
 
 	~Objeto(){}
 
-	void setCoordenadas(double x, double y, double z, double aux);
-	void setCoordenadas2D(double x, double y);
-	void setCoordenadas3D(double x, double y, double z);
 	const std::string& getName() const;
 	const std::string& getTipo() const;
 };

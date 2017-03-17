@@ -12,16 +12,26 @@
 
 class Window {
 public:
-	Window();
-	Window(const Coordenadas& inicio, const Coordenadas& fim) : incioDaWindow(inicio), fimDaWindow(fim){}
+	Window(const Coordenadas& inicio, const Coordenadas& fim) : inicioDaWindow(inicio), fimDaWindow(fim){}
 	~Window(){}
+
+//	Window(){
+//		inicioDaWindow.setX(0);
+//		inicioDaWindow.setY(0);
+//		inicioDaWindow.setZ(0);
+//		inicioDaWindow.setAux(0);
+//		fimDaWindow.setZ(0);
+//		fimDaWindow.setX(300);
+//		fimDaWindow.setY(300);
+//		fimDaWindow.setZ(0);
+//	}
 
 	void zoom(double porcentagem);
 	void mover(double x, double y, double z);
 
 	//mexer nas Coordenadas zoom
 private:
-	Coordenadas incioDaWindow, fimDaWindow;
+	Coordenadas inicioDaWindow, fimDaWindow;
 //	World mundo;
 };
 

@@ -8,8 +8,8 @@ class DisplayFile {
 private:
 	std::unordered_map<std::string, Objeto*> objectsInTheWorld;
 public:
-	DisplayFile();
-	~DisplayFile();
+	DisplayFile(){};
+	~DisplayFile(){};
 
 	bool addObjectInTheWorld(Objeto* obj);
 	void removeObjectFromTheWorld(std::string objName);

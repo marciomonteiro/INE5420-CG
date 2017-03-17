@@ -3,6 +3,10 @@
 #include <iostream>
 #include <vector>
 #include "../include/Window.hpp"
+#include "../include/DisplayFile.hpp"
+#include "../include/Objeto.hpp"
+#include "../include/formas/Ponto.hpp"
+#include "../include/formas/Linha.hpp"
 
 /**
  * Note: You need to add the flag "-std=c++11" to the command "g++..."
@@ -26,15 +30,31 @@ static cairo_surface_t *surface = NULL;
 GtkBuilder *gtkBuilder;
 
 GtkWidget *window_widget;
-GtkWidget *drawing_area;
-GtkWidget *windowInsertion;
 
-GtkTextView *showCommandsInserted;
+//Left Panel
+
+//TreeList
+GtkTreeStore *store;
+GtkWidget *treeViewList;
+GtkTreeViewColumn *column;
+GtkCellRenderer *renderer;
+enum{
+	NOME_OBJETO,
+	TIPO_OBJETO
+};
+
+//RightPanel
+GtkWidget *drawing_area;
+GtkTextView *outputCommandsShell;
+
+
+//WindowInsertionPanel
+GtkWidget *windowInsertion;
 
 GtkTextBuffer *buffer;
 
 Window *windowP;
-// DisplayFile *displayFile;
+DisplayFile *displayFile;
 
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){
@@ -70,7 +90,7 @@ void printCommandLogs(const char* text) {
 	GtkTextMark *textMarks = gtk_text_buffer_get_insert(buffer);
 	gtk_text_buffer_get_iter_at_mark (buffer, &it, textMarks);
 	gtk_text_buffer_insert(buffer, &it, text, -1);
-	gtk_text_view_scroll_to_mark(showCommandsInserted, textMarks, 0, false, 0, 0);
+	gtk_text_view_scroll_to_mark(outputCommandsShell, textMarks, 0, false, 0, 0);
 }
 
 extern "C" G_MODULE_EXPORT void btn_cancel_insertion_actived () {
@@ -113,6 +133,13 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
 	double YPoint = atof(entryYPointAux);
 	// double zPoint= atof(entryZPointAux);
 
+	//Arrumar quando adicionar Z e Aux
+	Ponto * ponto = new Ponto(entryPointName, "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
+	displayFile->addObjectInTheWorld(ponto);
+
+//	Objeto * test = displayFile->getTheObjectFromTheWorld(entryPointName);
+//	std::cout << test->getName() << std::endl;
+
 	cairo_t *cr;
 	cr = cairo_create (surface);
 	cairo_move_to(cr, XPoint, YPoint);
@@ -147,6 +174,12 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	double X2Line= atof(entryX2LineAux);
 	double Y2Line= atof(entryY2LineAux);
 	// double Z2Line= atof(entryZ2LineAux);
+
+
+	//Arrumar quando adicionar Z e Aux
+	Linha * linha = new Linha(entryLineName, "Linha", std::vector<Coordenadas>({Coordenadas(entryX1LineAux, entryY1LineAux, 0, 0)},
+																				{Coordenadas(entryX2LineAux, entryY2LineAux, 0, 0)}));
+	displayFile->addObjectInTheWorld(linha);
 
 	cairo_t *cr;
 	cr = cairo_create (surface);
@@ -242,6 +275,18 @@ extern "C" G_MODULE_EXPORT void btn_parallel_actived(){
 // 	gtk_widget_hide(windowInsertion);
 // }
 
+void setupTree(){
+	store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	treeViewList = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+	g_object_unref (G_OBJECT (store));
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("Name", renderer, "text", NOME_OBJETO, NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (treeViewList), column);
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("Type", renderer, "text", TIPO_OBJETO, NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (treeViewList), column);
+}
+
 int main(int argc, char *argv[]){
 	
 	gtk_init(&argc, &argv);
@@ -252,11 +297,12 @@ int main(int argc, char *argv[]){
 	window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "MainWindow") );
 	drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
 	windowInsertion = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowInsertion") );
-	showCommandsInserted = GTK_TEXT_VIEW(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "ShowCommandsInsertedInWindow"));
+	outputCommandsShell = GTK_TEXT_VIEW(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "outputCommandsShell"));
+	setupTree();
 
 	buffer = gtk_text_buffer_new(NULL);
-	gtk_text_view_set_buffer(showCommandsInserted, buffer);
-	gtk_text_view_set_wrap_mode (showCommandsInserted, GTK_WRAP_NONE); 
+	gtk_text_view_set_buffer(outputCommandsShell, buffer);
+	gtk_text_view_set_wrap_mode (outputCommandsShell, GTK_WRAP_CHAR);
 
 	g_signal_connect (drawing_area, "draw", G_CALLBACK (repaintWindow), NULL);
 	g_signal_connect (drawing_area,"configure-event", G_CALLBACK (configure_event_cb), NULL);
