@@ -14,6 +14,11 @@
  * 	 	-> Symbols -> GNU C++.
  * 	- Click "Add..." and paste __GXX_EXPERIMENTAL_CXX0X__ into "Name" and leave "Value"
  * 		blank. Hit Apply, do whatever it asks you to do, then hit OK.
+ *
+ * 	Note 3: If you intend to run it manually, then go to the root folder of the project on terminal
+ * 	and run the following commands:
+ * 	$ make
+ * 	$ ./exec
  */
 
 static cairo_surface_t *surface = NULL;
