@@ -16,7 +16,6 @@ public:
 	~World(){}
 	bool adicionaObjetosNoMundo(Objeto* obj);
 	void destroiTodosObjetosDoMundo();
-	// void redesenhar();
 
 private:
 	DisplayFile world_displayfile;

@@ -17,9 +17,3 @@ void World::destroiTodosObjetosDoMundo(){
 		world_displayfile.removeObjectFromTheWorld((obj.second)->getName());
 	}
 }
-
-// void World::redesenhar(){
-// 	for (auto obj : world_displayfile.getAllObjectsFromTheWorld()){
-// 		(obj.second)->desenhar();
-// 	}
-// }

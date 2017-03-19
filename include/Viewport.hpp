@@ -18,11 +18,11 @@ public:
 	Viewport(Coordenadas& inicio, Coordenadas& fim) : coordenadas_minimas(inicio), coordenadas_maximas(fim){}
 	~Viewport(){}
 
-	void transformada(Coordenadas inicioDaWindow, Coordenadas fimDaWindow, Coordenadas& coordenadas_objeto);
+	void transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas fimDaWindow, DisplayFile* displayfile);
 private:
 	Coordenadas coordenadas_minimas;	//Xmin, Ymin, Zmin
 	Coordenadas coordenadas_maximas;	//Xmax, Ymax, Zmax
-	DisplayFile * displayFile;
+	Coordenadas calcCoordTransf(Coordenadas inicioDaWindow, Coordenadas fimDaWindow, Coordenadas coordenadas_objeto);
 };
 
 #endif /* INCLUDE_VIEWPORT_HPP_ */

@@ -2,10 +2,8 @@
 
 bool DisplayFile::addObjectInTheWorld(Objeto* obj){
 	if (objectsInTheWorld.insert(std::make_pair(obj->getName(), obj)).second){
-		std::cout<<"DisplayFile::addObjectInTheWorld: "<<obj->getName()<<std::endl;
 		return true;
 	}
-	std::cout<<"false DisplayFile::addObjectInTheWorld: "<<obj->getName()<<std::endl;
 	return false;
 }
 

@@ -8,33 +8,25 @@
 #include "../include/Viewport.hpp"
 
 Viewport::Viewport(){
-	std::cout<<"Viewport::Viewport()"<<std::endl;
-
-	coordenadas_minimas.setX(0.0);
-	coordenadas_minimas.setY(0.0);
-	coordenadas_minimas.setZ(0.0);
-	coordenadas_minimas.setAux(0.0);
-	coordenadas_maximas.setX(300.0);
-	coordenadas_maximas.setY(300.0); 
-	coordenadas_maximas.setZ(0.0);
-	coordenadas_maximas.setAux(0.0);
+	coordenadas_minimas = Coordenadas(0.0,0.0,0.0,0.0);
+	coordenadas_maximas = Coordenadas(300.0,300.0,0.0,0.0);
 }
 
+void Viewport::transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas fimDaWindow, DisplayFile* displayfile){
+	for (auto obj : displayfile->getAllObjectsFromTheWorld()){
+		std::vector<Coordenadas> coordenadasDaViewPort;
+		std::vector<Coordenadas>* coordsObjeto = obj.second->getCoordenadas();
+		for (auto coordenadas_objeto : *coordsObjeto)
+		{
+			coordenadas_objeto = calcCoordTransf(inicioDaWindow, fimDaWindow, coordenadas_objeto);
+			coordenadasDaViewPort.push_back(coordenadas_objeto);
+		}
+		(obj.second)->desenhar(cr, coordenadasDaViewPort);
+	}
+}
 
-/**
- * Para cada objeto no mundo, pegar suas coordenadas e aplicar a fórmula.
- */
-void Viewport::transformada(Coordenadas inicioDaWindow, Coordenadas fimDaWindow, Coordenadas& coordenadas_objeto){
-	std::cout<<"Coordenadas Viewport::transformada(Coordenadas inicioDaWindow, Coordenadas fimDaWindow)"<<std::endl;
-
-
-// 	for (auto obj : displayfile.getAllObjectsFromTheWorld()){
-// 		(obj.second)->desenhar();
-	double xViewport = ( coordenadas_objeto.getX() - inicioDaWindow.getX())/(fimDaWindow.getX() - inicioDaWindow.getX())*(coordenadas_minimas.getX() - coordenadas_minimas.getX());
-	double yViewport = (1 - ((coordenadas_objeto.getY() - inicioDaWindow.getY())/(fimDaWindow.getY() - inicioDaWindow.getY())))*(coordenadas_minimas.getY() - coordenadas_minimas.getY());
-	std::cout<<"xViewport: "<<xViewport<<" yViewport: "<<yViewport<<std::endl;
-// 	}
-	// for (auto obj : ){
-	// 	objetosNoMundo.removeObjectFromTheWorld((obj.second)->getName());
-	// }
+Coordenadas Viewport::calcCoordTransf(Coordenadas inicioDaWindow, Coordenadas fimDaWindow, Coordenadas coordenadas_objeto){
+	double xViewport = ((coordenadas_objeto.getX() - inicioDaWindow.getX())/(fimDaWindow.getX() - inicioDaWindow.getX()))*(coordenadas_maximas.getX() - coordenadas_minimas.getX());
+	double yViewport = (1 - ((coordenadas_objeto.getY() - inicioDaWindow.getY())/(fimDaWindow.getY() - inicioDaWindow.getY())))*(coordenadas_maximas.getY() - coordenadas_minimas.getY());
+	return Coordenadas(xViewport, yViewport, 0, 0);
 }

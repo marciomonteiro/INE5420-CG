@@ -6,6 +6,7 @@
 
 #include "Window.hpp"
 #include "World.hpp"
+#include "Viewport.hpp"
 #include "DisplayFile.hpp"
 #include "Objeto.hpp"
 #include "formas/Ponto.hpp"
@@ -33,6 +34,7 @@ static cairo_surface_t *surface = NULL;
 //Our Classes
 Window *windowP;
 World *world;
+Viewport *viewportP;
 DisplayFile *displayFile;
 
 
@@ -61,6 +63,12 @@ GtkWidget *windowInsertion;
 
 GtkTextBuffer *buffer;
 
+static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
+  cairo_set_source_surface (cr, surface, 0, 0);
+  cairo_paint (cr);
+  return FALSE;
+}
+
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){
 	cairo_t *cr;
@@ -83,11 +91,12 @@ static gboolean configure_event_cb (GtkWidget *widget, GdkEventConfigure *event,
 }
 
 /* Redraw the screen from the surface */
-static gboolean repaintWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
-	cairo_set_source_surface (cr, surface, 0, 0);
-	cairo_paint (cr);
-
-	return FALSE;
+void repaintWindow (){
+	cairo_t *cr;
+	clear_surface();
+	cr = cairo_create (surface);
+	viewportP->transformada(cr, *(windowP->getInicioDaWindow()), *(windowP->getFimDaWindow()), displayFile);
+	gtk_widget_queue_draw (drawing_area);
 }
 
 void printCommandLogs(const char* text) {
@@ -152,20 +161,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
 
 	//Arrumar quando adicionar Z e Aux
 	Ponto * ponto = new Ponto(entryPointName, "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
-	displayFile->addObjectInTheWorld(ponto);
-	std::cout<<"btn_ok_insert_point_actived"<<std::endl;
-
-//	Objeto * test = displayFile->getTheObjectFromTheWorld(entryPointName);
-//	std::cout << test->getName() << std::endl;
-
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_move_to(cr, XPoint, YPoint);
-	cairo_line_to (cr, XPoint +1.0, YPoint +1.0);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
-	repaintWindow(window_widget, cr, NULL);
 	gtk_widget_hide(windowInsertion);
+	displayFile->addObjectInTheWorld(ponto);
+
+	repaintWindow ();
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
@@ -196,17 +195,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 
 	//Arrumar quando adicionar Z e Aux
 	Linha * linha = new Linha(entryLineName, "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
+	gtk_widget_hide(windowInsertion);
 	displayFile->addObjectInTheWorld(linha);
 
-	cairo_t *cr;
-	cr = cairo_create (surface);
-	cairo_set_line_width(cr, 1);
-	cairo_move_to(cr, X1Line, Y1Line);
-	cairo_line_to (cr, X2Line, Y2Line);
-	cairo_stroke(cr);
-	gtk_widget_queue_draw (window_widget);
-	repaintWindow(window_widget, cr, NULL);
-	gtk_widget_hide(windowInsertion);
+	repaintWindow ();
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
@@ -219,18 +211,26 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
 
 extern "C" G_MODULE_EXPORT void btn_up_clicked(){
 	printCommandLogs("btn_up_clicked\n");
+	windowP->mover(0,10,0);
+	repaintWindow ();
 }
 
 extern "C" G_MODULE_EXPORT void btn_down_clicked(){
 	printCommandLogs("btn_down_clicked\n");
+	windowP->mover(0,-10,0);
+	repaintWindow ();
 }
 
 extern "C" G_MODULE_EXPORT void btn_left_clicked(){
 	printCommandLogs("btn_left_clicked\n");
+	windowP->mover(-10,0,0);
+	repaintWindow ();
 }
 
 extern "C" G_MODULE_EXPORT void btn_right_clicked(){
 	printCommandLogs("btn_right_clicked\n");
+	windowP->mover(10,0,0);
+	repaintWindow ();
 }
 
 // I don't know if this function is really necessary
@@ -245,14 +245,14 @@ extern "C" G_MODULE_EXPORT void btn_get_step_out_clicked(){
 
 extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked(){
 	printCommandLogs("btn_zoom_in_clicked\n");
-	windowP->zoom(0.5);
-	gtk_widget_queue_draw(window_widget);
+	windowP->zoom(1.1);
+	repaintWindow ();
 }
 
 extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
 	printCommandLogs("btn_zoom_out_clicked\n");
-	windowP->zoom(2.0);
-	gtk_widget_queue_draw(window_widget);
+	windowP->zoom(0.9);
+	repaintWindow ();
 }
 
 // I don't know if this function is really necessary
@@ -309,8 +309,18 @@ int main(int argc, char *argv[]){
 	gtk_text_view_set_buffer(outputCommandsShell, buffer);
 	gtk_text_view_set_wrap_mode(outputCommandsShell, GTK_WRAP_NONE);
 
+	// inicializa o displayfile, viewport e window
+	Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
+	Coordenadas fim = Coordenadas(300.0,300.0,0.0,0.0);
+	DisplayFile dp = DisplayFile();
+	displayFile = &dp;
+	Viewport vp = Viewport();
+	viewportP = &vp;
+	Window cWindow = Window(&inicio, &fim, displayFile);
+	windowP = &cWindow;
+
 	setupTree();
-	g_signal_connect (drawing_area, "draw", G_CALLBACK (repaintWindow), NULL);
+	g_signal_connect (drawing_area, "draw", G_CALLBACK (drawWindow), NULL);
 	g_signal_connect (drawing_area,"configure-event", G_CALLBACK (configure_event_cb), NULL);
 
 	gtk_builder_connect_signals(gtkBuilder, NULL);

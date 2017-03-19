@@ -9,6 +9,7 @@
 #define INCLUDE_FORMAS_LINHA_HPP_
 
 #include "../Objeto.hpp"
+#include <iostream>
 
 class Linha : public Objeto {
 public:
