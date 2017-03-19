@@ -15,6 +15,7 @@ public:
 	World(){}
 	~World(){}
 	bool adicionaObjetosNoMundo(Objeto* obj);
+	void removeObjetosNoMundo(std::string nome);
 	void destroiTodosObjetosDoMundo();
 
 private:

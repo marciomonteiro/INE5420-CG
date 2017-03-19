@@ -15,7 +15,7 @@ public:
 	Retangulo(std::string nomeRetangulo, std::string tipoRetangulo, std::vector<Coordenadas> coordenadas) : Objeto(nomeRetangulo, tipoRetangulo, coordenadas){}
 	~Retangulo(){}
 
-	void desenhar();
+	void desenhar(cairo_t* surf, std::vector<Coordenadas> coords);
 
 private:
 };

@@ -21,11 +21,4 @@ public:
 private:
 };
 
-
 #endif /* INCLUDE_FORMAS_LINHA_HPP_ */
-
-/*
- * Rascunho:
- * Uma linha pode ser uma reta ou ter várias curvas,
- * logo é necessário ter várias coordenadas, um conjunto de coordenadas.
- */

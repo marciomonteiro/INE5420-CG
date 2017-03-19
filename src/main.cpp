@@ -11,6 +11,8 @@
 #include "Objeto.hpp"
 #include "formas/Ponto.hpp"
 #include "formas/Linha.hpp"
+// #include "formas/Circulo.hpp"
+#include "formas/Poligono.hpp"
 
 /**
  * Note: You need to add the flag "-std=c++11" to the command "g++..."
@@ -43,6 +45,8 @@ GtkBuilder *gtkBuilder;
 
 GtkWidget *window_widget;
 
+std::vector<Coordenadas> wireframeCoords;
+
 //TreeList
 GtkTreeStore *store;
 GtkWidget *treeViewList;
@@ -60,6 +64,7 @@ GtkTextView *outputCommandsShell;
 
 //WindowInsertionPanel
 GtkWidget *windowInsertion;
+GtkWidget *windowRemove;
 
 GtkTextBuffer *buffer;
 
@@ -129,6 +134,11 @@ extern "C" G_MODULE_EXPORT void insert_new_object_window () {
 	gtk_widget_show(windowInsertion);
 }
 
+extern "C" G_MODULE_EXPORT void remove_object_window () {
+	printCommandLogs("remove_object_window\n");
+	gtk_widget_show(windowRemove);
+}
+
 extern "C" G_MODULE_EXPORT void get_text_step(){
 	printCommandLogs("get_text_step\n");
 	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
@@ -141,6 +151,18 @@ extern "C" G_MODULE_EXPORT void get_text_degrees(){
 	GtkEntry *entryDegrees = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryDegreesSize"));
 	const char *entryDegreesText = gtk_entry_get_text (entryDegrees);
 	// printf("Degrees: %f\n", atof(entryDegreesText));
+}
+
+extern "C" G_MODULE_EXPORT void btn_remove_object_actived(){
+	printCommandLogs("btn_remove_object_actived\n");
+	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "RemoveObjectName"));
+	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
+	gtk_widget_hide(windowRemove);
+	if (!displayFile->isEmpty())
+	{
+		displayFile->removeObjectFromTheWorld(entryStepText);
+		repaintWindow ();
+	}
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
@@ -163,7 +185,6 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
 	Ponto * ponto = new Ponto(entryPointName, "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
 	gtk_widget_hide(windowInsertion);
 	displayFile->addObjectInTheWorld(ponto);
-
 	repaintWindow ();
 }
 
@@ -197,12 +218,37 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	Linha * linha = new Linha(entryLineName, "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
 	gtk_widget_hide(windowInsertion);
 	displayFile->addObjectInTheWorld(linha);
-
 	repaintWindow ();
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
 	printCommandLogs("btn_ok_insert_wireframe_actived\n");
+
+	GtkEntry *entryNameNewWireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameNewWireframe"));
+	const char *entryWireframeName = gtk_entry_get_text (entryNameNewWireframe);
+	wireframeCoords.push_back(wireframeCoords.front());
+	Poligono * poligono = new Poligono(entryWireframeName, "Poligono", wireframeCoords);
+	gtk_widget_hide(windowInsertion);
+	displayFile->addObjectInTheWorld(poligono);
+	repaintWindow ();
+}
+
+extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived(){
+	printCommandLogs("btn_ok_insert_coords_wireframe_actived\n");
+	
+	GtkEntry *entryX1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryX1Wireframe"));
+	GtkEntry *entryY1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryY1Wireframe"));
+	// GtkEntry *entryZ1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZ1Wireframe"));
+
+	const char *entryX1WireframeAux = gtk_entry_get_text (entryX1Wireframe);
+	const char *entryY1WireframeAux = gtk_entry_get_text (entryY1Wireframe);
+	// const char *entryZ1WireframeAux = gtk_entry_get_text (entryZ1Wireframe);
+
+	double X1Wireframe = atof(entryX1WireframeAux);
+	double Y1Wireframe = atof(entryY1WireframeAux);
+	// double Z1Wireframe= atof(entryZ1WireframeAux);
+
+	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0.0, 0.0));
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
@@ -303,6 +349,7 @@ int main(int argc, char *argv[]){
 	window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "MainWindow") );
 	drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
 	windowInsertion = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowInsertion") );
+	windowRemove = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "removeObject") );
 	outputCommandsShell = GTK_TEXT_VIEW(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "OutputCommandsShell"));
 
 	buffer = gtk_text_buffer_new(NULL);

@@ -16,7 +16,7 @@ public:
 	Quadrado(std::string nomeQuadrado, std::string tipoQuadrado, std::vector<Coordenadas> coordenadas) : Retangulo(nomeQuadrado, tipoQuadrado, coordenadas){}
 	~Quadrado(){}
 
-	void desenhar();
+	void desenhar(cairo_t* surf, std::vector<Coordenadas> coords);
 private:
 };
 

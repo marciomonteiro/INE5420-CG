@@ -15,7 +15,8 @@ public:
 	bool addObjectInTheWorld(Objeto* obj);
 	void removeObjectFromTheWorld(std::string objName);
 	Objeto* getTheObjectFromTheWorld(std::string objName);
-	std::unordered_map<std::string, Objeto* > getAllObjectsFromTheWorld();	
+	std::unordered_map<std::string, Objeto* > getAllObjectsFromTheWorld();
+	bool isEmpty();
 };
 
 #endif

@@ -12,6 +12,10 @@ bool World::adicionaObjetosNoMundo(Objeto* obj){
 	return world_displayfile.addObjectInTheWorld(obj);
 }
 
+void World::removeObjetosNoMundo(std::string nome){
+	world_displayfile.removeObjectFromTheWorld(nome);
+}
+
 void World::destroiTodosObjetosDoMundo(){
 	for (auto obj : world_displayfile.getAllObjectsFromTheWorld()){
 		world_displayfile.removeObjectFromTheWorld((obj.second)->getName());
