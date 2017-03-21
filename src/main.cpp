@@ -68,6 +68,9 @@ GtkWidget *windowRemove;
 
 GtkTextBuffer *buffer;
 
+Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
+Coordenadas fim = Coordenadas(300.0,300.0,0.0,0.0);
+
 static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
   cairo_set_source_surface (cr, surface, 0, 0);
   cairo_paint (cr);
@@ -150,7 +153,7 @@ extern "C" G_MODULE_EXPORT void get_text_degrees(){
 	printCommandLogs("get_text_degrees\n");
 	GtkEntry *entryDegrees = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryDegreesSize"));
 	const char *entryDegreesText = gtk_entry_get_text (entryDegrees);
-	// printf("Degrees: %f\n", atof(entryDegreesText));
+	printf("Degrees: %f\n", atof(entryDegreesText));
 }
 
 extern "C" G_MODULE_EXPORT void btn_remove_object_actived(){
@@ -291,13 +294,13 @@ extern "C" G_MODULE_EXPORT void btn_get_step_out_clicked(){
 
 extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked(){
 	printCommandLogs("btn_zoom_in_clicked\n");
-	windowP->zoom(1.1);
+	windowP->zoom(0.9);
 	repaintWindow ();
 }
 
 extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
 	printCommandLogs("btn_zoom_out_clicked\n");
-	windowP->zoom(0.9);
+	windowP->zoom(1.1);
 	repaintWindow ();
 }
 
@@ -322,6 +325,13 @@ extern "C" G_MODULE_EXPORT void btn_get_window_clicked(){
 
 extern "C" G_MODULE_EXPORT void btn_parallel_actived(){
 	printCommandLogs("btn_parallel_actived\n");
+}
+
+extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived(){
+	printCommandLogs("btn_reset_zoom_actived\n");
+	inicio = Coordenadas(0.0,0.0,0.0,0.0);
+	fim = Coordenadas(300.0,300.0,0.0,0.0);
+	repaintWindow ();
 }
 
 // // TO DO
@@ -357,11 +367,9 @@ int main(int argc, char *argv[]){
 	gtk_text_view_set_wrap_mode(outputCommandsShell, GTK_WRAP_NONE);
 
 	// inicializa o displayfile, viewport e window
-	Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
-	Coordenadas fim = Coordenadas(300.0,300.0,0.0,0.0);
 	DisplayFile dp = DisplayFile();
 	displayFile = &dp;
-	Viewport vp = Viewport();
+	Viewport vp = Viewport(inicio, fim);
 	viewportP = &vp;
 	Window cWindow = Window(&inicio, &fim, displayFile);
 	windowP = &cWindow;

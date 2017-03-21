@@ -14,11 +14,11 @@
 
 class Viewport {
 public:
-	Viewport();
+	// Viewport();
 	Viewport(Coordenadas& inicio, Coordenadas& fim) : coordenadas_minimas(inicio), coordenadas_maximas(fim){}
 	~Viewport(){}
 
-	void transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas fimDaWindow, DisplayFile* displayfile);
+	void transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas fimDaWindow, DisplayFile* displayFile);
 private:
 	Coordenadas coordenadas_minimas;	//Xmin, Ymin, Zmin
 	Coordenadas coordenadas_maximas;	//Xmax, Ymax, Zmax

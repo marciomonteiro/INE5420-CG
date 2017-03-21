@@ -19,7 +19,7 @@ public:
 	void destroiTodosObjetosDoMundo();
 
 private:
-	DisplayFile world_displayfile;
+	DisplayFile world_displayFile;
 };
 
 
