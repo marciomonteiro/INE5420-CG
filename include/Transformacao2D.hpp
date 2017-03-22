@@ -12,6 +12,7 @@
 #include "Coordenadas.hpp"
 #include <cmath>
 #include <vector>
+#include "Matriz.hpp"
 
 class Transformacao2D {
 public:
