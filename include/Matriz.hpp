@@ -11,18 +11,17 @@
 #ifndef INCLUDE_MATRIZ_HPP_
 #define INCLUDE_MATRIZ_HPP_
 
-namespace Matriz {
-
 template <unsigned linhas, unsigned colunas>	//Tem que ser sem sinal pra não dar pau.
 class Matriz {
 public:
 	Matriz(){}
 	~Matriz(){}
 
+	Matriz<linhas, colunas> transponha(const Matriz<linhas, colunas>& matrizAux);
+
 private:
 };
 
-}  // namespace Matriz
 
 template <unsigned linhas, unsigned colunas>
 Matriz<colunas,linhas> transponha(const Matriz<linhas,colunas>& m) {
