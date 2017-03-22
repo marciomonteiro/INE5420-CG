@@ -14,8 +14,8 @@
 
 class Window {
 private:
-	DisplayFile *displayFile;
 	Coordenadas *inicioDaWindow, *fimDaWindow;
+	DisplayFile *displayFile;
 public:
 	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim), displayFile(world){}
 	~Window(){}
