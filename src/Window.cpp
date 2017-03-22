@@ -10,8 +10,8 @@
 void Window::zoom(double porcentagem){
 	double larguraDaWindow = fimDaWindow->getX() - inicioDaWindow->getX();
 	double alturaDaWindow = fimDaWindow->getY() - inicioDaWindow->getY();
-	double centroDaWindowX = (larguraDaWindow/2);
-	double centroDaWindowY = (alturaDaWindow/2);
+	double centroDaWindowX = ((fimDaWindow->getX() + inicioDaWindow->getX())/2);
+	double centroDaWindowY = ((fimDaWindow->getY() + inicioDaWindow->getY())/2);
 	larguraDaWindow = larguraDaWindow * porcentagem;
 	alturaDaWindow = alturaDaWindow * porcentagem;
 	inicioDaWindow->setX(centroDaWindowX - larguraDaWindow/2);

@@ -69,7 +69,7 @@ GtkWidget *windowRemove;
 GtkTextBuffer *buffer;
 
 Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
-Coordenadas fim = Coordenadas(300.0,300.0,0.0,0.0);
+Coordenadas fim = Coordenadas(600.0,600.0,0.0,0.0);
 
 static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
   cairo_set_source_surface (cr, surface, 0, 0);
@@ -330,24 +330,9 @@ extern "C" G_MODULE_EXPORT void btn_parallel_actived(){
 extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived(){
 	printCommandLogs("btn_reset_zoom_actived\n");
 	inicio = Coordenadas(0.0,0.0,0.0,0.0);
-	fim = Coordenadas(300.0,300.0,0.0,0.0);
+	fim = Coordenadas(600.0,600.0,0.0,0.0);
 	repaintWindow ();
 }
-
-// // TO DO
-
-// extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
-// 	printCommandLogs("btn_ok_insert_wireframe_actived\n");
-// 	gtk_widget_hide(windowInsertion);
-// }
-
-// // TO DO
-
-// extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
-// 	printCommandLogs("btn_ok_insert_curve_actived\n");
-// 	gtk_widget_hide(windowInsertion);
-// }
-
 
 int main(int argc, char *argv[]){
 	
