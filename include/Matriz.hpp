@@ -1,9 +1,19 @@
 /*
- * Matriz.hpp
+ *	================================================
+ *		FEDERAL UNIVERSITY OF SANTA CATARINA
+ *	================================================
  *
- *  Created on: 21 de mar de 2017
- *      Author: rodrigo
+ * $Matriz.hpp
+ *
+ *  Created on: $21 de mar de 2017.
+ *     Authors: Marcio Monteiro and Rodrigo Pedro Marques.
+ *	    GitHub: https://github.com/marciomonteiro/INE5420-CG.git
+ *	 Professor: Dr. rer.nat. Aldo von Wangenheim
+ *
+ *	This file is part of a project for the INE5420 Computer Graphics
+ *	curse lectured in Federal University of Santa Catarina.
  */
+
 // based on http://www.drdobbs.com/a-c-matrix-template-class/184403323
 #ifndef INCLUDE_MATRIZ_HPP_
 #define INCLUDE_MATRIZ_HPP_
