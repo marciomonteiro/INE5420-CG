@@ -21,9 +21,9 @@ public:
 	Transformacao2D(){}
 	~Transformacao2D(){};
 
-	std::vector<std::vector<double>> translacao(double dx, double dy);
-	std::vector<std::vector<double>> escalonamento(double sx, double sy);
-	std::vector<std::vector<double>> rotacao(double graus);
+	Matriz::Matriz<double> translacao(double dx, double dy);
+	Matriz::Matriz<double> escalonamento(double sx, double sy);
+	Matriz::Matriz<double> rotacao(double graus);
 
 private:
 };

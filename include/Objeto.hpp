@@ -8,10 +8,12 @@
 #ifndef INCLUDE_OBJETO_HPP_
 #define INCLUDE_OBJETO_HPP_
 
+#include <iostream>
+#include <gtk/gtk.h>
 #include <string>
 #include <vector>
-#include <gtk/gtk.h>
 #include "Coordenadas.hpp"
+#include "Matriz.hpp"
 
 class Objeto{
 private:
@@ -19,7 +21,7 @@ private:
 	std::vector<Coordenadas> world_coordenadas;
 	
 protected:
-	void setName(const std::string& name);
+	void setName(std::string& name);
 	void setTipo(const std::string& tipo);
 
 public:
@@ -28,10 +30,11 @@ public:
 
 	virtual ~Objeto(){}
 
-	const std::string getName() const;
+ 	std::string getName();
 	const std::string& getTipo() const;
 	std::vector<Coordenadas>* getCoordenadas(){return &world_coordenadas;}
 	virtual void desenhar(cairo_t* surf, std::vector<Coordenadas> coords) = 0;	//=0 obriga implementar desenhar
+	void transformaObjeto(Matriz::Matriz<double> matriz);
 };
 
 #endif /* INCLUDE_OBJETO_HPP_ */

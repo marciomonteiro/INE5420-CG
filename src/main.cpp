@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
+#include <string>
 
 
 #include "Window.hpp"
@@ -9,6 +10,7 @@
 #include "Viewport.hpp"
 #include "DisplayFile.hpp"
 #include "Objeto.hpp"
+#include "Transformacao2D.hpp"
 #include "formas/Ponto.hpp"
 #include "formas/Linha.hpp"
 // #include "formas/Circulo.hpp"
@@ -38,7 +40,7 @@ Window *windowP;
 World *world;
 Viewport *viewportP;
 DisplayFile *displayFile;
-
+Transformacao2D *transformador;
 
 //Gtk and beyond
 GtkBuilder *gtkBuilder;
@@ -65,6 +67,8 @@ GtkTextView *outputCommandsShell;
 //WindowInsertionPanel
 GtkWidget *windowInsertion;
 GtkWidget *windowRemove;
+GtkWidget *windowTranslacao;
+GtkWidget *windowEscalona;
 
 GtkTextBuffer *buffer;
 
@@ -127,6 +131,7 @@ void setupTree(){
 	gtk_tree_view_append_column (GTK_TREE_VIEW (treeViewList), column);
 }
 
+
 extern "C" G_MODULE_EXPORT void btn_cancel_insertion_actived () {
 	printCommandLogs("btn_cancel_insertion_actived\n");
 	gtk_widget_hide(windowInsertion);
@@ -140,6 +145,26 @@ extern "C" G_MODULE_EXPORT void insert_new_object_window () {
 extern "C" G_MODULE_EXPORT void remove_object_window () {
 	printCommandLogs("remove_object_window\n");
 	gtk_widget_show(windowRemove);
+}
+
+extern "C" G_MODULE_EXPORT void btn_cancel_translada_actived () {
+	printCommandLogs("btn_cancel_insertion_actived\n");
+	gtk_widget_hide(windowTranslacao);
+}
+
+extern "C" G_MODULE_EXPORT void translada_object_window () {
+	printCommandLogs("remove_object_window\n");
+	gtk_widget_show(windowTranslacao);
+}
+
+extern "C" G_MODULE_EXPORT void btn_cancel_escala_actived () {
+	printCommandLogs("btn_cancel_insertion_actived\n");
+	gtk_widget_hide(windowEscalona);
+}
+
+extern "C" G_MODULE_EXPORT void escala_object_window () {
+	printCommandLogs("remove_object_window\n");
+	gtk_widget_show(windowEscalona);
 }
 
 extern "C" G_MODULE_EXPORT void get_text_step(){
@@ -185,7 +210,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
 	// double zPoint= atof(entryZPointAux);
 
 	//Arrumar quando adicionar Z e Aux
-	Ponto * ponto = new Ponto(entryPointName, "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
+	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
 	gtk_widget_hide(windowInsertion);
 	displayFile->addObjectInTheWorld(ponto);
 	repaintWindow ();
@@ -218,7 +243,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 
 
 	//Arrumar quando adicionar Z e Aux
-	Linha * linha = new Linha(entryLineName, "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
+	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
 	gtk_widget_hide(windowInsertion);
 	displayFile->addObjectInTheWorld(linha);
 	repaintWindow ();
@@ -230,7 +255,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
 	GtkEntry *entryNameNewWireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameNewWireframe"));
 	const char *entryWireframeName = gtk_entry_get_text (entryNameNewWireframe);
 	wireframeCoords.push_back(wireframeCoords.front());
-	Poligono * poligono = new Poligono(entryWireframeName, "Poligono", wireframeCoords);
+	Poligono * poligono = new Poligono(std::string(entryWireframeName), "Poligono", wireframeCoords);
 	gtk_widget_hide(windowInsertion);
 	displayFile->addObjectInTheWorld(poligono);
 	repaintWindow ();
@@ -256,6 +281,54 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived(){
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
 	printCommandLogs("btn_ok_insert_curve_actived\n");
+}
+
+extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto(){
+	printCommandLogs("btn_ok_translacao_objeto\n");
+	
+	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjeto"));
+	GtkEntry *entryXTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXTranslacao"));
+	GtkEntry *entryYTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYTranslacao"));
+	// GtkEntry *entryZTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZTranslacao"));
+
+	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
+	const char *entryXTranslacaoAux = gtk_entry_get_text (entryXTranslacao);
+	const char *entryYTranslacaoAux = gtk_entry_get_text (entryYTranslacao);
+	// const char *entryZTranslacaoAux = gtk_entry_get_text (entryZTranslacao);
+
+	double XTranslacao = atof(entryXTranslacaoAux);
+	double YTranslacao = atof(entryYTranslacaoAux);
+	// double ZTranslacao = atof(entryZTranslacaoAux);
+
+	std::cout<<"main translacao"<<std::endl;
+	Matriz::Matriz<double> tmp = transformador->translacao(XTranslacao, YTranslacao);
+	std::cout<<"matriz criada"<<std::endl;
+	world->transformarObjeto(std::string(entryObjetoName),tmp);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto(){
+	printCommandLogs("btn_ok_escalona_objeto\n");
+	
+	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoEsc"));
+	GtkEntry *entryXEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXEscalona"));
+	GtkEntry *entryYEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYEscalona"));
+	// GtkEntry *entryZEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZEscalona"));
+
+	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
+	const char *entryXEscalonaAux = gtk_entry_get_text (entryXEscalona);
+	const char *entryYEscalonaAux = gtk_entry_get_text (entryYEscalona);
+	// const char *entryZEscalonaAux = gtk_entry_get_text (entryZEscalona);
+
+	double XEscalona = atof(entryXEscalonaAux);
+	double YEscalona = atof(entryYEscalonaAux);
+	// double ZEscalona = atof(entryZEscalonaAux);
+
+	std::cout<<"main Escalona"<<std::endl;
+	Matriz::Matriz<double> tmp = transformador->escalonamento(XEscalona, YEscalona);
+	std::cout<<"matriz criada"<<std::endl;
+	world->transformarObjeto(std::string(entryObjetoName),tmp);
+	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_up_clicked(){
@@ -346,6 +419,8 @@ int main(int argc, char *argv[]){
 	windowInsertion = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowInsertion") );
 	windowRemove = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "removeObject") );
 	outputCommandsShell = GTK_TEXT_VIEW(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "OutputCommandsShell"));
+	windowTranslacao = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowTranslacao"));
+	windowEscalona = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowEscalonamento"));
 
 	buffer = gtk_text_buffer_new(NULL);
 	gtk_text_view_set_buffer(outputCommandsShell, buffer);
@@ -358,6 +433,10 @@ int main(int argc, char *argv[]){
 	viewportP = &vp;
 	Window cWindow = Window(&inicio, &fim, displayFile);
 	windowP = &cWindow;
+	World wd = World();
+	world = &wd;
+	Transformacao2D t = Transformacao2D();
+	transformador = &t;
 
 	setupTree();
 	g_signal_connect (drawing_area, "draw", G_CALLBACK (drawWindow), NULL);

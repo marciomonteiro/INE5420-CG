@@ -1,10 +1,15 @@
 #include "DisplayFile.hpp"
 
+// DisplayFile::DisplayFile(){
+// 	objectsInTheWorld = new std::unordered_map<std::string, Objeto*>();
+// }
+
 bool DisplayFile::addObjectInTheWorld(Objeto* obj){
-	if (objectsInTheWorld.insert(std::make_pair(obj->getName(), obj)).second){
-		return true;
+
+	if(!objectsInTheWorld.insert(std::make_pair(obj->getName(),obj)).second){
+      return false;
 	}
-	return false;
+    return true;
 }
 
 void DisplayFile::removeObjectFromTheWorld(std::string objName){
@@ -12,6 +17,7 @@ void DisplayFile::removeObjectFromTheWorld(std::string objName){
 }
 
 Objeto* DisplayFile::getTheObjectFromTheWorld(std::string objName){
+	std::cout<<"DisplayFile::getTheObjectFromTheWorld "<<objName<<std::endl;
 	return objectsInTheWorld.find(objName)->second;
 }
 

@@ -21,3 +21,16 @@ void World::destroiTodosObjetosDoMundo(){
 		world_displayFile.removeObjectFromTheWorld((obj.second)->getName());
 	}
 }
+
+void World::transformarObjeto(std::string nome, Matriz::Matriz<double> matriz){
+	// Objeto* obj = 
+	std::cout<<"mundo transformarObjeto"<<std::endl;
+	world_displayFile.getTheObjectFromTheWorld(nome)->transformaObjeto(matriz);
+	// obj->transformaObjeto(matriz);
+}
+void World::scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz){
+	world_displayFile.getTheObjectFromTheWorld(nome)->transformaObjeto(matriz);
+}
+void World::rotacionarObjeto(std::string nome, Matriz::Matriz<double> matriz){
+	// world_displayFile.getTheObjectFromTheWorld(nome)->transformaObjeto(matriz);
+}

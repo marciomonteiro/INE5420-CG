@@ -9,6 +9,7 @@
 #define INCLUDE_WORLD_HPP_
 
 #include "DisplayFile.hpp"
+#include "Matriz.hpp"
 
 class World {
 public:
@@ -17,6 +18,9 @@ public:
 	bool adicionaObjetosNoMundo(Objeto* obj);
 	void removeObjetosNoMundo(std::string nome);
 	void destroiTodosObjetosDoMundo();
+	void transformarObjeto(std::string nome, Matriz::Matriz<double> matriz);
+	void scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz);
+	void rotacionarObjeto(std::string nome, Matriz::Matriz<double> matriz);
 
 private:
 	DisplayFile world_displayFile;
