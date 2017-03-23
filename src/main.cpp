@@ -51,13 +51,13 @@ std::vector<Coordenadas> wireframeCoords;
 GtkWidget *drawing_area;
 GtkTextView *outputCommandsShell;
 
-
 //WindowInsertionPanel
 GtkWidget *windowInsertion;
 GtkWidget *windowRemove;
 GtkWidget *windowTranslacao;
 GtkWidget *windowEscalona;
 GtkWidget *windowListaObjetos;
+GtkWidget *windowRotaciona;
 
 GtkTextBuffer *buffer;
 
@@ -91,7 +91,6 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data
     gtk_text_buffer_set_text(buffer, print.c_str(), -1);
     return FALSE;
 }
-
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){
 	cairo_t *cr;
@@ -163,6 +162,16 @@ extern "C" G_MODULE_EXPORT void btn_cancel_escala_actived () {
 extern "C" G_MODULE_EXPORT void escala_object_window () {
 	printCommandLogs("remove_object_window\n");
 	gtk_widget_show(windowEscalona);
+}
+
+extern "C" G_MODULE_EXPORT void btn_cancel_rotaciona_actived () {
+	printCommandLogs("btn_cancel_insertion_actived\n");
+	gtk_widget_hide(windowRotaciona);
+}
+
+extern "C" G_MODULE_EXPORT void rotaciona_object_window () {
+	printCommandLogs("remove_object_window\n");
+	gtk_widget_show(windowRotaciona);
 }
 
 extern "C" G_MODULE_EXPORT void get_text_step(){
@@ -323,10 +332,8 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto(){
 	double YEscalona = atof(entryYEscalonaAux);
 	// double ZEscalona = atof(entryZEscalonaAux);
 
-	std::cout<<"main Escalona"<<std::endl;
-	Matriz::Matriz<double> tmp = transformador->escalonamento(XEscalona, YEscalona);
-	std::cout<<"matriz criada"<<std::endl;
-	world->transformarObjeto(std::string(entryObjetoName),tmp);
+	gtk_widget_hide(windowEscalona);
+	world->scalonarObjeto(std::string(entryObjetoName),transformador->escalonamento(XEscalona, YEscalona));
 	repaintWindow();
 }
 
@@ -343,23 +350,26 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto(){
 	GtkToggleButton *BotaCentroDoObjeto = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaCentroDoObjeto"));
 
 	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)){
-		world->transformarObjeto(std::string(entryObjetoName),transformador->rotacao(angulo));
+		Coordenadas centroDoMundo = Coordenadas(0.0,0.0,0.0,0.0);
+		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, transformador->rotacao(angulo));
 	} else {
 		if (gtk_toggle_button_get_active(BotaCentroDoObjeto)){
-			world->transformarObjeto(std::string(entryObjetoName),transformador->rotacao(angulo));
+			Objeto* ob = world->getDisplayfile()->getTheObjectFromTheWorld(std::string(entryObjetoName));
+			world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), transformador->rotacao(angulo));
 		} else {
-		GtkEntry *entryXRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotaciona"));
-		GtkEntry *entryYRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotaciona"));
-		// GtkEntry *entryZRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZRotaciona"));
-		const char *entryXRotacionaAux = gtk_entry_get_text (entryXRotaciona);
-		const char *entryYRotacionaAux = gtk_entry_get_text (entryYRotaciona);
-		// const char *entryZRotacionaAux = gtk_entry_get_text (entryZRotaciona);
-		double XRotaciona = atof(entryXRotacionaAux);
-		double YRotaciona = atof(entryYRotacionaAux);
-		// double ZRotaciona = atof(entryZRotacionaAux);
-		world->transformarObjeto(std::string(entryObjetoName),transformador->rotacao(angulo));
+			GtkEntry *entryXRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotaciona"));
+			GtkEntry *entryYRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotaciona"));
+			// GtkEntry *entryZRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZRotaciona"));
+			const char *entryXRotacionaAux = gtk_entry_get_text (entryXRotaciona);
+			const char *entryYRotacionaAux = gtk_entry_get_text (entryYRotaciona);
+			// const char *entryZRotacionaAux = gtk_entry_get_text (entryZRotaciona);
+			double XRotaciona = atof(entryXRotacionaAux);
+			double YRotaciona = atof(entryYRotacionaAux);
+			// double ZRotaciona = atof(entryZRotacionaAux);
+			world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0.0,0.0}, transformador->rotacao(angulo));
 		}
 	}
+	gtk_widget_hide(windowRotaciona);
 	repaintWindow();
 }
 
@@ -453,8 +463,8 @@ int main(int argc, char *argv[]){
 	outputCommandsShell = GTK_TEXT_VIEW(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "OutputCommandsShell"));
 	windowTranslacao = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowTranslacao"));
 	windowEscalona = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowEscalonamento"));
+	windowRotaciona = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowRotaciona"));
 	windowListaObjetos = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "ObjectsInTheWorldInterface"));
-
 
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(windowListaObjetos), FALSE);
 
@@ -474,6 +484,7 @@ int main(int argc, char *argv[]){
 	Transformacao2D t = Transformacao2D();
 	transformador = &t;
 
+	// setupTree();
 	g_signal_connect(drawing_area, "draw", G_CALLBACK(on_draw_event), NULL);
 	g_signal_connect (drawing_area, "draw", G_CALLBACK (drawWindow), NULL);
 	g_signal_connect (drawing_area,"configure-event", G_CALLBACK (configure_event_cb), NULL);

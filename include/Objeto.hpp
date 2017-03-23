@@ -35,6 +35,7 @@ public:
 	std::vector<Coordenadas>* getCoordenadas(){return &world_coordenadas;}
 	virtual void desenhar(cairo_t* surf, std::vector<Coordenadas> coords) = 0;	//=0 obriga implementar desenhar
 	void transformaObjeto(Matriz::Matriz<double> matriz);
+	Coordenadas centroDoObjeto();
 };
 
 #endif /* INCLUDE_OBJETO_HPP_ */
