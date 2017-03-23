@@ -331,6 +331,30 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto(){
 	repaintWindow();
 }
 
+extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto(){
+	printCommandLogs("btn_ok_rotaciona_objeto\n");
+	
+	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoRot"));
+	GtkEntry *entryXRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotaciona"));
+	GtkEntry *entryYRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotaciona"));
+	// GtkEntry *entryZRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZRotaciona"));
+
+	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
+	const char *entryXRotacionaAux = gtk_entry_get_text (entryXRotaciona);
+	const char *entryYRotacionaAux = gtk_entry_get_text (entryYRotaciona);
+	// const char *entryZRotacionaAux = gtk_entry_get_text (entryZRotaciona);
+
+	double XRotaciona = atof(entryXRotacionaAux);
+	double YRotaciona = atof(entryYRotacionaAux);
+	// double ZRotaciona = atof(entryZRotacionaAux);
+
+	std::cout<<"main Rotaciona"<<std::endl;
+	Matriz::Matriz<double> tmp = transformador->Rotacionamento(XRotaciona, YRotaciona);
+	std::cout<<"matriz criada"<<std::endl;
+	world->transformarObjeto(std::string(entryObjetoName),tmp);
+	repaintWindow();
+}
+
 extern "C" G_MODULE_EXPORT void btn_up_clicked(){
 	printCommandLogs("btn_up_clicked\n");
 	windowP->mover(0,10,0);
