@@ -18,6 +18,7 @@ public:
 	bool adicionaObjetosNoMundo(Objeto* obj);
 	void removeObjetosNoMundo(std::string nome);
 	void destroiTodosObjetosDoMundo();
+	DisplayFile* getDisplayfile(){return &world_displayFile;}
 	void transformarObjeto(std::string nome, Matriz::Matriz<double> matriz);
 	void scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz);
 	void rotacionarObjeto(std::string nome, Matriz::Matriz<double> matriz);

@@ -15,9 +15,9 @@
 class Window {
 private:
 	Coordenadas *inicioDaWindow, *fimDaWindow;
-	DisplayFile *displayFile;
+	// DisplayFile *displayFile;
 public:
-	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim), displayFile(world){}
+	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim){};//, displayFile(world){}
 	~Window(){}
 
 	void zoom(double porcentagem);
