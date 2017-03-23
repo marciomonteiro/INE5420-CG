@@ -28,9 +28,11 @@ void World::transformarObjeto(std::string nome, Matriz::Matriz<double> matriz){
 	// std::cout<<"mundo transformarObjeto"<<std::endl;
 	// // obj->transformaObjeto(matriz);
 }
+
 void World::scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz){
 	world_displayFile.getTheObjectFromTheWorld(nome)->transformaObjeto(matriz);
 }
+
 void World::rotacionarObjeto(std::string nome, Matriz::Matriz<double> matriz){
 	// world_displayFile.getTheObjectFromTheWorld(nome)->transformaObjeto(matriz);
 }
