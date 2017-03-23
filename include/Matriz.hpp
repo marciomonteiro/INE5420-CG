@@ -17,13 +17,14 @@
 namespace Matriz{
    template<class T>
    class Matriz {
-      protected:
+   	public:
+         const unsigned linha;
+         const unsigned coluna;
+    protected:
          std::vector<T> elementos;
          // range check function for matrix access
          void range_check( unsigned i, unsigned j ) const;
-      public:
-         const unsigned linha;
-         const unsigned coluna;
+    public:
          T& operator()( unsigned i, unsigned j ) {
             #ifdef RANGE_CHECK
             range_check(i,j);

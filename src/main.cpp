@@ -339,28 +339,27 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto(){
 
 	GtkToggleButton *BotaoCentroDoMundo = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaoCentroDoMundo"));
 	GtkToggleButton *BotaCentroDoObjeto = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaCentroDoObjeto"));
+	gtk_widget_hide(windowRotaciona);
 
 	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)){
 		Coordenadas centroDoMundo = Coordenadas(0.0,0.0,0.0,0.0);
 		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, transformador->rotacao(angulo));
-	} else {
-		if (gtk_toggle_button_get_active(BotaCentroDoObjeto)){
-			Objeto* ob = world->getDisplayfile()->getTheObjectFromTheWorld(std::string(entryObjetoName));
-			world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), transformador->rotacao(angulo));
-		} else {
-			GtkEntry *entryXRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotaciona"));
-			GtkEntry *entryYRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotaciona"));
-			// GtkEntry *entryZRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZRotaciona"));
-			const char *entryXRotacionaAux = gtk_entry_get_text (entryXRotaciona);
-			const char *entryYRotacionaAux = gtk_entry_get_text (entryYRotaciona);
-			// const char *entryZRotacionaAux = gtk_entry_get_text (entryZRotaciona);
-			double XRotaciona = atof(entryXRotacionaAux);
-			double YRotaciona = atof(entryYRotacionaAux);
-			// double ZRotaciona = atof(entryZRotacionaAux);
-			world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0.0,0.0}, transformador->rotacao(angulo));
-		}
 	}
-	gtk_widget_hide(windowRotaciona);
+	if (gtk_toggle_button_get_active(BotaCentroDoObjeto)){
+		Objeto* ob = world->getDisplayfile()->getTheObjectFromTheWorld(std::string(entryObjetoName));
+		world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), transformador->rotacao(angulo));
+	} else {
+		GtkEntry *entryXRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotaciona"));
+		GtkEntry *entryYRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotaciona"));
+		// GtkEntry *entryZRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZRotaciona"));
+		const char *entryXRotacionaAux = gtk_entry_get_text (entryXRotaciona);
+		const char *entryYRotacionaAux = gtk_entry_get_text (entryYRotaciona);
+		// const char *entryZRotacionaAux = gtk_entry_get_text (entryZRotaciona);
+		double XRotaciona = atof(entryXRotacionaAux);
+		double YRotaciona = atof(entryYRotacionaAux);
+		// double ZRotaciona = atof(entryZRotacionaAux);
+		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0.0,0.0}, transformador->rotacao(angulo));
+	}
 	repaintWindow();
 }
 

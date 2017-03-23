@@ -23,6 +23,6 @@ public:
 	DisplayFile* getDisplayfile(){return &world_displayFile;}
 	void transformarObjeto(std::string nome, Matriz::Matriz<double> matriz);
 	void scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz);
-	void rotacionarObjeto(std::string nome, bool coordAbitraria, Coordenadas coords, Matriz::Matriz<double> matriz);
+	void rotacionarObjeto(std::string nome, bool coordArbitraria, Coordenadas coords, Matriz::Matriz<double> matriz);
 };
 #endif /* INCLUDE_WORLD_HPP_ */
