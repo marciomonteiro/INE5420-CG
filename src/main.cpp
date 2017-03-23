@@ -300,9 +300,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto(){
 	double YTranslacao = atof(entryYTranslacaoAux);
 	// double ZTranslacao = atof(entryZTranslacaoAux);
 
-	std::cout<<"main translacao"<<std::endl;
+	// std::cout<<"main translacao"<<std::endl;
+	gtk_widget_hide(windowTranslacao);
 	Matriz::Matriz<double> tmp = transformador->translacao(XTranslacao, YTranslacao);
-	std::cout<<"matriz criada"<<std::endl;
+	// std::cout<<"matriz criada"<<std::endl;
 	world->transformarObjeto(std::string(entryObjetoName),tmp);
 	repaintWindow();
 }

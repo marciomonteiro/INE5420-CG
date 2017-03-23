@@ -22,7 +22,7 @@ void DisplayFile::removeObjectFromTheWorld(std::string objName){
 }
 
 Objeto* DisplayFile::getTheObjectFromTheWorld(std::string objName){
-	std::cout<<"DisplayFile::getTheObjectFromTheWorld "<<objName<<std::endl;
+	// std::cout<<"DisplayFile::getTheObjectFromTheWorld "<<objName<<std::endl;
 	return objectsInTheWorld.find(objName)->second;
 }
 

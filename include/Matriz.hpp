@@ -66,14 +66,17 @@ class Matriz {
 
       // matrix multiplication
       Matriz<T> operator*( Matriz<T>& M ) {
+      	// std::cout<<"multiply matrix"<<std::endl;
       	Matriz<double> v(linha, M.coluna, elementos);
       	for (unsigned int i = 0; i < linha; i++) {
       		for (unsigned int j = 0; j < M.coluna; j++) {
       			double soma = 0;
       			for (unsigned int k = 0; k < coluna; k++){
-      				soma = (*this)(i,k)*M(k,j);
+      				soma += (*this)(i,k)*M(k,j);
+      				// std::cout<<"soma: "<<soma<<std::endl;
 				}
 				v(i,j)=soma;
+				// std::cout<<"v(i,j) "<<v(i,j)<<std::endl;
 			}
 		}
       	return v;
