@@ -3,7 +3,6 @@
 
 
 Matriz::Matriz<double> Transformacao2D::translacao(double dx, double dy){
-	// std::cout<<"Transformacao2D translacao"<<std::endl;
 	std::vector<double> retorno {1, 0, 0, 0, 1, 0, dx, dy, 1};
 	return Matriz::Matriz<double>(3u,3u,retorno);
 }

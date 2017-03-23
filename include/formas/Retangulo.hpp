@@ -14,11 +14,6 @@ class Retangulo : public Objeto{
 public:
 	Retangulo(std::string nomeRetangulo, std::string tipoRetangulo, std::vector<Coordenadas> coordenadas) : Objeto(nomeRetangulo, tipoRetangulo, coordenadas){}
 	~Retangulo(){}
-
 	void desenhar(cairo_t* surf, std::vector<Coordenadas> coords);
-
-private:
 };
-
-
 #endif /* INCLUDE_FORMAS_RETANGULO_HPP_ */

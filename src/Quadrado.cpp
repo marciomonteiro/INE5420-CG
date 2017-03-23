@@ -5,7 +5,6 @@
  *      Author: rodrigo
  */
 
-
 #include "../include/formas/Quadrado.hpp"
 
 void Quadrado::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){

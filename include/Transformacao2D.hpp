@@ -16,18 +16,10 @@
 
 class Transformacao2D {
 public:
-
-	//Transformacao2D(){};
 	Transformacao2D(){}
 	~Transformacao2D(){};
-
 	Matriz::Matriz<double> translacao(double dx, double dy);
 	Matriz::Matriz<double> escalonamento(double sx, double sy);
 	Matriz::Matriz<double> rotacao(double graus);
-
-private:
 };
-
-
-
 #endif /* INCLUDE_TRANSFORMACAO2D_HPP_ */

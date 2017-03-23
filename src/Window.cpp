@@ -26,4 +26,3 @@ void Window::mover(double x, double y, double z){
 	fimDaWindow->setX(fimDaWindow->getX()+x);
 	fimDaWindow->setY(fimDaWindow->getY()+y);
 }
-

@@ -15,10 +15,6 @@ class Quadrado : public Retangulo {
 public:
 	Quadrado(std::string nomeQuadrado, std::string tipoQuadrado, std::vector<Coordenadas> coordenadas) : Retangulo(nomeQuadrado, tipoQuadrado, coordenadas){}
 	~Quadrado(){}
-
 	void desenhar(cairo_t* surf, std::vector<Coordenadas> coords);
-private:
 };
-
-
 #endif /* INCLUDE_FORMAS_QUADRADO_HPP_ */

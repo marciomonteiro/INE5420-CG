@@ -74,22 +74,22 @@ static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
  * Toda vez que a função draw é chamada, ativa essa função.
  */
 static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data) {
-    cairo_set_source_surface(cr, surface, 0, 0);
-    cairo_paint(cr);
+	cairo_set_source_surface(cr, surface, 0, 0);
+	cairo_paint(cr);
 
-    DisplayFile * aux = world->getDisplayfile();
-    std::unordered_map<std::string, Objeto*> objetos = aux->getAllObjectsFromTheWorld();
+	DisplayFile * aux = world->getDisplayfile();
+	std::unordered_map<std::string, Objeto*> objetos = aux->getAllObjectsFromTheWorld();
 
-    std::string print = "";
+	std::string print = "";
 
-    for (auto it = objetos.begin(); it != objetos.end(); ++it){
-    	print.append(it->second->getName());
+	for (auto it = objetos.begin(); it != objetos.end(); ++it){
+		print.append(it->second->getName());
 		print.append("\n");
 	}
 
-    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(windowListaObjetos));
-    gtk_text_buffer_set_text(buffer, print.c_str(), -1);
-    return FALSE;
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(windowListaObjetos));
+	gtk_text_buffer_set_text(buffer, print.c_str(), -1);
+	return FALSE;
 }
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){

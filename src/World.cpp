@@ -45,7 +45,6 @@ void World::rotacionarObjeto(std::string nome, bool coordAbitraria, Coordenadas 
 		tmp2(2,0) = cd.getX();
 		tmp1(2,1) = -cd.getY();
 		tmp2(2,1) = cd.getY();
-
 	}
 	world_displayFile.getTheObjectFromTheWorld(nome)->transformaObjeto(matriz);
 }

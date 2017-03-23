@@ -7,11 +7,6 @@
 
 #include "../include/Viewport.hpp"
 
-// Viewport::Viewport(){
-// 	coordenadas_minimas = Coordenadas(0.0,0.0,0.0,0.0);
-// 	coordenadas_maximas = Coordenadas(300.0,300.0,0.0,0.0);
-// }
-
 void Viewport::transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas fimDaWindow, DisplayFile* displayFile){
 	for (auto obj : displayFile->getAllObjectsFromTheWorld()){
 		std::vector<Coordenadas> coordenadasDaViewPort;

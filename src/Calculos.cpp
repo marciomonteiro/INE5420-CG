@@ -6,5 +6,3 @@
  */
 
 #include "../include/Calculos.hpp"
-
-

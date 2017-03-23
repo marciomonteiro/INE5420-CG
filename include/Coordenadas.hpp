@@ -9,8 +9,12 @@
 #define INCLUDE_COORDENADAS_HPP_
 
 class Coordenadas {
+private:
+	double x;
+	double y;
+	double z;
+	double aux;
 public:
-
 	Coordenadas(double xE, double yE, double zE, double auxE) : x(xE), y(yE), z(zE), aux(auxE) {};
 	Coordenadas(){}
 	~Coordenadas(){};
@@ -24,14 +28,5 @@ public:
 	double getY();
 	double getZ();
 	double getAux();
-
-private:
-	double x;
-	double y;
-	double z;
-	double aux;
 };
-
-
-
 #endif /* INCLUDE_COORDENADAS_HPP_ */

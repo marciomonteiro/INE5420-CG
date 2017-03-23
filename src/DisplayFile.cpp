@@ -1,9 +1,5 @@
 #include "DisplayFile.hpp"
 
-// DisplayFile::DisplayFile(){
-// 	objectsInTheWorld = new std::unordered_map<std::string, Objeto*>();
-// }
-
 DisplayFile& DisplayFile::instancia(){
 	static DisplayFile instancia;
 	return instancia;
@@ -22,7 +18,6 @@ void DisplayFile::removeObjectFromTheWorld(std::string objName){
 }
 
 Objeto* DisplayFile::getTheObjectFromTheWorld(std::string objName){
-	// std::cout<<"DisplayFile::getTheObjectFromTheWorld "<<objName<<std::endl;
 	return objectsInTheWorld.find(objName)->second;
 }
 

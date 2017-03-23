@@ -16,11 +16,7 @@
 
 class Calculos {
 public:
-
-
 private:
 };
-
-
 
 #endif /* INCLUDE_CALCULOS_HPP_ */

@@ -12,6 +12,8 @@
 #include "Matriz.hpp"
 
 class World {
+private:
+	DisplayFile world_displayFile;
 public:
 	World(){}
 	~World(){}
@@ -22,10 +24,5 @@ public:
 	void transformarObjeto(std::string nome, Matriz::Matriz<double> matriz);
 	void scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz);
 	void rotacionarObjeto(std::string nome, bool coordAbitraria, Coordenadas coords, Matriz::Matriz<double> matriz);
-
-private:
-	DisplayFile world_displayFile;
 };
-
-
 #endif /* INCLUDE_WORLD_HPP_ */

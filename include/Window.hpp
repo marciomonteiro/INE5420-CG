@@ -15,16 +15,13 @@
 class Window {
 private:
 	Coordenadas *inicioDaWindow, *fimDaWindow;
-	// DisplayFile *displayFile;
 public:
-	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim){};//, displayFile(world){}
+	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim){};
 	~Window(){}
-
 	void zoom(double porcentagem);
 	void mover(double x, double y, double z);
 	void setCoordenadas(Coordenadas* inicio, Coordenadas* fim){inicioDaWindow = inicio; fimDaWindow = fim;}
 	Coordenadas* getInicioDaWindow(){return inicioDaWindow;}
 	Coordenadas* getFimDaWindow(){return fimDaWindow;}
 };
-
 #endif /* INCLUDE_WINDOW_HPP_ */

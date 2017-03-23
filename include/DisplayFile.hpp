@@ -19,5 +19,4 @@ public:
 	std::unordered_map<std::string, Objeto* > getAllObjectsFromTheWorld();
 	bool isEmpty();
 };
-
-#endif
+#endif //DISPLAYFILE_H
