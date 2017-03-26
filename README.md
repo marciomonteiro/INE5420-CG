@@ -31,11 +31,15 @@ Works of computer graphics (CG) using C++.
 
 # Under development
 
-1.3 - Sistemas de Coordenadas da Window
-- Windows genéricas
-- Sistemas de Coordenadas Normalizados
-- Sistemas de Coordenadas do Plano de Projeção
-- Zoom, Translação e Rotação da Window no PPC
+1.3 - Sistemas de Coordenadas da Window:
+
+- Altere a representação dos objetos do mundo para suportar representação em um dos sistemas de coordenadas vistos em aula: *Sistema de Coordenadas Normalizado (SCN)* ou o *Sistema de Coordenadas do Plano de Projeção (PPC)*. Agora a transformada de viewport é feita com estas coordenadas novas.
+
+- Atualize a translação e o zoom da window tendo em vista o novo sistema de coordenadas. A translação em particular deve levar em conta sempre o "para cima" do ponto de vista do usuário.
+
+- Implemente a rotação implementando o algoritmo para gerar a descrição no sistema de coordenadas escolhido.
+
+- Atualize a interface da aplicação para que o usuário possa rotacionar a window também. Como a rotação é sempre ao redor do centro da window, basta um campo para colocar o ângulo de rotação.
 
 
 For more informations visit: http://www.inf.ufsc.br/~awangenh/grafica

@@ -23,14 +23,24 @@
 
 class Window {
 private:
-	Coordenadas *inicioDaWindow, *fimDaWindow;
+	Coordenadas *inicioDaWindow, *fimDaWindow, *inicioPPC, *fimPPC, *centroDaWindow;
 public:
-	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim){};
+	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim), inicioPPC(inicio), fimPPC(fim){
+		centroDaWindow = new Coordenadas(0,0,0,0);
+		double x, y;
+		x = (inicioDaWindow->getX() + fimDaWindow->getX())/2;
+		y = (inicioDaWindow->getY() + fimDaWindow->getY())/2;
+		centroDaWindow->setX(x);
+		centroDaWindow->setY(y);
+		centroDaWindow->setZ(0);
+		centroDaWindow->setAux(0);
+	};
 	~Window(){}
 	void zoom(double porcentagem);
 	void mover(double x, double y, double z);
 	void setCoordenadas(Coordenadas* inicio, Coordenadas* fim){inicioDaWindow = inicio; fimDaWindow = fim;}
 	Coordenadas* getInicioDaWindow(){return inicioDaWindow;}
 	Coordenadas* getFimDaWindow(){return fimDaWindow;}
+	Coordenadas* getCentroDaWindow(){return centroDaWindow;}
 };
 #endif /* INCLUDE_WINDOW_HPP_ */
