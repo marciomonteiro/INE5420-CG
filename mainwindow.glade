@@ -4,7 +4,7 @@
   <requires lib="gtk+" version="3.10"/>
   <object class="GtkWindow" id="MainWindow">
     <property name="name">MainWindow</property>
-    <property name="width_request">600</property>
+    <property name="width_request">500</property>
     <property name="height_request">400</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -54,7 +54,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="shadow_type">in</property>
                                 <property name="min_content_width">3</property>
-                                <property name="min_content_height">200</property>
+                                <property name="min_content_height">100</property>
                                 <child>
                                   <object class="GtkTextView" id="ObjectsInTheWorldInterface">
                                     <property name="visible">True</property>
@@ -236,21 +236,6 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkButton" id="DownButton">
-                                        <property name="label" translatable="yes">Down</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <signal name="clicked" handler="btn_down_clicked" swapped="no"/>
-                                      </object>
-                                      <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="top_attach">2</property>
-                                        <property name="width">1</property>
-                                        <property name="height">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
                                       <object class="GtkButton" id="RightButton">
                                         <property name="label" translatable="yes">Right</property>
                                         <property name="visible">True</property>
@@ -266,13 +251,19 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
+                                      <object class="GtkButton" id="DownButton">
+                                        <property name="label" translatable="yes">Down</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <signal name="clicked" handler="btn_down_clicked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="top_attach">1</property>
+                                        <property name="width">1</property>
+                                        <property name="height">1</property>
+                                      </packing>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -668,8 +659,8 @@
                 <property name="can_focus">False</property>
                 <child>
                   <object class="GtkAlignment" id="alignment5">
-                    <property name="width_request">600</property>
-                    <property name="height_request">600</property>
+                    <property name="width_request">400</property>
+                    <property name="height_request">400</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
@@ -710,6 +701,7 @@
             </child>
             <child>
               <object class="GtkScrolledWindow" id="OutputWindow">
+                <property name="height_request">100</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="shadow_type">in</property>
