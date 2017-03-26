@@ -19,7 +19,7 @@
 void Viewport::transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas fimDaWindow, DisplayFile* displayFile){
 	for (auto obj : displayFile->getAllObjectsFromTheWorld()){
 		std::vector<Coordenadas> coordenadasDaViewPort;
-		std::vector<Coordenadas>* coordsObjeto = obj.second->getCoordenadas();
+		std::vector<Coordenadas>* coordsObjeto = obj.second->getWorldCoordenadas();
 		for (auto coordenadas_objeto : *coordsObjeto)
 		{
 			coordenadas_objeto = calcCoordTransf(inicioDaWindow, fimDaWindow, coordenadas_objeto);
