@@ -41,5 +41,12 @@ Works of computer graphics (CG) using C++.
 
 - Atualize a interface da aplicação para que o usuário possa rotacionar a window também. Como a rotação é sempre ao redor do centro da window, basta um campo para colocar o ângulo de rotação.
 
+- Este trabalho deve ser capaz de ler/escrever um mundo em formato Wavefront .obj file, devendo inluir todas as rotinas para leitura/escrita de arquivos .obj.
+
+Sugestões de Modelagem:
+
+- Crie uma classe DescritorOBJ capaz de transcrever um objeto gráfico para o formato .obj, tomando seu nome, seu tipo, seus vértices e suas arestas.
+- Chame o descritor para cada objeto de seu mundo.
+- Assim você só precisa se preocupar com o cabeçalho do .obj. O resto de se resove através de um percurso do display file com seu descritor.
 
 For more informations visit: http://www.inf.ufsc.br/~awangenh/grafica
