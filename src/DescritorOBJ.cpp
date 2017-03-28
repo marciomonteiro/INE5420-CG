@@ -16,4 +16,20 @@
 
 #include "../include/DescritorOBJ.hpp"
 
+bool DescritorOBJ::transcrevaObjeto(Objeto* obj){
+	std::string objectPath = pathRoot;		// "../objetos/"
+	std::string nomeObj = obj->getName();	// "linha"
+	nomeObj.append(extensao);				// "linha.obj"
+	objectPath.append(nomeObj);				// "../objetos/linha.obj"
+
+	if(std::ifstream(objectPath){
+		std::cout << "Arquivo " << nomeObj << " ja existe! " << std::endl;
+		return false;
+	}
+
+	std::ofstream objeto())
+
+	return true;
+}
+
 
