@@ -28,16 +28,19 @@ class Objeto{
 private:
 	std::string nome, tipo;
 	std::vector<Coordenadas> world_coordenadas;
+	std::vector<Coordenadas> normalized_coordenadas;	//Joel Santana Approves
+
 protected:
 	void setName(std::string& name);
 	void setTipo(const std::string& tipo);
 public:
-	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas) : nome(nomeObjeto), tipo(tipoObjeto), world_coordenadas(coordenadas){}
+	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas) : nome(nomeObjeto), tipo(tipoObjeto), world_coordenadas(coordenadas), normalized_coordenadas(coordenadas){}
 	virtual ~Objeto(){}
 
 	std::string getName();
 	const std::string& getTipo() const;
-	std::vector<Coordenadas>* getWorldCoordenadas(){return &world_coordenadas;}
+	std::vector<Coordenadas>* getWorldCoordenadas();
+	std::vector<Coordenadas>* getNormalizedCoordenadas();
 
 	virtual void desenhar(cairo_t* surf, std::vector<Coordenadas> coords) = 0;	//=0 obriga implementar desenhar
 	void transformaObjeto(Matriz::Matriz<double> matriz);

@@ -24,8 +24,9 @@
 class Window {
 private:
 	Coordenadas *inicioDaWindow, *fimDaWindow, *centroDaWindow;
+	double anguloX, anguloY, anguloZ;
 public:
-	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim){
+	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim), anguloX(0), anguloY(0), anguloZ(0){
 		centroDaWindow = new Coordenadas(0,0,0,0);
 		double x, y;
 		x = (inicioDaWindow->getX() + fimDaWindow->getX())/2;

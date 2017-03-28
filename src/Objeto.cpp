@@ -55,3 +55,11 @@ Coordenadas Objeto::centroDoObjeto(){
 	yDoCentro = yDoCentro/world_coordenadas.size();
 	return Coordenadas(xDoCentro,yDoCentro, 0.0,0.0);
 }
+
+std::vector<Coordenadas>* Objeto::getWorldCoordenadas(){
+	return &world_coordenadas;
+}
+
+std::vector<Coordenadas>* Objeto::getNormalizedCoordenadas(){
+	return &normalized_coordenadas;
+}
