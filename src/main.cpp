@@ -78,7 +78,7 @@ GtkWidget *windowRotaciona;
 GtkTextBuffer *buffer;
 
 Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
-Coordenadas fim = Coordenadas(600.0,600.0,0.0,0.0);
+Coordenadas fim = Coordenadas(400.0,400.0,0.0,0.0);
 
 static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
   cairo_set_source_surface (cr, surface, 0, 0);
@@ -418,7 +418,7 @@ extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
 extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived(){
 	printCommandLogs("btn_reset_zoom_actived\n");
 	inicio = Coordenadas(0.0,0.0,0.0,0.0);
-	fim = Coordenadas(600.0,600.0,0.0,0.0);
+	fim = Coordenadas(400.0,400.0,0.0,0.0);
 	repaintWindow ();
 }
 

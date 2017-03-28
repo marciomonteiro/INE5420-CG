@@ -24,10 +24,10 @@ class World {
 private:
 	DisplayFile world_displayFile;
 public:
-	World(){}
-	~World(){}
-	bool adicionaObjetosNoMundo(Objeto* obj);
-	void removeObjetosNoMundo(std::string nome);
+	World(){};
+	~World(){};
+	bool adicionaObjetosNoMundo(Objeto* obj){return world_displayFile.addObjectInTheWorld(obj);};
+	void removeObjetosNoMundo(std::string nome){world_displayFile.removeObjectFromTheWorld(nome);};
 	void destroiTodosObjetosDoMundo();
 	DisplayFile* getDisplayfile(){return &world_displayFile;}
 	void transformarObjeto(std::string nome, Matriz::Matriz<double> matriz);

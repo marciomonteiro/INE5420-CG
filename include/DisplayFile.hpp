@@ -30,9 +30,9 @@ public:
 
 	static DisplayFile& instancia();
 	bool addObjectInTheWorld(Objeto* obj);
-	void removeObjectFromTheWorld(std::string objName);
-	Objeto* getTheObjectFromTheWorld(std::string objName);
-	std::unordered_map<std::string, Objeto* > getAllObjectsFromTheWorld();
-	bool isEmpty();
+	void removeObjectFromTheWorld(std::string objName){objectsInTheWorld.erase(objName);};
+	Objeto* getTheObjectFromTheWorld(std::string objName){return objectsInTheWorld.find(objName)->second;};
+	std::unordered_map<std::string, Objeto* > getAllObjectsFromTheWorld(){return objectsInTheWorld;};
+	bool isEmpty(){return objectsInTheWorld.empty();};
 };
 #endif //DISPLAYFILE_H

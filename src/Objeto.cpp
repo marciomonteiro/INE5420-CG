@@ -16,22 +16,6 @@
 
 #include "Objeto.hpp"
 
-std::string Objeto::getName() {
-	return nome;
-}
-
-const std::string& Objeto::getTipo() const {
-	return tipo;
-}
-
-void Objeto::setName(std::string& name){
-	this->nome = name;
-}
-
-void Objeto::setTipo(const std::string& tipo) {
-	this->tipo = tipo;
-}
-
 void Objeto::transformaObjeto(Matriz::Matriz<double> matriz){
 	for (auto& coord : world_coordenadas){
 		std::vector<double> tmp0 = {coord.getX(), coord.getY(), 1};
@@ -56,10 +40,3 @@ Coordenadas Objeto::centroDoObjeto(){
 	return Coordenadas(xDoCentro,yDoCentro, 0.0,0.0);
 }
 
-std::vector<Coordenadas>* Objeto::getWorldCoordenadas(){
-	return &world_coordenadas;
-}
-
-std::vector<Coordenadas>* Objeto::getNormalizedCoordenadas(){
-	return &normalized_coordenadas;
-}

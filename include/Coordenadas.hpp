@@ -25,17 +25,17 @@ private:
 	double aux;
 public:
 	Coordenadas(double xE, double yE, double zE, double auxE) : x(xE), y(yE), z(zE), aux(auxE) {};
-	Coordenadas(){}
+	Coordenadas(){};
 	~Coordenadas(){};
 
-	void setX(double x);
-	void setY(double y);
-	void setZ(double z);
-	void setAux(double aux);
+	void setX(double x){this->x=x;};
+	void setY(double y){this->y=y;};
+	void setZ(double z){this->z=z;};
+	void setAux(double aux){this->aux=aux;};
 
-	double getX();
-	double getY();
-	double getZ();
-	double getAux();
+	double getX(){x};
+	double getY(){y};
+	double getZ(){z};
+	double getAux(){aux};
 };
 #endif /* INCLUDE_COORDENADAS_HPP_ */
