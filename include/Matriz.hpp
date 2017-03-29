@@ -85,7 +85,7 @@ namespace Matriz{
       elementos = elements;
       else{
          elementos.reserve(linha*coluna);
-         for (int i = 0; i < linha*coluna; i++){
+         for (unsigned int i = 0; i < linha*coluna; i++){
             elementos.push_back(0.0);
          }
       }

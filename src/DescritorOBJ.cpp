@@ -22,14 +22,12 @@ bool DescritorOBJ::transcrevaObjeto(Objeto* obj){
 	nomeObj.append(extensao);				// "linha.obj"
 	objectPath.append(nomeObj);				// "../objetos/linha.obj"
 
-	if(std::ifstream(objectPath){
+	if(std::ifstream(objectPath)){
 		std::cout << "Arquivo " << nomeObj << " ja existe! " << std::endl;
 		return false;
 	}
 
-	std::ofstream objeto())
+	std::ofstream(objeto());
 
 	return true;
 }
-
-

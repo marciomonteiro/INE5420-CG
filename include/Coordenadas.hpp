@@ -33,9 +33,9 @@ public:
 	void setZ(double z){this->z=z;};
 	void setAux(double aux){this->aux=aux;};
 
-	double getX(){x};
-	double getY(){y};
-	double getZ(){z};
-	double getAux(){aux};
+	double getX(){return x;};
+	double getY(){return y;};
+	double getZ(){return z;};
+	double getAux(){return aux;};
 };
 #endif /* INCLUDE_COORDENADAS_HPP_ */

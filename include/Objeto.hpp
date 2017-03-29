@@ -32,13 +32,13 @@ private:
 
 protected:
 	void setName(std::string& name){nome=name;};
-	void setTipo(const std::string& tipo){tipo=tipo;};
+	void setTipo(std::string& tipo){tipo=tipo;};
 public:
 	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas) : nome(nomeObjeto), tipo(tipoObjeto), world_coordenadas(coordenadas), normalized_coordenadas(coordenadas){}
 	virtual ~Objeto(){};
 
 	std::string getName(){return nome;};
-	const std::string& getTipo() const{return tipo;};
+	std::string& getTipo() {return tipo;};
 	std::vector<Coordenadas>* getWorldCoordenadas(){return &world_coordenadas;};
 	std::vector<Coordenadas>* getNormalizedCoordenadas(){return &normalized_coordenadas;};
 
