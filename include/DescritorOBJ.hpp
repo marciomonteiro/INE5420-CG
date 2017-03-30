@@ -20,6 +20,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cstring>
+#include <cerrno>
 #include "Objeto.hpp"
 
 class DescritorOBJ {

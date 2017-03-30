@@ -496,6 +496,7 @@ int main(int argc, char *argv[]){
 	Transformacao2D t = Transformacao2D();
 	transformador = &t;
 	descritor = new DescritorOBJ();
+	descritor->getObjetosFromPath("./objetos/");
 
 	g_signal_connect(drawing_area, "draw", G_CALLBACK(on_draw_event), NULL);
 	g_signal_connect (drawing_area, "draw", G_CALLBACK (drawWindow), NULL);
