@@ -26,10 +26,10 @@ private:
 public:
 	World(){};
 	~World(){};
-	bool adicionaObjetosNoMundo(Objeto* obj){return world_displayFile.addObjectInTheWorld(obj);};
-	void removeObjetosNoMundo(std::string nome){world_displayFile.removeObjectFromTheWorld(nome);};
+	bool adicionaObjetosNoMundo(Objeto* obj);
+	void removeObjetosNoMundo(std::string nome);
 	void destroiTodosObjetosDoMundo();
-	DisplayFile* getDisplayfile(){return &world_displayFile;}
+	DisplayFile* getDisplayfile();
 	void transformarObjeto(std::string nome, Matriz::Matriz<double> matriz);
 	void scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz);
 	void rotacionarObjeto(std::string nome, bool coordArbitraria, Coordenadas coords, Matriz::Matriz<double> matriz);

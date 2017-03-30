@@ -16,6 +16,14 @@
 
 #include "Objeto.hpp"
 
+void Objeto::setName(std::string& name){
+	nome = name;
+}
+
+void Objeto::setTipo(std::string& tipo){
+	tipo = tipo;
+}
+
 std::string Objeto::getName(){
 	return nome;
 }

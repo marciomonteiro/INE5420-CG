@@ -31,10 +31,10 @@ private:
 	std::vector<Coordenadas> normalized_coordenadas;	//Joel Santana Approves
 
 protected:
-	void setName(std::string& name){nome=name;};
-	void setTipo(std::string& tipo){tipo=tipo;};
+	void setName(std::string& name);
+	void setTipo(std::string& tipo);
 public:
-	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas) : nome(nomeObjeto), tipo(tipoObjeto), world_coordenadas(coordenadas), normalized_coordenadas(coordenadas){}
+	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas) : nome(nomeObjeto), tipo(tipoObjeto), world_coordenadas(coordenadas), normalized_coordenadas(coordenadas){};
 	virtual ~Objeto(){};
 
 	std::string getName();
