@@ -25,7 +25,7 @@
 class DescritorOBJ {
 public:
 
-	DescritorOBJ() : extensao(".obj"), pathRoot("../objetos/"){}
+	DescritorOBJ() : extensao(".obj"), pathRoot("./objetos/"){}
 	~DescritorOBJ(){}
 
 	bool transcrevaObjeto(Objeto* obj);

@@ -29,29 +29,35 @@ bool DescritorOBJ::transcrevaObjeto(Objeto* obj){
 	}
 
 	std::ofstream objeto(objectPath);
+	std::cout << "Caminho do novo objeto " << objectPath << std::endl;
 
-	if(objeto.is_open()){
-		objeto << "# o ";
+	if (objeto.is_open()) {
+		objeto << "o ";
 		objeto << obj->getName();
 		objeto << "\n";
-		objeto << "g";
+		objeto << "g ";
 		objeto << obj->getTipo();
+		objeto << "\n\n";
 		auto coordenadas = obj->getWorldCoordenadas();
 
 		for(auto& coords : *coordenadas) {
 			objeto << "v ";
 			objeto << coords.getX();
+			objeto << " ";
 			objeto << coords.getY();
+			objeto << " ";
 			objeto << coords.getZ();
 			objeto << "\n";
 		}
+
+		std::cout << "Objeto criado!" << std::endl;
 		objeto.close();
-		return true;
 	} else {
+		std::cout << "Não foi possível abrir o arquivo " << objectPath << std::endl;
 		return false;
 	}
 
-	return true;
+	return false;
 }
 //http://www.cplusplus.com/doc/tutorial/files/
 
