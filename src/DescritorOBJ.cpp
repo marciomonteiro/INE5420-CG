@@ -83,7 +83,7 @@ std::vector<std::string> DescritorOBJ::getObjetosFromPath(std::string pathToObje
 	  {
 		 if (!strcmp( hFile->d_name, ".")) continue;
 		 if (!strcmp( hFile->d_name, "..")) continue;
-		 if (strstr( hFile->d_name, ".obj")){
+		 if (strstr( hFile->d_name, extensao.c_str())){
 			printf( "found file: %s \n", hFile->d_name );
 			nomeObjetos.push_back(hFile->d_name);
 		 }
@@ -94,7 +94,9 @@ std::vector<std::string> DescritorOBJ::getObjetosFromPath(std::string pathToObje
 	return nomeObjetos;
 }
 
-//http://www.cplusplus.com/doc/tutorial/files/
+void criaObjetosFromPath(std::string pathToObjects){
+
+}
 
 /**
 Vertex data:
