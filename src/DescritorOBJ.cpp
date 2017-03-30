@@ -50,6 +50,10 @@ bool DescritorOBJ::transcrevaObjeto(Objeto* obj){
 			objeto << "\n";
 		}
 
+		objeto << "# ";
+		objeto << coordenadas->size();
+		objeto << " vertices.";
+
 		std::cout << "Objeto criado!" << std::endl;
 		objeto.close();
 	} else {
@@ -61,21 +65,6 @@ bool DescritorOBJ::transcrevaObjeto(Objeto* obj){
 }
 //http://www.cplusplus.com/doc/tutorial/files/
 
-/*
-# cube.obj
-#
-
-g cube
-
-v  0.0  0.0  0.0
-v  0.0  0.0  1.0
-v  0.0  1.0  0.0
-v  0.0  1.0  1.0
-v  1.0  0.0  0.0
-v  1.0  0.0  1.0
-v  1.0  1.0  0.0
-v  1.0  1.0  1.0
- */
 
 /**
  * O código entregue com este trabalho deve ser capaz de ler/escrever um mundo em formato Wavefront .obj file, devendo inluir todas as

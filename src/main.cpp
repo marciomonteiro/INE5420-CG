@@ -236,6 +236,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
 
 	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
 	gtk_widget_hide(windowInsertion);
+	descritor->transcrevaObjeto(ponto);
 	world->adicionaObjetosNoMundo(ponto);
 	repaintWindow ();
 }
@@ -281,6 +282,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
 	wireframeCoords.push_back(wireframeCoords.front());
 	Poligono * poligono = new Poligono(std::string(entryWireframeName), "Poligono", wireframeCoords);
 	gtk_widget_hide(windowInsertion);
+	descritor->transcrevaObjeto(poligono);
 	world->adicionaObjetosNoMundo(poligono);
 	repaintWindow ();
 }
