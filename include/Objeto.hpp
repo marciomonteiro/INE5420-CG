@@ -11,7 +11,7 @@
  *	 Professor: Dr. rer.nat. Aldo von Wangenheim
  *
  *	This file is part of a project for the INE5420 Computer Graphics
- *	curse lectured in Federal University of Santa Catarina.
+ *	course lectured in Federal University of Santa Catarina.
  */
 
 #ifndef INCLUDE_OBJETO_HPP_
@@ -37,13 +37,15 @@ public:
 	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas) : nome(nomeObjeto), tipo(tipoObjeto), world_coordenadas(coordenadas), normalized_coordenadas(coordenadas){}
 	virtual ~Objeto(){};
 
-	std::string getName(){return nome;};
-	std::string& getTipo() {return tipo;};
-	std::vector<Coordenadas>* getWorldCoordenadas(){return &world_coordenadas;};
-	std::vector<Coordenadas>* getNormalizedCoordenadas(){return &normalized_coordenadas;};
+	std::string getName();
+	std::string& getTipo();
+	std::vector<Coordenadas>* getWorldCoordenadas();
+	std::vector<Coordenadas>* getNormalizedCoordenadas();
 
 	virtual void desenhar(cairo_t* surf, std::vector<Coordenadas> coords) = 0;	//=0 obriga implementar desenhar
 	void transformaObjeto(Matriz::Matriz<double> matriz);
 	Coordenadas centroDoObjeto();
 };
 #endif /* INCLUDE_OBJETO_HPP_ */
+
+

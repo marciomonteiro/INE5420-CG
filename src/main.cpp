@@ -11,7 +11,7 @@
  *	 Professor: Dr. rer.nat. Aldo von Wangenheim
  *
  *	This file is part of a project for the INE5420 Computer Graphics
- *	curse lectured in Federal University of Santa Catarina.
+ *	course lectured in Federal University of Santa Catarina.
  */
 
 #include <gtk/gtk.h>
@@ -29,6 +29,7 @@
 #include "formas/Ponto.hpp"
 #include "formas/Linha.hpp"
 #include "formas/Poligono.hpp"
+#include "DescritorOBJ.hpp"
 
 /**
  * Note: You need to add the flag "-std=c++11" to the command "g++..."
@@ -55,6 +56,7 @@ World *world;
 Viewport *viewportP;
 DisplayFile *displayFile;
 Transformacao2D *transformador;
+DescritorOBJ *descritor;
 
 //Gtk and beyond
 GtkBuilder *gtkBuilder;
@@ -265,6 +267,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	// double Z2Line= atof(entryZ2LineAux);
 
 	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
+	descritor->transcrevaObjeto(linha);
 	gtk_widget_hide(windowInsertion);
 	world->adicionaObjetosNoMundo(linha);
 	repaintWindow ();
@@ -490,6 +493,7 @@ int main(int argc, char *argv[]){
 	world = &wd;
 	Transformacao2D t = Transformacao2D();
 	transformador = &t;
+	descritor = new DescritorOBJ();
 
 	g_signal_connect(drawing_area, "draw", G_CALLBACK(on_draw_event), NULL);
 	g_signal_connect (drawing_area, "draw", G_CALLBACK (drawWindow), NULL);

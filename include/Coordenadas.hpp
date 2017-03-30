@@ -11,7 +11,7 @@
  *	 Professor: Dr. rer.nat. Aldo von Wangenheim
  *
  *	This file is part of a project for the INE5420 Computer Graphics
- *	curse lectured in Federal University of Santa Catarina.
+ *	course lectured in Federal University of Santa Catarina.
  */
 
 #ifndef INCLUDE_COORDENADAS_HPP_
@@ -19,23 +19,20 @@
 
 class Coordenadas {
 private:
-	double x;
-	double y;
-	double z;
-	double aux;
+	double x, y, z, aux;
+
 public:
 	Coordenadas(double xE, double yE, double zE, double auxE) : x(xE), y(yE), z(zE), aux(auxE) {};
-	Coordenadas(){};
 	~Coordenadas(){};
 
-	void setX(double x){this->x=x;};
-	void setY(double y){this->y=y;};
-	void setZ(double z){this->z=z;};
-	void setAux(double aux){this->aux=aux;};
+	void setX(double x);
+	void setY(double y);
+	void setZ(double z);
+	void setAux(double aux);
 
-	double getX(){return x;};
-	double getY(){return y;};
-	double getZ(){return z;};
-	double getAux(){return aux;};
+	double getX();
+	double getY();
+	double getZ();
+	double getAux();
 };
 #endif /* INCLUDE_COORDENADAS_HPP_ */

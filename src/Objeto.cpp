@@ -11,10 +11,26 @@
  *	 Professor: Dr. rer.nat. Aldo von Wangenheim
  *
  *	This file is part of a project for the INE5420 Computer Graphics
- *	curse lectured in Federal University of Santa Catarina.
+ *	course lectured in Federal University of Santa Catarina.
  */
 
 #include "Objeto.hpp"
+
+std::string Objeto::getName(){
+	return nome;
+}
+
+std::string& Objeto::getTipo() {
+	return tipo;
+}
+
+std::vector<Coordenadas>* Objeto::getWorldCoordenadas(){
+	return &world_coordenadas;
+}
+
+std::vector<Coordenadas>* Objeto::getNormalizedCoordenadas(){
+	return &normalized_coordenadas;
+}
 
 void Objeto::transformaObjeto(Matriz::Matriz<double> matriz){
 	for (auto& coord : world_coordenadas){
