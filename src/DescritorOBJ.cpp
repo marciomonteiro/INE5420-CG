@@ -73,7 +73,27 @@ bool DescritorOBJ::transcrevaObjeto(Objeto* obj){
 }
 
 //TODO
+/**
+ * Lê um arquivo .obj do caminho passado como parâmetro, e cria um Objeto
+ * do tipo indicado no arquivo.
+ * \param pathToObject string que indica o caminho do arquivo .obj;
+ * \return ponteiro para o objeto criado.
+ */
 Objeto* DescritorOBJ::leiaObjetoFromPath(std::string pathToObject){
+	std::ifstream objFile(pathToObject);
+
+	if (objFile.is_open()) {
+		std::vector<Coordenadas> coords;
+		std::string nomeObjeto;
+		std::string
+
+		std::cout << "Objeto " << pathToObject << " lido e criado." << std::endl;
+		objFile.close();
+	} else {
+
+	}
+
+
 	Objeto * stopComplaining = new Ponto(std::string("dummy"), "Ponto", std::vector<Coordenadas>({Coordenadas(0, 0, 0, 0)}));
 	return stopComplaining;
 }
