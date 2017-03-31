@@ -33,7 +33,7 @@ public:
 	bool transcrevaObjeto(Objeto* obj);
 	Objeto* leiaObjetoFromPath(std::string pathToObject);
 	std::vector<std::string> getObjetosFromPath(std::string pathToObjects);
-	void criaObjetosFromPath(std::string pathToObjects);
+	void criaObjetosFromPathRoot();
 
 private:
 	std::string extensao;

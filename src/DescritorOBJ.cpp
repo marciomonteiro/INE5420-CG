@@ -16,6 +16,12 @@
 
 #include "../include/DescritorOBJ.hpp"
 
+/**
+ * Método responsável por escrever o documento .obj de um dado objeto.
+ * O resultado é um arquivo no estilo wavefront file.
+ * \param obj é um ponteiro para o objeto que será transcrito.
+ * \return bool retorna verdadeiro caso consiga criar o arquivo e false caso contrário.
+ */
 bool DescritorOBJ::transcrevaObjeto(Objeto* obj){
 	std::string objectPath = pathRoot;		// "../objetos/"
 	std::string nomeObj = obj->getName();	// "linha"
@@ -66,12 +72,17 @@ bool DescritorOBJ::transcrevaObjeto(Objeto* obj){
 	return false;
 }
 
-/*
-0bjeto* DescritorOBJ::leiaObjetoFromPath(std::string pathToObject){
-
+//TODO
+Objeto* DescritorOBJ::leiaObjetoFromPath(std::string pathToObject){
+	Objeto * stopComplaining = new Ponto(std::string("dummy"), "Ponto", std::vector<Coordenadas>({Coordenadas(0, 0, 0, 0)}));
+	return stopComplaining;
 }
-*/
 
+/**
+ * Busca os arquivos com extensao definada na classe DescritorOBJ num dado diretório.
+ * \param pathToObjects uma string que indica o caminho a ser procurado.
+ * \return nomeObjetos é um vetor com os nomes dos objetos encontrados no diretório dado.
+ */
 std::vector<std::string> DescritorOBJ::getObjetosFromPath(std::string pathToObjects){
 	std::vector<std::string> nomeObjetos;
 
@@ -94,8 +105,17 @@ std::vector<std::string> DescritorOBJ::getObjetosFromPath(std::string pathToObje
 	return nomeObjetos;
 }
 
-void criaObjetosFromPath(std::string pathToObjects){
+//TODO
+void DescritorOBJ::criaObjetosFromPathRoot(){
+	std::vector<std::string> arquivoDosObjetos = getObjetosFromPath(pathRoot);
+	std::string auxPath = pathRoot;
 
+	for(auto arquivo : arquivoDosObjetos){
+		auxPath.append(arquivo);
+		Objeto* objeto = leiaObjetoFromPath(auxPath);
+		world->adicionaObjetosNoMundo(objeto);
+		auxPath = pathRoot;
+	}
 }
 
 /**
