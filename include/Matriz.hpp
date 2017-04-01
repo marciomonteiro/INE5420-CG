@@ -52,6 +52,8 @@ namespace Matriz{
          Matriz( const Matriz<T>& );
          ~Matriz();
 
+         Matriz<T>& operator=( const Matriz<T>& );
+         
          // matrix multiplication
          Matriz<T> operator*( Matriz<T>& M ) {
             Matriz<double> v(linha, M.coluna, elementos);
@@ -97,6 +99,16 @@ namespace Matriz{
 
    template<class T>
    Matriz<T>::~Matriz(){
+   }
+
+   template<class T>
+   Matriz<T>& Matriz<T>::operator=( const Matriz<T>& cp )
+   {
+      if(cp.linha != linha && cp.coluna != coluna )
+         throw std::domain_error("Matriz op= not of same order");
+      for(unsigned i=0;i<linha*coluna;i++)
+         elementos[i] = cp.elementos[i];
+      return *this;
    }
 
    template<class T>

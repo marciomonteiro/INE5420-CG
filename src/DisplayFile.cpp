@@ -37,9 +37,14 @@ Objeto* DisplayFile::getTheObjectFromTheWorld(std::string objName){
 }
 
 std::unordered_map<std::string, Objeto* > DisplayFile::getAllObjectsFromTheWorld(){
+	std::cout<<"DisplayFile::getAllObjectsFromTheWorld()"<<std::endl;
 	return objectsInTheWorld;
 }
 
 bool DisplayFile::isEmpty(){
+	if (objectsInTheWorld.empty())
+	{
+		std::cout<<"vazio"<<std::endl;
+	}
 	return objectsInTheWorld.empty();
 }

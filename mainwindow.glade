@@ -5,7 +5,7 @@
   <object class="GtkWindow" id="MainWindow">
     <property name="name">MainWindow</property>
     <property name="width_request">500</property>
-    <property name="height_request">400</property>
+    <property name="height_request">500</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">2</property>
@@ -266,10 +266,36 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <placeholder/>
+                                      <object class="GtkButton" id="btnRotateWindowLeft">
+                                        <property name="label" translatable="yes">R E</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="xalign">0.50999999046325684</property>
+                                        <property name="yalign">0.51999998092651367</property>
+                                        <signal name="clicked" handler="btn_rotate_window_left_clicked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">0</property>
+                                        <property name="top_attach">0</property>
+                                        <property name="width">1</property>
+                                        <property name="height">1</property>
+                                      </packing>
                                     </child>
                                     <child>
-                                      <placeholder/>
+                                      <object class="GtkButton" id="button22">
+                                        <property name="label" translatable="yes">R D</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <signal name="clicked" handler="btn_rotate_window_right_clicked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">2</property>
+                                        <property name="top_attach">0</property>
+                                        <property name="width">1</property>
+                                        <property name="height">1</property>
+                                      </packing>
                                     </child>
                                   </object>
                                   <packing>
@@ -542,7 +568,7 @@
                               <object class="GtkLabel" id="label3">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Rotation</property>
+                                <property name="label" translatable="yes">Rotation window</property>
                               </object>
                             </child>
                           </object>
@@ -659,8 +685,8 @@
                 <property name="can_focus">False</property>
                 <child>
                   <object class="GtkAlignment" id="alignment5">
-                    <property name="width_request">400</property>
-                    <property name="height_request">400</property>
+                    <property name="width_request">420</property>
+                    <property name="height_request">420</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
@@ -677,7 +703,6 @@
                             <property name="sensitive">False</property>
                             <property name="can_focus">False</property>
                             <property name="double_buffered">False</property>
-                            <property name="margin_left">3</property>
                           </object>
                         </child>
                         <child type="label">
@@ -701,7 +726,7 @@
             </child>
             <child>
               <object class="GtkScrolledWindow" id="OutputWindow">
-                <property name="height_request">100</property>
+                <property name="height_request">90</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="shadow_type">in</property>

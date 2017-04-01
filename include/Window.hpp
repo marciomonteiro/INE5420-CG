@@ -20,24 +20,21 @@
 #include <iostream>
 #include "DisplayFile.hpp"
 #include "Coordenadas.hpp"
+#include "Matriz.hpp"
+#include "Transformacao2D.hpp"
 
 class Window {
 private:
 	Coordenadas *inicioDaWindow, *fimDaWindow, *centroDaWindow;
+	DisplayFile *displayfile;
 	double anguloX, anguloY, anguloZ;
+	void atualizaCentroDaWindow();
 public:
-	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim), anguloX(0), anguloY(0), anguloZ(0){
-		centroDaWindow = new Coordenadas(0,0,0,0);
-		double x, y;
-		x = (inicioDaWindow->getX() + fimDaWindow->getX())/2;
-		y = (inicioDaWindow->getY() + fimDaWindow->getY())/2;
-		centroDaWindow->setX(x);
-		centroDaWindow->setY(y);
-		centroDaWindow->setZ(0);
-		centroDaWindow->setAux(0);
-	};
-	~Window(){}
+	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world);
+	~Window(){};
+	void novoAngulo(double x, double y, double z);
 	void zoom(double porcentagem);
+	void normalizaCoordenadasDoMundo();
 	void mover(double x, double y, double z);
 	void setCoordenadas(Coordenadas* inicio, Coordenadas* fim){inicioDaWindow = inicio; fimDaWindow = fim;}
 	Coordenadas* getInicioDaWindow(){return inicioDaWindow;}

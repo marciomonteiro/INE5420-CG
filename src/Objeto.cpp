@@ -64,3 +64,19 @@ Coordenadas Objeto::centroDoObjeto(){
 	return Coordenadas(xDoCentro,yDoCentro, 0.0,0.0);
 }
 
+void Objeto::normalizaCoordenadas(Matriz::Matriz<double> normalizadora){
+	std::cout<<"Objeto::normalizaCoordenadas"<<std::endl;
+	normalized_coordenadas.clear();
+	normalized_coordenadas = world_coordenadas;
+	for (auto &coord : normalized_coordenadas){
+		std::vector<double> tmp0 = {coord.getX(), coord.getY(), 0};
+		Matriz::Matriz<double> tmp = Matriz::Matriz<double>(1u,3u,tmp0);
+		Matriz::Matriz<double> tmp2 = tmp * normalizadora;
+		coord.setX(tmp2(0,0));
+		coord.setY(tmp2(0,1));
+		coord.setZ(0.0);
+		coord.setAux(0.0);
+		normalized_coordenadas.push_back(coord);
+	}
+}
+

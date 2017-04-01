@@ -17,11 +17,11 @@
 #include "../include/Viewport.hpp"
 
 void Viewport::transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas fimDaWindow, DisplayFile* displayFile){
-	for (auto obj : displayFile->getAllObjectsFromTheWorld()){
+	std::cout<<"Viewport::transformada"<<std::endl;
+	for (auto obj : displayFile->instancia().getAllObjectsFromTheWorld()){
 		std::vector<Coordenadas> coordenadasDaViewPort;
-		std::vector<Coordenadas>* coordsObjeto = obj.second->getWorldCoordenadas();
-		for (auto coordenadas_objeto : *coordsObjeto)
-		{
+		std::vector<Coordenadas>* coordsObjeto = obj.second->getNormalizedCoordenadas();//getWorldCoordenadas();
+		for (auto coordenadas_objeto : *coordsObjeto){
 			coordenadas_objeto = calcCoordTransf(inicioDaWindow, fimDaWindow, coordenadas_objeto);
 			coordenadasDaViewPort.push_back(coordenadas_objeto);
 		}
@@ -29,8 +29,22 @@ void Viewport::transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas
 	}
 }
 
+void Viewport::desenhaEnquadramento(cairo_t* cr){
+
+	cairo_set_line_width(cr, 1);
+	cairo_move_to(cr, coordenadas_minimas.getX() + tamBorda, coordenadas_minimas.getY() + tamBorda);
+	cairo_line_to(cr, coordenadas_minimas.getX() + tamBorda, coordenadas_maximas.getY() - tamBorda);
+	cairo_line_to(cr, coordenadas_maximas.getX() - tamBorda, coordenadas_maximas.getY() - tamBorda);
+	cairo_line_to(cr, coordenadas_maximas.getX() - tamBorda, coordenadas_minimas.getY() + tamBorda);
+	cairo_line_to(cr, coordenadas_minimas.getX() + tamBorda, coordenadas_minimas.getY() + tamBorda);
+	cairo_stroke(cr);
+}
+
 Coordenadas Viewport::calcCoordTransf(Coordenadas inicioDaWindow, Coordenadas fimDaWindow, Coordenadas coordenadas_objeto){
-	double xViewport = ((coordenadas_objeto.getX() - inicioDaWindow.getX())/(fimDaWindow.getX() - inicioDaWindow.getX()))*(coordenadas_maximas.getX() - coordenadas_minimas.getX());
-	double yViewport = (1 - ((coordenadas_objeto.getY() - inicioDaWindow.getY())/(fimDaWindow.getY() - inicioDaWindow.getY())))*(coordenadas_maximas.getY() - coordenadas_minimas.getY());
+	double xViewport = 0.0;
+	double yViewport = 0.0;
+	xViewport = ((coordenadas_objeto.getX() - inicioDaWindow.getX())/(fimDaWindow.getX() - inicioDaWindow.getX()))*(coordenadas_maximas.getX() - coordenadas_minimas.getX());
+	yViewport = (1 - ((coordenadas_objeto.getY() - inicioDaWindow.getY())/(fimDaWindow.getY() - inicioDaWindow.getY())))*(coordenadas_maximas.getY() - coordenadas_minimas.getY());
+	std::cout<<"transformada viewport x: "<<xViewport<<" y: "<<yViewport<<std::endl;
 	return Coordenadas(xViewport, yViewport, 0, 0);
 }

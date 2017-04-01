@@ -23,6 +23,7 @@
 #include <vector>
 #include "Coordenadas.hpp"
 #include "Matriz.hpp"
+#include "Transformacao2D.hpp"
 
 class Objeto{
 private:
@@ -36,15 +37,14 @@ protected:
 public:
 	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas) : nome(nomeObjeto), tipo(tipoObjeto), world_coordenadas(coordenadas), normalized_coordenadas(coordenadas){};
 	virtual ~Objeto(){};
-
 	std::string getName();
 	std::string& getTipo();
 	std::vector<Coordenadas>* getWorldCoordenadas();
 	std::vector<Coordenadas>* getNormalizedCoordenadas();
-
-	virtual void desenhar(cairo_t* surf, std::vector<Coordenadas> coords) = 0;	//=0 obriga implementar desenhar
 	void transformaObjeto(Matriz::Matriz<double> matriz);
 	Coordenadas centroDoObjeto();
+	void normalizaCoordenadas(Matriz::Matriz<double> normalizadora);
+	virtual void desenhar(cairo_t* surf, std::vector<Coordenadas> coords) = 0;	//=0 obriga implementar desenhar
 };
 #endif /* INCLUDE_OBJETO_HPP_ */
 
