@@ -153,13 +153,13 @@ void printCommandLogs(const char* text) {
 
 extern "C" G_MODULE_EXPORT void btn_rotate_window_left_clicked(){
 	printCommandLogs("btn_rotate_window_left_clicked\n");
-	windowP->novoAngulo(-10, 0, 0);
+	windowP->novoAngulo(10, 0, 0);
 	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_rotate_window_right_clicked(){
 	printCommandLogs("btn_rotate_window_right_clicked\n");
-	windowP->novoAngulo(10, 0, 0);
+	windowP->novoAngulo(-10, 0, 0);
 	repaintWindow();
 }
 
@@ -227,7 +227,7 @@ extern "C" G_MODULE_EXPORT void btn_remove_object_actived(){
 	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "RemoveObjectName"));
 	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
 	if (strcmp(entryStepText, "") == 0) {
-		printCommandLogs("Erro: texto nulo\n");
+		printCommandLogs("Erro: Nome do objeto não informado\n");
 		return;
 	}
 	gtk_widget_hide(windowRemove);
@@ -304,7 +304,9 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	if (!world->adicionaObjetosNoMundo(linha)) {
 		printCommandLogs("Erro: Linha já existe\n");
 		return;
-	}	repaintWindow ();
+	}
+	windowP->normalizaCoordenadasDoMundo();
+	repaintWindow ();
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
@@ -314,6 +316,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
 	const char *entryWireframeName = gtk_entry_get_text (entryNameNewWireframe);
 	if (strcmp(entryWireframeName, "") == 0) {
 		printCommandLogs("Erro: Poligono sem nome\n");
+		wireframeCoords.clear();
 		return;
 	}
 	wireframeCoords.push_back(wireframeCoords.front());
@@ -322,9 +325,12 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
 	descritor->transcrevaObjeto(poligono);
 	if (!world->adicionaObjetosNoMundo(poligono)) {
 		printCommandLogs("Erro: Poligono já existe\n");
+		wireframeCoords.clear();
 		return;
 	}
-	repaintWindow ();
+	windowP->normalizaCoordenadasDoMundo();
+	wireframeCoords.clear();
+	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived(){
@@ -385,6 +391,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto(){
 	// double ZEscalona = atof(entryZEscalonaAux);
 
 	gtk_widget_hide(windowEscalona);
+	if (strcmp(entryObjetoName, "") == 0) {
+		printCommandLogs("Erro: Nome do objeto não informado\n");
+		return;
+	}
 	world->scalonarObjeto(std::string(entryObjetoName),Transformacao2D::escalonamento(XEscalona, YEscalona));
 	repaintWindow();
 }
@@ -397,7 +407,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto(){
 	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
 	const char *entryAngleRotate = gtk_entry_get_text (entryAngleRotaciona);
 	double angulo = atof(entryAngleRotate);
-
+	if (strcmp(entryObjetoName, "") == 0) {
+		printCommandLogs("Erro: Nome do objeto não informado\n");
+		return;
+	}
 	GtkToggleButton *BotaoCentroDoMundo = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaoCentroDoMundo"));
 	GtkToggleButton *BotaCentroDoObjeto = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaCentroDoObjeto"));
 	gtk_widget_hide(windowRotaciona);
@@ -471,26 +484,44 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
 	printCommandLogs("btn_ok_insert_curve_actived\n");
 }
 
-// I don't know if this function is really necessary
-extern "C" G_MODULE_EXPORT void btn_get_step_in_clicked(){
-	printCommandLogs("btn_get_step_in_clicked\n");
+extern "C" G_MODULE_EXPORT void btn_rotate_left_by_clicked(){
+	printCommandLogs("btn_rotate_left_by_clicked\n");
+	double angulo;
+	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
+	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
+	if (strcmp(entryStepText, "") == 0) {
+		printCommandLogs("Erro: angulo não informado\n");
+		angulo = 0;
+	} else 
+		angulo = atof(entryStepText);
+	windowP->novoAngulo(angulo, 0, 0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_rotate_right_by_clicked(){
+	printCommandLogs("btn_rotate_right_by_clicked\n");
+	double angulo; 
+	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
+	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
+	if (strcmp(entryStepText, "") == 0) {
+		printCommandLogs("Erro: angulo não informado\n");
+		angulo = 0;
+	} else 
+		angulo = atof(entryStepText);
+	windowP->novoAngulo(-angulo, 0, 0);
+	repaintWindow();
 }
 
 // I don't know if this function is really necessary
-extern "C" G_MODULE_EXPORT void btn_get_step_out_clicked(){
-	printCommandLogs("btn_get_step_out_clicked\n");
-}
-
-// I don't know if this function is really necessary
-// extern "C" G_MODULE_EXPORT void btn_x_clicked(){
-// 	printCommandLogs("btn_x_clicked\n");
+extern "C" G_MODULE_EXPORT void btn_x_clicked(){
+	printCommandLogs("btn_x_clicked\n");
 // 	GtkEntry *entryDegrees = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryDegreesSize"));
 // 	const char *entryDegreesText = (char*) gtk_entry_get_text (entryDegrees);
 // 	double angulo = atof(entryDegreesText);
 // 	windowP->novoAngulo(atof(entryDegreesText), 0, 0);
 // 	repaintWindow();
 // 	// printf("Step: %d\n", atof(entryDegreesText) );
-// }
+}
 
 // I don't know if this function is really necessary
 extern "C" G_MODULE_EXPORT void btn_y_clicked(){

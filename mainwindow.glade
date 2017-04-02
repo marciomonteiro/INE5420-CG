@@ -314,7 +314,7 @@
                                         <property name="height_request">10</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">Step (%):</property>
+                                        <property name="label" translatable="yes">R W Graus: </property>
                                       </object>
                                       <packing>
                                         <property name="x">15</property>
@@ -323,13 +323,14 @@
                                     </child>
                                     <child>
                                       <object class="GtkButton" id="InButton">
-                                        <property name="label" translatable="yes">In</property>
+                                        <property name="label" translatable="yes">R E</property>
                                         <property name="width_request">20</property>
                                         <property name="height_request">10</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <signal name="clicked" handler="btn_get_step_in_clicked" swapped="no"/>
+                                        <property name="xalign">0.47999998927116394</property>
+                                        <signal name="clicked" handler="btn_rotate_left_by_clicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="y">30</property>
@@ -337,14 +338,14 @@
                                     </child>
                                     <child>
                                       <object class="GtkButton" id="OutButton">
-                                        <property name="label" translatable="yes">Out</property>
+                                        <property name="label" translatable="yes">R D</property>
                                         <property name="width_request">20</property>
                                         <property name="height_request">10</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
                                         <property name="xalign">0.49000000953674316</property>
-                                        <signal name="clicked" handler="btn_get_step_out_clicked" swapped="no"/>
+                                        <signal name="clicked" handler="btn_rotate_right_by_clicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="x">79</property>
