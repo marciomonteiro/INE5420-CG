@@ -17,9 +17,6 @@
 #include "../include/formas/Linha.hpp"
 
 void Linha::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){
-	std::cout<<"Linha::desenhar"<<std::endl;
-	std::cout<<"coords[0].getX() "<<coords[0].getX()<<" coords[0].getY() "<<coords[0].getY()<<std::endl;
-	std::cout<<"coords[1].getX() "<<coords[1].getX()<<" coords[1].getY() "<<coords[1].getY()<<std::endl;
 	cairo_set_line_width(cr, 1);
 	cairo_move_to(cr, coords[0].getX(), coords[0].getY());
 	cairo_line_to (cr, coords[1].getX(), coords[1].getY());

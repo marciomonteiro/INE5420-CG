@@ -17,10 +17,9 @@
 #include "../include/Viewport.hpp"
 
 void Viewport::transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas fimDaWindow, DisplayFile* displayFile){
-	std::cout<<"Viewport::transformada"<<std::endl;
 	for (auto obj : displayFile->instancia().getAllObjectsFromTheWorld()){
 		std::vector<Coordenadas> coordenadasDaViewPort;
-		std::vector<Coordenadas>* coordsObjeto = obj.second->getNormalizedCoordenadas();//getWorldCoordenadas();
+		std::vector<Coordenadas>* coordsObjeto = obj.second->getNormalizedCoordenadas();
 		for (auto coordenadas_objeto : *coordsObjeto){
 			coordenadas_objeto = calcCoordTransf(inicioDaWindow, fimDaWindow, coordenadas_objeto);
 			coordenadasDaViewPort.push_back(coordenadas_objeto);
@@ -45,6 +44,5 @@ Coordenadas Viewport::calcCoordTransf(Coordenadas inicioDaWindow, Coordenadas fi
 	double yViewport = 0.0;
 	xViewport = ((coordenadas_objeto.getX() - inicioDaWindow.getX())/(fimDaWindow.getX() - inicioDaWindow.getX()))*(coordenadas_maximas.getX() - coordenadas_minimas.getX());
 	yViewport = (1 - ((coordenadas_objeto.getY() - inicioDaWindow.getY())/(fimDaWindow.getY() - inicioDaWindow.getY())))*(coordenadas_maximas.getY() - coordenadas_minimas.getY());
-	std::cout<<"transformada viewport x: "<<xViewport<<" y: "<<yViewport<<std::endl;
 	return Coordenadas(xViewport, yViewport, 0, 0);
 }

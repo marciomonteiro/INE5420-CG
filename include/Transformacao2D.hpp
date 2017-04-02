@@ -23,10 +23,7 @@
 #include <vector>
 #include "Matriz.hpp"
 
-class Transformacao2D {
-public:
-	Transformacao2D(){}
-	~Transformacao2D(){};
+namespace Transformacao2D {
 	Matriz::Matriz<double> translacao(double dx, double dy);
 	Matriz::Matriz<double> escalonamento(double sx, double sy);
 	Matriz::Matriz<double> rotacao(double graus);
