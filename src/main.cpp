@@ -29,7 +29,7 @@
 #include "formas/Ponto.hpp"
 #include "formas/Linha.hpp"
 #include "formas/Poligono.hpp"
-// #include "DescritorOBJ.hpp"
+#include "DescritorOBJ.hpp"
 
 /**
  * Note: You need to add the flag "-std=c++11" to the command "g++..."
@@ -55,7 +55,7 @@ Window *windowP;
 World *world;
 Viewport *viewportP;
 DisplayFile *displayFile;
-// DescritorOBJ *descritor;
+DescritorOBJ *descritor;
 
 //Gtk and beyond
 GtkBuilder *gtkBuilder;
@@ -260,7 +260,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
 
 	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
 	gtk_widget_hide(windowInsertion);
-	// descritor->transcrevaObjeto(ponto);
+	descritor->transcrevaObjeto(ponto);
 	if (!world->adicionaObjetosNoMundo(ponto)) {
 		printCommandLogs("Erro: Ponto já existe\n");
 		return;
@@ -299,7 +299,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	// double Z2Line= atof(entryZ2LineAux);
 
 	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
-	// descritor->transcrevaObjeto(linha);
+	descritor->transcrevaObjeto(linha);
 	gtk_widget_hide(windowInsertion);
 	if (!world->adicionaObjetosNoMundo(linha)) {
 		printCommandLogs("Erro: Linha já existe\n");
@@ -319,7 +319,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
 	wireframeCoords.push_back(wireframeCoords.front());
 	Poligono * poligono = new Poligono(std::string(entryWireframeName), "Poligono", wireframeCoords);
 	gtk_widget_hide(windowInsertion);
-	// descritor->transcrevaObjeto(poligono);
+	descritor->transcrevaObjeto(poligono);
 	if (!world->adicionaObjetosNoMundo(poligono)) {
 		printCommandLogs("Erro: Poligono já existe\n");
 		return;
@@ -539,7 +539,9 @@ int main(int argc, char *argv[]){
 	windowP = &cWindow;
 	World wd = World();
 	world = &wd;
-	// descritor = new DescritorOBJ();
+	descritor = new DescritorOBJ(&wd);
+	descritor->criaObjetosFromPathRoot();
+	repaintWindow();
 
 	g_signal_connect(drawing_area, "draw", G_CALLBACK(on_draw_event), NULL);
 	g_signal_connect (drawing_area, "draw", G_CALLBACK (drawWindow), NULL);
