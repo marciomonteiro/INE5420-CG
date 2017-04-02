@@ -21,6 +21,7 @@
 #include <gtk/gtk.h>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "Coordenadas.hpp"
 #include "Matriz.hpp"
 #include "Transformacao2D.hpp"
@@ -33,9 +34,9 @@ private:
 
 protected:
 	void setName(std::string& name);
-	void setTipo(std::string& tipo);
+	void setTipo(std::string& type);
 public:
-	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas) : nome(nomeObjeto), tipo(tipoObjeto), world_coordenadas(coordenadas), normalized_coordenadas(coordenadas){};
+	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas);
 	virtual ~Objeto(){};
 	std::string getName();
 	std::string& getTipo();
