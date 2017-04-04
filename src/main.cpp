@@ -578,8 +578,15 @@ int main(int argc, char *argv[]){
 	descritor = new DescritorOBJ(&wd);
 
 	g_signal_connect(drawing_area, "draw", G_CALLBACK(on_draw_event), NULL);
-	g_signal_connect (drawing_area, "draw", G_CALLBACK (drawWindow), NULL);
-	g_signal_connect (drawing_area,"configure-event", G_CALLBACK (configure_event_cb), NULL);
+	g_signal_connect(drawing_area, "draw", G_CALLBACK (drawWindow), NULL);
+	g_signal_connect(drawing_area,"configure-event", G_CALLBACK (configure_event_cb), NULL);
+	g_signal_connect(windowInsertion, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+	g_signal_connect(windowRemove, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+	g_signal_connect(outputCommandsShell, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+	g_signal_connect(windowTranslacao, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+	g_signal_connect(windowEscalona, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+	g_signal_connect(windowRotaciona, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+
 
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 	gtk_widget_show_all(window_widget);
