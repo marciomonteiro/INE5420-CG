@@ -59,10 +59,7 @@ DescritorOBJ *descritor;
 
 //Gtk and beyond
 GtkBuilder *gtkBuilder;
-
 GtkWidget *window_widget;
-
-std::vector<Coordenadas> wireframeCoords;
 
 //RightPanel
 GtkWidget *drawing_area;
@@ -76,15 +73,12 @@ GtkWidget *windowEscalona;
 GtkWidget *windowListaObjetos;
 GtkWidget *windowRotaciona;
 
-GtkWidget *windowFileChooser;
-GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
-
 GtkTextBuffer *buffer;
+std::vector<Coordenadas> wireframeCoords;
 
 Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
 Coordenadas fim = Coordenadas(420.0,420.0,0.0,0.0);
 double tamBorda = 10;
-// char *fileName = "";
 
 static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
   cairo_set_source_surface (cr, surface, 0, 0);
@@ -137,7 +131,7 @@ static gboolean configure_event_cb (GtkWidget *widget, GdkEventConfigure *event,
 }
 
 /* Redraw the screen from the surface */
-void repaintWindow (){
+void repaintWindow(){
 	cairo_t *cr;
 	clear_surface();
 	cr = cairo_create (surface);
@@ -169,11 +163,14 @@ extern "C" G_MODULE_EXPORT void btn_rotate_window_right_clicked(){
 
 extern "C" G_MODULE_EXPORT void btn_save_file_obj_actived () {
 	printCommandLogs("btn_save_file_obj_actived\n");
+	for (auto &objetos : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld())
+		descritor->transcrevaObjeto(objetos.second);
 }
 
 extern "C" G_MODULE_EXPORT void btn_open_file_obj_actived () {
 	printCommandLogs("btn_open_file_obj_actived\n");
 	descritor->criaObjetosFromPathRoot();
+	windowP->normalizaCoordenadasDoMundo();
 	repaintWindow();
 }
 
@@ -222,6 +219,81 @@ extern "C" G_MODULE_EXPORT void rotaciona_object_window () {
 	gtk_widget_show(windowRotaciona);
 }
 
+extern "C" G_MODULE_EXPORT void btn_up_clicked(){
+	printCommandLogs("btn_up_clicked\n");
+	windowP->mover(0,10,0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_down_clicked(){
+	printCommandLogs("btn_down_clicked\n");
+	windowP->mover(0,-10,0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_left_clicked(){
+	printCommandLogs("btn_left_clicked\n");
+	windowP->mover(-10,0,0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_right_clicked(){
+	printCommandLogs("btn_right_clicked\n");
+	windowP->mover(10,0,0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked(){
+	printCommandLogs("btn_zoom_in_clicked\n");
+	windowP->zoom(0.9);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
+	printCommandLogs("btn_zoom_out_clicked\n");
+	windowP->zoom(1.1);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived(){
+	printCommandLogs("btn_reset_zoom_actived\n");
+	inicio = Coordenadas(0.0,0.0,0.0,0.0);
+	fim = Coordenadas(420.0,420.0,0.0,0.0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
+	printCommandLogs("btn_ok_insert_curve_actived\n");
+}
+
+extern "C" G_MODULE_EXPORT void btn_rotate_left_by_clicked(){
+	printCommandLogs("btn_rotate_left_by_clicked\n");
+	double angulo;
+	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
+	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
+	if (strcmp(entryStepText, "") == 0) {
+		printCommandLogs("Erro: angulo não informado\n");
+		angulo = 0;
+	} else 
+		angulo = atof(entryStepText);
+	windowP->novoAngulo(angulo, 0, 0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_rotate_right_by_clicked(){
+	printCommandLogs("btn_rotate_right_by_clicked\n");
+	double angulo; 
+	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
+	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
+	if (strcmp(entryStepText, "") == 0) {
+		printCommandLogs("Erro: angulo não informado\n");
+		angulo = 0;
+	} else 
+	angulo = atof(entryStepText);
+	windowP->novoAngulo(-angulo, 0, 0);
+	repaintWindow();
+}
+
 extern "C" G_MODULE_EXPORT void get_text_step(){
 	printCommandLogs("get_text_step\n");
 	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
@@ -248,7 +320,7 @@ extern "C" G_MODULE_EXPORT void btn_remove_object_actived(){
 	if (!world->getDisplayfile()->isEmpty())
 	{
 		world->removeObjetosNoMundo(entryStepText);
-		repaintWindow ();
+		repaintWindow();
 	}
 }
 
@@ -274,12 +346,12 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
 
 	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
 	gtk_widget_hide(windowInsertion);
-	descritor->transcrevaObjeto(ponto);
+	// descritor->transcrevaObjeto(ponto);
 	if (!world->adicionaObjetosNoMundo(ponto)) {
 		printCommandLogs("Erro: Ponto já existe\n");
 		return;
 	}
-	repaintWindow ();
+	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
@@ -313,14 +385,14 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	// double Z2Line= atof(entryZ2LineAux);
 
 	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
-	descritor->transcrevaObjeto(linha);
+	// descritor->transcrevaObjeto(linha);
 	gtk_widget_hide(windowInsertion);
 	if (!world->adicionaObjetosNoMundo(linha)) {
 		printCommandLogs("Erro: Linha já existe\n");
 		return;
 	}
 	windowP->normalizaCoordenadasDoMundo();
-	repaintWindow ();
+	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
@@ -336,7 +408,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
 	wireframeCoords.push_back(wireframeCoords.front());
 	Poligono * poligono = new Poligono(std::string(entryWireframeName), "Poligono", wireframeCoords);
 	gtk_widget_hide(windowInsertion);
-	descritor->transcrevaObjeto(poligono);
+	// descritor->transcrevaObjeto(poligono);
 	if (!world->adicionaObjetosNoMundo(poligono)) {
 		printCommandLogs("Erro: Poligono já existe\n");
 		wireframeCoords.clear();
@@ -451,81 +523,6 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto(){
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_up_clicked(){
-	printCommandLogs("btn_up_clicked\n");
-	windowP->mover(0,10,0);
-	repaintWindow ();
-}
-
-extern "C" G_MODULE_EXPORT void btn_down_clicked(){
-	printCommandLogs("btn_down_clicked\n");
-	windowP->mover(0,-10,0);
-	repaintWindow ();
-}
-
-extern "C" G_MODULE_EXPORT void btn_left_clicked(){
-	printCommandLogs("btn_left_clicked\n");
-	windowP->mover(-10,0,0);
-	repaintWindow ();
-}
-
-extern "C" G_MODULE_EXPORT void btn_right_clicked(){
-	printCommandLogs("btn_right_clicked\n");
-	windowP->mover(10,0,0);
-	repaintWindow ();
-}
-
-extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked(){
-	printCommandLogs("btn_zoom_in_clicked\n");
-	windowP->zoom(0.9);
-	repaintWindow ();
-}
-
-extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
-	printCommandLogs("btn_zoom_out_clicked\n");
-	windowP->zoom(1.1);
-	repaintWindow ();
-}
-
-extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived(){
-	printCommandLogs("btn_reset_zoom_actived\n");
-	inicio = Coordenadas(0.0,0.0,0.0,0.0);
-	fim = Coordenadas(420.0,420.0,0.0,0.0);
-	repaintWindow ();
-}
-
-extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
-	printCommandLogs("btn_ok_insert_curve_actived\n");
-}
-
-extern "C" G_MODULE_EXPORT void btn_rotate_left_by_clicked(){
-	printCommandLogs("btn_rotate_left_by_clicked\n");
-	double angulo;
-	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
-	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
-	if (strcmp(entryStepText, "") == 0) {
-		printCommandLogs("Erro: angulo não informado\n");
-		angulo = 0;
-	} else 
-		angulo = atof(entryStepText);
-	windowP->novoAngulo(angulo, 0, 0);
-	repaintWindow();
-}
-
-extern "C" G_MODULE_EXPORT void btn_rotate_right_by_clicked(){
-	printCommandLogs("btn_rotate_right_by_clicked\n");
-	double angulo; 
-	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
-	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
-	if (strcmp(entryStepText, "") == 0) {
-		printCommandLogs("Erro: angulo não informado\n");
-		angulo = 0;
-	} else 
-		angulo = atof(entryStepText);
-	windowP->novoAngulo(-angulo, 0, 0);
-	repaintWindow();
-}
-
 // I don't know if this function is really necessary
 extern "C" G_MODULE_EXPORT void btn_x_clicked(){
 	printCommandLogs("btn_x_clicked\n");
@@ -563,7 +560,6 @@ int main(int argc, char *argv[]){
 	windowEscalona = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowEscalonamento"));
 	windowRotaciona = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowRotaciona"));
 	windowListaObjetos = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "ObjectsInTheWorldInterface"));
-	// windowFileChooser = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "fileChooserDialog"));
 
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(windowListaObjetos), FALSE);
 	buffer = gtk_text_buffer_new(NULL);
