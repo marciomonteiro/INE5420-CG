@@ -58,10 +58,7 @@ void Objeto::transformaObjeto(Matriz::Matriz<double> matriz){
 		std::vector<double> tmp0 = {coord.getX(), coord.getY(), 1};
 		Matriz::Matriz<double> tmp = Matriz::Matriz<double>(1u,3u,tmp0);
 		Matriz::Matriz<double> tmp2 = tmp * matriz;
-		coord.setX(tmp2(0,0));
-		coord.setY(tmp2(0,1));
-		coord.setZ(0.0);
-		coord.setAux(0.0);
+		coord.setAll(tmp2(0,0), tmp2(0,1), 0.0);
 	}
 }
 
@@ -74,7 +71,7 @@ Coordenadas Objeto::centroDoObjeto(){
 	}
 	xDoCentro = xDoCentro/world_coordenadas.size();
 	yDoCentro = yDoCentro/world_coordenadas.size();
-	return Coordenadas(xDoCentro,yDoCentro, 0.0,0.0);
+	return Coordenadas(xDoCentro,yDoCentro, 0.0, 0.0);
 }
 
 void Objeto::normalizaCoordenadas(Matriz::Matriz<double> normalizadora){
@@ -84,10 +81,7 @@ void Objeto::normalizaCoordenadas(Matriz::Matriz<double> normalizadora){
 		std::vector<double> tmp0 = {coord.getX(), coord.getY(), 1};
 		Matriz::Matriz<double> tmp = Matriz::Matriz<double>(1u,3u,tmp0);
 		Matriz::Matriz<double> tmp2 = tmp * normalizadora;
-		coord.setX(tmp2(0,0));
-		coord.setY(tmp2(0,1));
-		coord.setZ(1);
-		coord.setAux(1);
+		coord.setAll(tmp2(0,0), tmp2(0,1), 1);
 		normalized_coordenadas.push_back(coord);
 	}
 }

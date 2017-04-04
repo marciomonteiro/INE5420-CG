@@ -29,22 +29,18 @@
 #include "formas/Poligono.hpp"
 
 class DescritorOBJ {
+private:
+	std::string extensao;
+	std::string pathRoot;
+	World * world;
 public:
-
 	DescritorOBJ(World* mundo) : extensao(".obj"), pathRoot("./objetos/"), world(mundo){}
 	~DescritorOBJ(){}
-
 	bool transcrevaObjeto(Objeto* obj);
 	void leiaObjetoFromPath(std::string pathToObject);
 	std::vector<std::string> getObjetosFromPath(std::string pathToObjects);
 	void criaObjetosFromPathRoot();
 	void criaObjetoEadicionaNoMundo(std::string nome, std::string tipo, std::vector<Coordenadas> coordenadas);
-
-
-private:
-	std::string extensao;
-	std::string pathRoot;
-	World * world;
 };
 
 

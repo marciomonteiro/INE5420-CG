@@ -76,11 +76,15 @@ GtkWidget *windowEscalona;
 GtkWidget *windowListaObjetos;
 GtkWidget *windowRotaciona;
 
+GtkWidget *windowFileChooser;
+GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
+
 GtkTextBuffer *buffer;
 
 Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
 Coordenadas fim = Coordenadas(420.0,420.0,0.0,0.0);
 double tamBorda = 10;
+// char *fileName = "";
 
 static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
   cairo_set_source_surface (cr, surface, 0, 0);
@@ -160,6 +164,16 @@ extern "C" G_MODULE_EXPORT void btn_rotate_window_left_clicked(){
 extern "C" G_MODULE_EXPORT void btn_rotate_window_right_clicked(){
 	printCommandLogs("btn_rotate_window_right_clicked\n");
 	windowP->novoAngulo(-10, 0, 0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_save_file_obj_actived () {
+	printCommandLogs("btn_save_file_obj_actived\n");
+}
+
+extern "C" G_MODULE_EXPORT void btn_open_file_obj_actived () {
+	printCommandLogs("btn_open_file_obj_actived\n");
+	descritor->criaObjetosFromPathRoot();
 	repaintWindow();
 }
 
@@ -515,12 +529,6 @@ extern "C" G_MODULE_EXPORT void btn_rotate_right_by_clicked(){
 // I don't know if this function is really necessary
 extern "C" G_MODULE_EXPORT void btn_x_clicked(){
 	printCommandLogs("btn_x_clicked\n");
-// 	GtkEntry *entryDegrees = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryDegreesSize"));
-// 	const char *entryDegreesText = (char*) gtk_entry_get_text (entryDegrees);
-// 	double angulo = atof(entryDegreesText);
-// 	windowP->novoAngulo(atof(entryDegreesText), 0, 0);
-// 	repaintWindow();
-// 	// printf("Step: %d\n", atof(entryDegreesText) );
 }
 
 // I don't know if this function is really necessary
@@ -555,6 +563,7 @@ int main(int argc, char *argv[]){
 	windowEscalona = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowEscalonamento"));
 	windowRotaciona = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowRotaciona"));
 	windowListaObjetos = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "ObjectsInTheWorldInterface"));
+	// windowFileChooser = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "fileChooserDialog"));
 
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(windowListaObjetos), FALSE);
 	buffer = gtk_text_buffer_new(NULL);
@@ -571,8 +580,6 @@ int main(int argc, char *argv[]){
 	World wd = World();
 	world = &wd;
 	descritor = new DescritorOBJ(&wd);
-	descritor->criaObjetosFromPathRoot();
-	repaintWindow();
 
 	g_signal_connect(drawing_area, "draw", G_CALLBACK(on_draw_event), NULL);
 	g_signal_connect (drawing_area, "draw", G_CALLBACK (drawWindow), NULL);

@@ -25,6 +25,7 @@ public:
 	Coordenadas(double xE, double yE, double zE, double auxE) : x(xE), y(yE), z(zE), aux(auxE) {};
 	~Coordenadas(){};
 
+	void setAll(double x, double y, double z);
 	void setX(double x);
 	void setY(double y);
 	void setZ(double z);

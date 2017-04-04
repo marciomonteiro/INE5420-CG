@@ -43,8 +43,7 @@ void Window::normalizaCoordenadasDoMundo(){
 }
 
 void Window::atualizaCentroDaWindow(){
-	centroDaWindow->setX((fimDaWindow->getX() + inicioDaWindow->getX())/2);
-	centroDaWindow->setY((fimDaWindow->getY() + inicioDaWindow->getY())/2);
+	centroDaWindow->setAll((fimDaWindow->getX() + inicioDaWindow->getX())/2, (fimDaWindow->getY() + inicioDaWindow->getY())/2, 0.0);
 }
 
 void Window::zoom(double porcentagem){
@@ -52,16 +51,12 @@ void Window::zoom(double porcentagem){
 	double alturaDaWindow = fimDaWindow->getY() - inicioDaWindow->getY();
 	larguraDaWindow = larguraDaWindow * porcentagem;
 	alturaDaWindow = alturaDaWindow * porcentagem;
-	inicioDaWindow->setX(centroDaWindow->getX() - larguraDaWindow/2);
-	inicioDaWindow->setY(centroDaWindow->getY() - alturaDaWindow/2);
-	fimDaWindow->setX(centroDaWindow->getX() + larguraDaWindow/2);
-	fimDaWindow->setY(centroDaWindow->getY() + alturaDaWindow/2);
+	inicioDaWindow->setAll(centroDaWindow->getX() - larguraDaWindow/2, centroDaWindow->getY() - alturaDaWindow/2, 0.0);
+	fimDaWindow->setAll(centroDaWindow->getX() + larguraDaWindow/2, centroDaWindow->getY() + alturaDaWindow/2, 0.0);
 }
 
 void Window::mover(double x, double y, double z){
-	inicioDaWindow->setX(inicioDaWindow->getX()+x);
-	inicioDaWindow->setY(inicioDaWindow->getY()+y);
-	fimDaWindow->setX(fimDaWindow->getX()+x);
-	fimDaWindow->setY(fimDaWindow->getY()+y);
+	inicioDaWindow->setAll(inicioDaWindow->getX()+x, inicioDaWindow->getY()+y, 0.0);
+	fimDaWindow->setAll(fimDaWindow->getX()+x, fimDaWindow->getY()+y, 0.0);
 	this->atualizaCentroDaWindow();
 }
