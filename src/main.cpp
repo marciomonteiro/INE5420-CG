@@ -77,7 +77,7 @@ GtkTextBuffer *buffer;
 std::vector<Coordenadas> wireframeCoords;
 
 Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
-Coordenadas fim = Coordenadas(420.0,420.0,0.0,0.0);
+Coordenadas fim = Coordenadas(400.0,400.0,0.0,0.0);
 double tamBorda = 10;
 
 static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
@@ -136,7 +136,7 @@ void repaintWindow(){
 	clear_surface();
 	cr = cairo_create (surface);
 	windowP->normalizaCoordenadasDoMundo();
-	// viewportP->desenhaEnquadramento(cr);
+	viewportP->desenhaEnquadramento(cr);
 	viewportP->transformada(cr, Coordenadas(-1.0,-1.0,0.0,0.0), Coordenadas(1.0,1.0,0.0,0.0), world->getDisplayfile());
 	gtk_widget_queue_draw (drawing_area);
 }
@@ -258,7 +258,7 @@ extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
 extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived(){
 	printCommandLogs("btn_reset_zoom_actived\n");
 	inicio = Coordenadas(0.0,0.0,0.0,0.0);
-	fim = Coordenadas(420.0,420.0,0.0,0.0);
+	fim = Coordenadas(400.0,400.0,0.0,0.0);
 	repaintWindow();
 }
 
