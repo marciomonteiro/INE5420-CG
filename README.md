@@ -29,7 +29,6 @@ Works of computer graphics (CG) using C++.
 - Rotação
 - Sistemas de Coordenadas Homogêneas
 
-# Under development
 
 1.3 - Sistemas de Coordenadas da Window:
 
@@ -41,12 +40,31 @@ Works of computer graphics (CG) using C++.
 
 - Atualize a interface da aplicação para que o usuário possa rotacionar a window também. Como a rotação é sempre ao redor do centro da window, basta um campo para colocar o ângulo de rotação.
 
-- Este trabalho deve ser capaz de ler/escrever um mundo em formato Wavefront .obj file, devendo inluir todas as rotinas para leitura/escrita de arquivos .obj.
+- Este trabalho deve ser capaz de ler/escrever um mundo em formato Wavefront .obj file, devendo incluir todas as rotinas para leitura/escrita de arquivos .obj.
 
 Sugestões de Modelagem:
 
 - Crie uma classe DescritorOBJ capaz de transcrever um objeto gráfico para o formato .obj, tomando seu nome, seu tipo, seus vértices e suas arestas.
 - Chame o descritor para cada objeto de seu mundo.
 - Assim você só precisa se preocupar com o cabeçalho do .obj. O resto de se resove através de um percurso do display file com seu descritor.
+
+# Under development
+
+Requisitos
+
+- Clipagem:
+ -- Clipagem de Pontos
+   2 (duas) técnicas distintas de clipagem de Segmentos de Reta, à escolha, passíveis de serem intercambiadas/selecionadas pelo usuário em um checkbox.
+ 
+ --Clipagem de Polígonos (técnica à escolha).
+   Representação: Altere seu SGI para suportar clipping dos objetos do mundo:
+   Faça sua Viewport ser menor do que o objeto de desenho da linguagem de programação, com uma moldura ao seu redor. Isto facilita na visualização do clipping e na detecção de erros (como visto nas transparências, link).
+
+- Implemente o clipping de pontos, retas e polígonos wireframe utilizando um dos 3 algoritmos de clipping de retas vistos em aula.
+
+- Estenda seu SGI para suportar polígonos preenchidos, utilizando as primitivas de preenchimento da sua linguagem de programação. O usuário escolhe se o polígono é em modelo de arame ou preenchido no momento de sua criação.
+
+- Implemente o clipping de polígonos preenchidos com o algoritmo de Weiler-Atherton. Para simplificar, considere apenas polígonos sem furos (mas possivelmente côncavos).
+
 
 For more informations visit: http://www.inf.ufsc.br/~awangenh/grafica

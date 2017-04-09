@@ -24,11 +24,9 @@ class Viewport {
 private:
 	Coordenadas coordenadas_minimas;	//Xmin, Ymin, Zmin
 	Coordenadas coordenadas_maximas;	//Xmax, Ymax, Zmax
-	double tamBorda;
 	Coordenadas calcCoordTransf(Coordenadas inicioDaWindow, Coordenadas fimDaWindow, Coordenadas coordenadas_objeto);
 public:
-	Viewport(Coordenadas& inicio, Coordenadas& fim, double tamB) : coordenadas_minimas(inicio), coordenadas_maximas(fim), tamBorda(tamB) {}
-	~Viewport(){}
+	Viewport(Coordenadas inicio, Coordenadas fim) : coordenadas_minimas(inicio), coordenadas_maximas(fim) {}
 	void transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas fimDaWindow, DisplayFile* displayFile);
 	void desenhaEnquadramento(cairo_t* cr);
 };

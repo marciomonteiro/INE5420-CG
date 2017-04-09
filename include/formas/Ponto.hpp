@@ -25,5 +25,6 @@ public:
 	Ponto(std::string nomePonto, std::string tipoPonto, std::vector<Coordenadas> coordenadas) : Objeto(nomePonto, tipoPonto, coordenadas){}
 	~Ponto(){}
 	void desenhar(cairo_t* surf, std::vector<Coordenadas> coords);
+	void clipa();
 };
 #endif /* INCLUDE_FORMAS_PONTO_HPP_ */

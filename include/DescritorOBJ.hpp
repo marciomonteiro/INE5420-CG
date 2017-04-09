@@ -30,19 +30,15 @@
 
 class DescritorOBJ {
 private:
-	std::string extensao;
-	std::string pathRoot;
+	std::string log;
 	World * world;
 public:
-	DescritorOBJ(World* mundo) : extensao(".obj"), pathRoot("./objetos/"), world(mundo){}
+	DescritorOBJ(World* mundo) : log(""), world(mundo){}
 	~DescritorOBJ(){}
-	bool transcrevaObjeto(Objeto* obj);
-	void leiaObjetoFromPath(std::string pathToObject);
-	std::vector<std::string> getObjetosFromPath(std::string pathToObjects);
-	void criaObjetosFromPathRoot();
-	void criaObjetoEadicionaNoMundo(std::string nome, std::string tipo, std::vector<Coordenadas> coordenadas);
+	std::string transcrevaObjeto(Objeto* obj, std::string objectPath);
+	std::string leiaObjetoFromPath(std::string pathToObject);
+	// std::vector<std::string> getObjetosFromPath(std::string pathToObjects);
+	// void criaObjetosFromPathRoot();
+	std::string criaObjetoEadicionaNoMundo(std::string nome, std::string tipo, std::vector<Coordenadas> coordenadas);
 };
-
-
-
 #endif /* INCLUDE_DESCRITOROBJ_HPP_ */

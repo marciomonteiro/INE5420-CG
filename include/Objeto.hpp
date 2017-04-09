@@ -30,14 +30,12 @@ class Objeto{
 private:
 	std::string nome, tipo;
 	std::vector<Coordenadas> world_coordenadas;
-	std::vector<Coordenadas> normalized_coordenadas;	//Joel Santana Approves
-
 protected:
+	std::vector<Coordenadas> normalized_coordenadas;	//Joel Santana Approves
 	void setName(std::string& name);
 	void setTipo(std::string& type);
 public:
 	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas);
-	virtual ~Objeto(){};
 	std::string getName();
 	std::string& getTipo();
 	std::vector<Coordenadas>* getWorldCoordenadas();
@@ -46,6 +44,7 @@ public:
 	Coordenadas centroDoObjeto();
 	void normalizaCoordenadas(Matriz::Matriz<double> normalizadora);
 	virtual void desenhar(cairo_t* surf, std::vector<Coordenadas> coords) = 0;	//=0 obriga implementar desenhar
+	virtual void clipa() = 0;
 };
 #endif /* INCLUDE_OBJETO_HPP_ */
 

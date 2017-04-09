@@ -20,6 +20,9 @@ void Viewport::transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas
 	for (auto obj : displayFile->instancia().getAllObjectsFromTheWorld()){
 		std::vector<Coordenadas> coordenadasDaViewPort;
 		std::vector<Coordenadas>* coordsObjeto = obj.second->getNormalizedCoordenadas();
+		if (coordsObjeto->size() == 0){
+			return;
+		}
 		for (auto coordenadas_objeto : *coordsObjeto){
 			coordenadas_objeto = calcCoordTransf(inicioDaWindow, fimDaWindow, coordenadas_objeto);
 			coordenadasDaViewPort.push_back(coordenadas_objeto);
@@ -29,13 +32,12 @@ void Viewport::transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas
 }
 
 void Viewport::desenhaEnquadramento(cairo_t* cr){
-
 	cairo_set_line_width(cr, 1);
-	cairo_move_to(cr, coordenadas_minimas.getX() + tamBorda, coordenadas_minimas.getY() + tamBorda);
-	cairo_line_to(cr, coordenadas_minimas.getX() + tamBorda, coordenadas_maximas.getY() - tamBorda);
-	cairo_line_to(cr, coordenadas_maximas.getX() - tamBorda, coordenadas_maximas.getY() - tamBorda);
-	cairo_line_to(cr, coordenadas_maximas.getX() - tamBorda, coordenadas_minimas.getY() + tamBorda);
-	cairo_line_to(cr, coordenadas_minimas.getX() + tamBorda, coordenadas_minimas.getY() + tamBorda);
+	cairo_move_to(cr, coordenadas_minimas.getX(), coordenadas_minimas.getY());
+	cairo_line_to(cr, coordenadas_minimas.getX(), coordenadas_maximas.getY());
+	cairo_line_to(cr, coordenadas_maximas.getX(), coordenadas_maximas.getY());
+	cairo_line_to(cr, coordenadas_maximas.getX(), coordenadas_minimas.getY());
+	cairo_line_to(cr, coordenadas_minimas.getX(), coordenadas_minimas.getY());
 	cairo_stroke(cr);
 }
 
@@ -44,5 +46,5 @@ Coordenadas Viewport::calcCoordTransf(Coordenadas inicioDaWindow, Coordenadas fi
 	double yViewport = 0.0;
 	xViewport = ((coordenadas_objeto.getX() - inicioDaWindow.getX())/(fimDaWindow.getX() - inicioDaWindow.getX()))*(coordenadas_maximas.getX() - coordenadas_minimas.getX());
 	yViewport = (1 - ((coordenadas_objeto.getY() - inicioDaWindow.getY())/(fimDaWindow.getY() - inicioDaWindow.getY())))*(coordenadas_maximas.getY() - coordenadas_minimas.getY());
-	return Coordenadas(xViewport, yViewport, 0, 0);
+	return Coordenadas(xViewport+10, yViewport+10, 0, 0);
 }

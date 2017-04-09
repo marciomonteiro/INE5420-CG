@@ -20,7 +20,6 @@
 class Coordenadas {
 private:
 	double x, y, z, aux;
-
 public:
 	Coordenadas(double xE, double yE, double zE, double auxE) : x(xE), y(yE), z(zE), aux(auxE) {};
 	~Coordenadas(){};

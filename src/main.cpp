@@ -80,25 +80,18 @@ Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
 Coordenadas fim = Coordenadas(400.0,400.0,0.0,0.0);
 double tamBorda = 10;
 
-static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
+static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data) {
   cairo_set_source_surface (cr, surface, 0, 0);
   cairo_paint (cr);
   return FALSE;
 }
 
-/**
- * Toda vez que a função draw é chamada, ativa essa função.
- */
+/* Toda vez que a função draw é chamada, ativa essa função.*/
 static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data) {
-	cairo_set_source_surface(cr, surface, 0, 0);
-	cairo_paint(cr);
-
 	DisplayFile * aux = world->getDisplayfile();
 	std::unordered_map<std::string, Objeto*> objetos = aux->getAllObjectsFromTheWorld();
-
 	std::string print = "";
-
-	for (auto it = objetos.begin(); it != objetos.end(); it++){
+	for (auto it = objetos.begin(); it != objetos.end(); it++) {
 		print.append(it->second->getName());
 		print.append("\t");
 		print.append(it->second->getTipo());
@@ -109,8 +102,9 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data
 	gtk_text_buffer_set_text(buffer, print.c_str(), -1);
 	return FALSE;
 }
+
 /*Clear the surface, removing the scribbles*/
-static void clear_surface (){
+static void clear_surface () {
 	cairo_t *cr;
 	cr = cairo_create (surface);
 	cairo_set_source_rgb (cr, 1, 1, 1);
@@ -119,10 +113,9 @@ static void clear_surface (){
 }
 
 /*Creates the surface*/
-static gboolean configure_event_cb (GtkWidget *widget, GdkEventConfigure *event, gpointer data){
+static gboolean configure_event_cb (GtkWidget *widget, GdkEventConfigure *event, gpointer data) {
 	if (surface)
 	cairo_surface_destroy (surface);
-
 	surface = gdk_window_create_similar_surface (gtk_widget_get_window (widget), 
 		CAIRO_CONTENT_COLOR, gtk_widget_get_allocated_width (widget),
 		gtk_widget_get_allocated_height (widget));
@@ -131,12 +124,15 @@ static gboolean configure_event_cb (GtkWidget *widget, GdkEventConfigure *event,
 }
 
 /* Redraw the screen from the surface */
-void repaintWindow(){
+void repaintWindow() {
 	cairo_t *cr;
 	clear_surface();
 	cr = cairo_create (surface);
-	windowP->normalizaCoordenadasDoMundo();
+	Window::instancia().normalizaCoordenadasDoMundo();
 	viewportP->desenhaEnquadramento(cr);
+	for (auto obj : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld()) {
+		obj.second->clipa();
+	}
 	viewportP->transformada(cr, Coordenadas(-1.0,-1.0,0.0,0.0), Coordenadas(1.0,1.0,0.0,0.0), world->getDisplayfile());
 	gtk_widget_queue_draw (drawing_area);
 }
@@ -149,34 +145,70 @@ void printCommandLogs(const char* text) {
 	gtk_text_view_scroll_to_mark(outputCommandsShell, textMarks, 0, false, 0, 0);
 }
 
-extern "C" G_MODULE_EXPORT void btn_rotate_window_left_clicked(){
+extern "C" G_MODULE_EXPORT void btn_rotate_window_left_clicked() {
 	printCommandLogs("btn_rotate_window_left_clicked\n");
-	windowP->novoAngulo(10, 0, 0);
+	Window::instancia().novoAngulo(10, 0, 0);
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_rotate_window_right_clicked(){
+extern "C" G_MODULE_EXPORT void btn_rotate_window_right_clicked() {
 	printCommandLogs("btn_rotate_window_right_clicked\n");
-	windowP->novoAngulo(-10, 0, 0);
+	Window::instancia().novoAngulo(-10, 0, 0);
 	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_save_file_obj_actived () {
 	printCommandLogs("btn_save_file_obj_actived\n");
-	for (auto &objetos : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld())
-		descritor->transcrevaObjeto(objetos.second);
+	GtkWidget *escolherArquivoParaSalvar;
+	gint resposta;
+	escolherArquivoParaSalvar = gtk_file_chooser_dialog_new("Save File",
+		GTK_WINDOW(window_widget), GTK_FILE_CHOOSER_ACTION_SAVE,
+		"_Cancel", GTK_RESPONSE_CANCEL,
+		"_Open", GTK_RESPONSE_ACCEPT,
+		NULL);
+	resposta = gtk_dialog_run (GTK_DIALOG (escolherArquivoParaSalvar));
+	if (resposta == GTK_RESPONSE_ACCEPT) {
+		char *nomeDoArquivo;
+		GtkFileChooser *chooser = GTK_FILE_CHOOSER (escolherArquivoParaSalvar);
+		nomeDoArquivo = gtk_file_chooser_get_filename (chooser);
+		descritor->leiaObjetoFromPath(nomeDoArquivo);
+		for (auto &objetos : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld())
+			printCommandLogs(descritor->transcrevaObjeto(objetos.second, nomeDoArquivo).c_str());
+		g_free (nomeDoArquivo);
+	}
+	gtk_widget_destroy (escolherArquivoParaSalvar);
 }
 
 extern "C" G_MODULE_EXPORT void btn_open_file_obj_actived () {
 	printCommandLogs("btn_open_file_obj_actived\n");
-	descritor->criaObjetosFromPathRoot();
-	windowP->normalizaCoordenadasDoMundo();
-	repaintWindow();
+	GtkWidget *escolherArquivoParaAbrir;
+	gint resposta;
+	escolherArquivoParaAbrir = gtk_file_chooser_dialog_new("Open File",
+		GTK_WINDOW(window_widget), GTK_FILE_CHOOSER_ACTION_OPEN,
+		"_Cancel", GTK_RESPONSE_CANCEL,
+		"_Open", GTK_RESPONSE_ACCEPT,
+		NULL);
+	resposta = gtk_dialog_run (GTK_DIALOG (escolherArquivoParaAbrir));
+	if (resposta == GTK_RESPONSE_ACCEPT) {
+		char *nomeDoArquivo;
+		GtkFileChooser *chooser = GTK_FILE_CHOOSER (escolherArquivoParaAbrir);
+		nomeDoArquivo = gtk_file_chooser_get_filename (chooser);
+		printCommandLogs(descritor->leiaObjetoFromPath(nomeDoArquivo).c_str());
+		Window::instancia().normalizaCoordenadasDoMundo();
+		repaintWindow();
+		g_free (nomeDoArquivo);
+	}
+	gtk_widget_destroy (escolherArquivoParaAbrir);
 }
 
 extern "C" G_MODULE_EXPORT void btn_cancel_insertion_actived () {
 	printCommandLogs("btn_cancel_insertion_actived\n");
 	gtk_widget_hide(windowInsertion);
+}
+
+extern "C" G_MODULE_EXPORT void btn_cancel_remove_actived () {
+	printCommandLogs("btn_cancel_remove_actived\n");
+	gtk_widget_hide(windowRemove);
 }
 
 extern "C" G_MODULE_EXPORT void insert_new_object_window () {
@@ -219,118 +251,117 @@ extern "C" G_MODULE_EXPORT void rotaciona_object_window () {
 	gtk_widget_show(windowRotaciona);
 }
 
-extern "C" G_MODULE_EXPORT void btn_up_clicked(){
+extern "C" G_MODULE_EXPORT void btn_up_clicked() {
 	printCommandLogs("btn_up_clicked\n");
-	windowP->mover(0,10,0);
+	Window::instancia().mover(0,10,0);
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_down_clicked(){
+extern "C" G_MODULE_EXPORT void btn_down_clicked() {
 	printCommandLogs("btn_down_clicked\n");
-	windowP->mover(0,-10,0);
+	Window::instancia().mover(0,-10,0);
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_left_clicked(){
+extern "C" G_MODULE_EXPORT void btn_left_clicked() {
 	printCommandLogs("btn_left_clicked\n");
-	windowP->mover(-10,0,0);
+	Window::instancia().mover(-10,0,0);
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_right_clicked(){
+extern "C" G_MODULE_EXPORT void btn_right_clicked() {
 	printCommandLogs("btn_right_clicked\n");
-	windowP->mover(10,0,0);
+	Window::instancia().mover(10,0,0);
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked(){
+extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked() {
 	printCommandLogs("btn_zoom_in_clicked\n");
-	windowP->zoom(0.9);
+	Window::instancia().zoom(0.9);
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
+extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked() {
 	printCommandLogs("btn_zoom_out_clicked\n");
-	windowP->zoom(1.1);
+	Window::instancia().zoom(1.1);
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived(){
+extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived() {
 	printCommandLogs("btn_reset_zoom_actived\n");
-	inicio = Coordenadas(0.0,0.0,0.0,0.0);
-	fim = Coordenadas(400.0,400.0,0.0,0.0);
+	Window::instancia().setCoordsWindow(&inicio, &fim);
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
+extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived() {
 	printCommandLogs("btn_ok_insert_curve_actived\n");
 }
 
-extern "C" G_MODULE_EXPORT void btn_rotate_left_by_clicked(){
+extern "C" G_MODULE_EXPORT void btn_rotate_left_by_clicked() {
 	printCommandLogs("btn_rotate_left_by_clicked\n");
-	double angulo;
+	double angulo = 0;
 	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
 	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
 	if (strcmp(entryStepText, "") == 0) {
 		printCommandLogs("Erro: angulo não informado\n");
-		angulo = 0;
-	} else 
-		angulo = atof(entryStepText);
-	windowP->novoAngulo(angulo, 0, 0);
-	repaintWindow();
-}
-
-extern "C" G_MODULE_EXPORT void btn_rotate_right_by_clicked(){
-	printCommandLogs("btn_rotate_right_by_clicked\n");
-	double angulo; 
-	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
-	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
-	if (strcmp(entryStepText, "") == 0) {
-		printCommandLogs("Erro: angulo não informado\n");
-		angulo = 0;
-	} else 
+		return; 
+	}
 	angulo = atof(entryStepText);
-	windowP->novoAngulo(-angulo, 0, 0);
+	Window::instancia().novoAngulo(angulo, 0, 0);
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void get_text_step(){
+extern "C" G_MODULE_EXPORT void btn_rotate_right_by_clicked() {
+	printCommandLogs("btn_rotate_right_by_clicked\n");
+	double angulo = 0; 
+	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
+	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
+	if (strcmp(entryStepText, "") == 0) {
+		printCommandLogs("Erro: angulo não informado\n");
+		return;
+	}
+	angulo = atof(entryStepText);
+	Window::instancia().novoAngulo(-angulo, 0, 0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void get_text_step() {
 	printCommandLogs("get_text_step\n");
 	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
 	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
-	printf("Step: %d\n", atoi(entryStepText) );
+	printf("Step: %d\n", atoi(entryStepText));
 }
 
-extern "C" G_MODULE_EXPORT void get_text_degrees(){
+extern "C" G_MODULE_EXPORT void get_text_degrees() {
 	printCommandLogs("get_text_degrees\n");
 	GtkEntry *entryDegrees = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryDegreesSize"));
 	const char *entryDegreesText = gtk_entry_get_text (entryDegrees);
 	printf("Degrees: %f\n", atof(entryDegreesText));
 }
 
-extern "C" G_MODULE_EXPORT void btn_remove_object_actived(){
+extern "C" G_MODULE_EXPORT void btn_remove_object_actived() {
 	printCommandLogs("btn_remove_object_actived\n");
 	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "RemoveObjectName"));
 	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
+	gtk_widget_hide(windowRemove);
 	if (strcmp(entryStepText, "") == 0) {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
 		return;
 	}
-	gtk_widget_hide(windowRemove);
-	if (!world->getDisplayfile()->isEmpty())
-	{
+	if (!world->getDisplayfile()->isEmpty()) {
 		world->removeObjetosNoMundo(entryStepText);
 		repaintWindow();
 	}
 }
 
-extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
+extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived() {
 	printCommandLogs("btn_ok_insert_point_actived\n");
 	GtkEntry *entryNameNewPoint =  GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameNewPoint"));
 	GtkEntry *entryXPoint =  GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXPoint"));
 	GtkEntry *entryYPoint =  GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYPoint"));
 	// GtkEntry *entryZPoint =  GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZPoint"));
 
+	gtk_widget_hide(windowInsertion);
 	const char *entryPointName = gtk_entry_get_text (entryNameNewPoint);
 	if (strcmp(entryPointName, "") == 0) {
 		printCommandLogs("Erro: Ponto sem nome\n");
@@ -345,16 +376,15 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
 	// double zPoint= atof(entryZPointAux);
 
 	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
-	gtk_widget_hide(windowInsertion);
-	// descritor->transcrevaObjeto(ponto);
 	if (!world->adicionaObjetosNoMundo(ponto)) {
 		printCommandLogs("Erro: Ponto já existe\n");
 		return;
 	}
+	ponto->clipa();
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
+extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
 	printCommandLogs("btn_ok_insert_line_actived\n");
 
 	GtkEntry *entryNameNewLine = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameNewLine"));
@@ -365,6 +395,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	GtkEntry *entryY2Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryY2Line"));
 	// GtkEntry *entryZ2Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZ2Line"));
 
+	gtk_widget_hide(windowInsertion);
 	const char *entryLineName = gtk_entry_get_text (entryNameNewLine);
 	if (strcmp(entryLineName, "") == 0) {
 		printCommandLogs("Erro: Linha sem nome\n");
@@ -385,21 +416,21 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	// double Z2Line= atof(entryZ2LineAux);
 
 	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
-	// descritor->transcrevaObjeto(linha);
-	gtk_widget_hide(windowInsertion);
 	if (!world->adicionaObjetosNoMundo(linha)) {
 		printCommandLogs("Erro: Linha já existe\n");
 		return;
 	}
-	windowP->normalizaCoordenadasDoMundo();
+	Window::instancia().normalizaCoordenadasDoMundo();
+	linha->clipa();
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
+extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived() {
 	printCommandLogs("btn_ok_insert_wireframe_actived\n");
 
 	GtkEntry *entryNameNewWireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameNewWireframe"));
 	const char *entryWireframeName = gtk_entry_get_text (entryNameNewWireframe);
+	gtk_widget_hide(windowInsertion);
 	if (strcmp(entryWireframeName, "") == 0) {
 		printCommandLogs("Erro: Poligono sem nome\n");
 		wireframeCoords.clear();
@@ -407,19 +438,17 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
 	}
 	wireframeCoords.push_back(wireframeCoords.front());
 	Poligono * poligono = new Poligono(std::string(entryWireframeName), "Poligono", wireframeCoords);
-	gtk_widget_hide(windowInsertion);
-	// descritor->transcrevaObjeto(poligono);
 	if (!world->adicionaObjetosNoMundo(poligono)) {
 		printCommandLogs("Erro: Poligono já existe\n");
 		wireframeCoords.clear();
 		return;
 	}
-	windowP->normalizaCoordenadasDoMundo();
+	Window::instancia().normalizaCoordenadasDoMundo();
 	wireframeCoords.clear();
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived(){
+extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived() {
 	printCommandLogs("btn_ok_insert_coords_wireframe_actived\n");
 	
 	GtkEntry *entryX1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryX1Wireframe"));
@@ -437,7 +466,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived(){
 	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0.0, 0.0));
 }
 
-extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto(){
+extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 	printCommandLogs("btn_ok_translacao_objeto\n");
 	
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjeto"));
@@ -455,11 +484,15 @@ extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto(){
 	// double ZTranslacao = atof(entryZTranslacaoAux);
 
 	gtk_widget_hide(windowTranslacao);
+	if (strcmp(entryObjetoName, "") == 0) {
+		printCommandLogs("Erro: Nome do objeto não informado\n");
+		return;
+	}
 	world->transformarObjeto(std::string(entryObjetoName),Transformacao2D::translacao(XTranslacao, YTranslacao));
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto(){
+extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto() {
 	printCommandLogs("btn_ok_escalona_objeto\n");
 	
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoEsc"));
@@ -485,13 +518,14 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto(){
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto(){
+extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 	printCommandLogs("btn_ok_rotaciona_objeto\n");
 	
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoRot"));
 	GtkEntry *entryAngleRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "AngleToRotate"));
 	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
 	const char *entryAngleRotate = gtk_entry_get_text (entryAngleRotaciona);
+	gtk_widget_hide(windowRotaciona);
 	double angulo = atof(entryAngleRotate);
 	if (strcmp(entryObjetoName, "") == 0) {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
@@ -499,13 +533,12 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto(){
 	}
 	GtkToggleButton *BotaoCentroDoMundo = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaoCentroDoMundo"));
 	GtkToggleButton *BotaCentroDoObjeto = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaCentroDoObjeto"));
-	gtk_widget_hide(windowRotaciona);
 
-	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)){
+	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)) {
 		Coordenadas centroDoMundo = Coordenadas(0.0,0.0,0.0,0.0);
 		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao2D::rotacao(angulo));
 	}
-	if (gtk_toggle_button_get_active(BotaCentroDoObjeto)){
+	if (gtk_toggle_button_get_active(BotaCentroDoObjeto)) {
 		Objeto* ob = world->getDisplayfile()->getTheObjectFromTheWorld(std::string(entryObjetoName));
 		world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), Transformacao2D::rotacao(angulo));
 	} else {
@@ -524,37 +557,37 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto(){
 }
 
 // I don't know if this function is really necessary
-extern "C" G_MODULE_EXPORT void btn_x_clicked(){
+extern "C" G_MODULE_EXPORT void btn_x_clicked() {
 	printCommandLogs("btn_x_clicked\n");
 }
 
 // I don't know if this function is really necessary
-extern "C" G_MODULE_EXPORT void btn_y_clicked(){
+extern "C" G_MODULE_EXPORT void btn_y_clicked() {
 	printCommandLogs("btn_y_clicked\n");
 }
 
 // I don't know if this function is really necessary
-extern "C" G_MODULE_EXPORT void btn_z_clicked(){
+extern "C" G_MODULE_EXPORT void btn_z_clicked() {
 	printCommandLogs("btn_z_clicked\n");
 }
 
-extern "C" G_MODULE_EXPORT void btn_get_window_clicked(){
+extern "C" G_MODULE_EXPORT void btn_get_window_clicked() {
 	printCommandLogs("btn_get_window_clicked\n");
 }
 
-extern "C" G_MODULE_EXPORT void btn_parallel_actived(){
+extern "C" G_MODULE_EXPORT void btn_parallel_actived() {
 	printCommandLogs("btn_parallel_actived\n");
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
 	gtk_init(&argc, &argv);
 
 	gtkBuilder = gtk_builder_new();
 	gtk_builder_add_from_file(gtkBuilder, "mainwindow.glade", NULL);
-	window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "MainWindow") );
-	drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
-	windowInsertion = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowInsertion") );
-	windowRemove = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "removeObject") );
+	window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "MainWindow"));
+	drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area"));
+	windowInsertion = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowInsertion"));
+	windowRemove = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "removeObject"));
 	outputCommandsShell = GTK_TEXT_VIEW(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "OutputCommandsShell"));
 	windowTranslacao = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowTranslacao"));
 	windowEscalona = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowEscalonamento"));
@@ -569,10 +602,9 @@ int main(int argc, char *argv[]){
 	// inicializa o displayfile, viewport e window
 	DisplayFile dp = DisplayFile();
 	displayFile = &dp;
-	Viewport vp = Viewport(inicio, fim, tamBorda);
+	Viewport vp = Viewport(Coordenadas(tamBorda,tamBorda,0,0),Coordenadas(fim.getX()-tamBorda, fim.getY()-tamBorda, 0,0));
 	viewportP = &vp;
-	Window cWindow = Window(&inicio, &fim, displayFile);
-	windowP = &cWindow;
+	Window::instancia().setWindow(&inicio, &fim, displayFile);
 	World wd = World();
 	world = &wd;
 	descritor = new DescritorOBJ(&wd);
@@ -586,7 +618,6 @@ int main(int argc, char *argv[]){
 	g_signal_connect(windowTranslacao, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
 	g_signal_connect(windowEscalona, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
 	g_signal_connect(windowRotaciona, "delete_event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
-
 
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 	gtk_widget_show_all(window_widget);

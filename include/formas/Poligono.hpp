@@ -27,5 +27,6 @@ public:
 	Poligono(std::string nomePoligono, std::string tipoPoligono, std::vector<Coordenadas> coordenadas) : Objeto(nomePoligono, tipoPoligono, coordenadas){}
 	~Poligono(){}
 	void desenhar(cairo_t* surf, std::vector<Coordenadas> coords);
+	void clipa();
 };
 #endif /* INCLUDE_POLIGONO_HPP_ */

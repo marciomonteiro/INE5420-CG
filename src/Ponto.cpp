@@ -15,9 +15,15 @@
  */
 
 #include "formas/Ponto.hpp"
+#include "Window.hpp"
 
 void Ponto::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){
-	cairo_move_to(cr, coords[0].getX(), coords[0].getY());
-	cairo_line_to (cr, coords[0].getX() + 1.0, coords[0].getY() + 1.0);
+	cairo_move_to(cr, coords.at(0).getX(), coords.at(0).getY());
+	cairo_line_to (cr, coords.at(0).getX() + 1.0, coords.at(0).getY() + 1.0);
+	cairo_close_path(cr);
 	cairo_stroke(cr);
+}
+
+void Ponto::clipa(){
+	Window::instancia().clipaPonto(normalized_coordenadas);
 }

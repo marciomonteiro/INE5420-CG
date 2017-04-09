@@ -29,9 +29,14 @@ private:
 	DisplayFile *displayfile;
 	double anguloX, anguloY, anguloZ;
 	void atualizaCentroDaWindow();
+	Window();
+	void clipaLinhaComCS(std::vector<Coordenadas>& coords);
+	void clipaLinhaComLB(std::vector<Coordenadas>& coords);
+	int determinaRCDeCoordenada(Coordenadas& c);
 public:
-	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world);
+	static Window& instancia();
 	~Window(){};
+	void setWindow(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world);
 	void novoAngulo(double x, double y, double z);
 	void zoom(double porcentagem);
 	void normalizaCoordenadasDoMundo();
@@ -40,5 +45,9 @@ public:
 	Coordenadas* getInicioDaWindow(){return inicioDaWindow;}
 	Coordenadas* getFimDaWindow(){return fimDaWindow;}
 	Coordenadas* getCentroDaWindow(){return centroDaWindow;}
+	void setCoordsWindow(Coordenadas* inicio, Coordenadas* fim);	
+	void clipaPonto(std::vector<Coordenadas>& coords);
+	void clipaLinha(std::vector<Coordenadas>& coords);
+	void clipaPoligono(std::vector<Coordenadas>& coords);
 };
 #endif /* INCLUDE_WINDOW_HPP_ */
