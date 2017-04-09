@@ -82,7 +82,6 @@ void Objeto::normalizaCoordenadas(Matriz::Matriz<double> normalizadora){
 		Matriz::Matriz<double> tmp = Matriz::Matriz<double>(1u,3u,tmp0);
 		Matriz::Matriz<double> tmp2 = tmp * normalizadora;
 		coord.setAll(tmp2(0,0), tmp2(0,1), 1);
-		normalized_coordenadas.push_back(coord);
 	}
 }
 

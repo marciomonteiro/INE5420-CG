@@ -57,7 +57,7 @@ void Window::normalizaCoordenadasDoMundo(){
 	Matriz::Matriz<double> tmp3 = tmp2 * escala;
 	for (auto &objetos : displayfile->instancia().getAllObjectsFromTheWorld())
 		(objetos.second)->normalizaCoordenadas(tmp3);
-	this->atualizaCentroDaWindow();
+	// this->atualizaCentroDaWindow();
 }
 
 void Window::atualizaCentroDaWindow(){
@@ -231,7 +231,7 @@ void pontoNoCanto(Coordenadas& c) {
 }
 
 bool comparaCoordenadas(Coordenadas coord1, Coordenadas coord2){
-	if (coord1.getX() != coord2.getX() || coord1.getY() != coord2.getY() || coord1.getZ() != coord2.getZ() || coord1.getAux() != coord2.getAux()) {
+	if (coord1.getX() != coord2.getX() || coord1.getY() != coord2.getY()) {
 		return false;
 	}
 	return true;
@@ -269,6 +269,11 @@ void Window::clipaPoligono(std::vector<Coordenadas>& coords){
 			adicionarPonto = false;
 		}
 		ultima = coords[i];
+	}
+	// coords.clear();
+	for (auto coord : coordsClipadas)
+	{
+		std::cout<<"cooords:\n X: "<<coord.getX()<<" Y "<<coord.getY()<<std::endl;
 	}
 	coords = coordsClipadas;
 }

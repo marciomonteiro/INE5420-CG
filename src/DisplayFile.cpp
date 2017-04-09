@@ -29,8 +29,17 @@ bool DisplayFile::addObjectInTheWorld(Objeto* obj){
 }
 
 bool DisplayFile::objectExistsInTheWorld(std::string objName){
-	if (objectsInTheWorld.find(objName) != objectsInTheWorld.end())
+	auto tmp = objectsInTheWorld.find(objName);
+	if (tmp == objectsInTheWorld.end())	{
+		std::cout<<"object not exists end()"<<std::endl;
+	} else {
+		std::cout<<"object exists end()"<<std::endl;
+	}
+	if (objectsInTheWorld.count(objName) > 0){
+		std::cout<<"object exists "<<std::endl;
 		return true;
+	}
+	std::cout<<"object not exists "<<std::endl;
 	return false;
 }
 

@@ -19,6 +19,7 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <string>
 
 #include "Window.hpp"
 #include "World.hpp"
@@ -448,8 +449,8 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived() {
 		wireframeCoords.clear();
 		return;
 	}
-	Window::instancia().normalizaCoordenadasDoMundo();
 	wireframeCoords.clear();
+	Window::instancia().normalizaCoordenadasDoMundo();
 	preencherPoligono =  false;
 	repaintWindow();
 }
@@ -490,14 +491,14 @@ extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 	// double ZTranslacao = atof(entryZTranslacaoAux);
 
 	gtk_widget_hide(windowTranslacao);
-	if (!world->objetoExisteNoMundo(entryObjetoName)){
-		printCommandLogs("Erro: Objeto não encontrado\n");
-		return;
-	}
 	if (strcmp(entryObjetoName, "") == 0) {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
 		return;
 	}
+	// if (!world->objetoExisteNoMundo(entryObjetoName)){
+	// 	printCommandLogs("Erro: Objeto não encontrado\n");
+	// 	return;
+	// }
 	world->transformarObjeto(std::string(entryObjetoName),Transformacao2D::translacao(XTranslacao, YTranslacao));
 	repaintWindow();
 }
@@ -520,14 +521,14 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto() {
 	// double ZEscalona = atof(entryZEscalonaAux);
 
 	gtk_widget_hide(windowEscalona);
-	if (!world->objetoExisteNoMundo(entryObjetoName)){
-		printCommandLogs("Erro: Objeto não encontrado\n");
-		return;
-	}
 	if (strcmp(entryObjetoName, "") == 0) {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
 		return;
 	}
+	// if (!world->objetoExisteNoMundo(entryObjetoName)){
+	// 	printCommandLogs("Erro: Objeto não encontrado\n");
+	// 	return;
+	// }
 	world->scalonarObjeto(std::string(entryObjetoName),Transformacao2D::escalonamento(XEscalona, YEscalona));
 	repaintWindow();
 }
@@ -541,17 +542,18 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 	const char *entryAngleRotate = gtk_entry_get_text (entryAngleRotaciona);
 	gtk_widget_hide(windowRotaciona);
 	double angulo = atof(entryAngleRotate);
-	if (!world->objetoExisteNoMundo(entryObjetoName)){
-		printCommandLogs("Erro: Objeto não encontrado\n");
-		return;
-	}
 	if (strcmp(entryObjetoName, "") == 0) {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
+		return;
+	}
+	if (!world->objetoExisteNoMundo(entryObjetoName)){
+		printCommandLogs("Erro: Objeto não encontrado\n");
 		return;
 	}
 	GtkToggleButton *BotaoCentroDoMundo = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaoCentroDoMundo"));
 	GtkToggleButton *BotaCentroDoObjeto = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaCentroDoObjeto"));
 
+	// printCommandLogs("Erro: Objeto não encontrado\n");
 	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)) {
 		Coordenadas centroDoMundo = Coordenadas(0.0,0.0,0.0,0.0);
 		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao2D::rotacao(angulo));
