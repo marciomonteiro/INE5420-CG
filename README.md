@@ -50,15 +50,23 @@ Sugestões de Modelagem:
 
 # Under development
 
+1.4 - Incremente seu SGI para suportar clipping dos objetos do mundo
+
 Requisitos
 
-- Clipagem:
- -- Clipagem de Pontos
-   2 (duas) técnicas distintas de clipagem de Segmentos de Reta, à escolha, passíveis de serem intercambiadas/selecionadas pelo usuário em um checkbox.
+# Clipagem:
+
+ 1. Clipagem de Pontos: 
+
+ 2. (duas) técnicas distintas de clipagem de Segmentos de Reta, à escolha, passíveis de serem intercambiadas/selecionadas pelo usuário em um checkbox.
  
- --Clipagem de Polígonos (técnica à escolha).
-   Representação: Altere seu SGI para suportar clipping dos objetos do mundo:
-   Faça sua Viewport ser menor do que o objeto de desenho da linguagem de programação, com uma moldura ao seu redor. Isto facilita na visualização do clipping e na detecção de erros (como visto nas transparências, link).
+ 3. Clipagem de Polígonos (técnica à escolha)
+
+
+ #Representação: 
+ Altere seu SGI para suportar clipping dos objetos do mundo:
+   
+ --Faça sua Viewport ser menor do que o objeto de desenho da linguagem de programação, com uma moldura ao seu redor. Isto facilita na visualização do clipping e na detecção de erros (como visto nas transparências, link).
 
 - Implemente o clipping de pontos, retas e polígonos wireframe utilizando um dos 3 algoritmos de clipping de retas vistos em aula.
 
