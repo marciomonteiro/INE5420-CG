@@ -23,10 +23,12 @@
 class Poligono : public Objeto {
 private:
 	std::vector<Coordenadas> coordenadas; //vertices
+	bool preenchido;
 public:
-	Poligono(std::string nomePoligono, std::string tipoPoligono, std::vector<Coordenadas> coordenadas) : Objeto(nomePoligono, tipoPoligono, coordenadas){}
+	Poligono(std::string nomePoligono, std::string tipoPoligono, std::vector<Coordenadas> coordenadas, bool preencher) : Objeto(nomePoligono, tipoPoligono, coordenadas), preenchido(preencher){}
 	~Poligono(){}
 	void desenhar(cairo_t* surf, std::vector<Coordenadas> coords);
+	void setPreenchimento(bool estado);
 	void clipa();
 };
 #endif /* INCLUDE_POLIGONO_HPP_ */

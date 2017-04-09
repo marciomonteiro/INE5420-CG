@@ -22,8 +22,15 @@ void Poligono::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){
 	for (auto coord : coords)
 		cairo_line_to(cr, coord.getX(), coord.getY());
 	cairo_stroke(cr);
+	if (preenchido) {
+		cairo_fill(cr);
+	}
 }
 
 void Poligono::clipa(){
 	Window::instancia().clipaPoligono(normalized_coordenadas);
+}
+
+void Poligono::setPreenchimento(bool estado){
+	this->preenchido = estado;
 }
