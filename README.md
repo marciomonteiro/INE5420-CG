@@ -1,36 +1,33 @@
-# Federal University of Santa Catarina (UFSC)
-Department of Informatics and Statistics
-
-Computer Science 
-
-INE5420 - Computer Graphics
-
-Professor: Dr. rer. nat. Aldo von Wangenheim
+## Federal University of Santa Catarina (UFSC)
+## Department of Informatics and Statistics
+## Computer Science Bachelor
+### INE5420 - Computer Graphics
+### Professor: Dr. rer. nat. Aldo von Wangenheim
 
 Group Members:
 
-Marcio Monteiro
+Marcio Monteiro<br/>
 Rodrigo Pedro Marques
 
 Semester: 2017/1
 
+Works of computer graphics (CG) using C++ and Glade.
 
-Works of computer graphics (CG) using C++.
+** 1.1 - Conceitos Básicos de Computação Gráfica **
 
-1.1 - Conceitos Básicos de Computação Gráfica
 - Histórico
 - Display Files
 - Window, Viewport e Transformada de Viewport
 - Operações de navegação na Window
 
-1.2 - Transformações Geométricas em 2D e Coordenadas Homogêneas
+** 1.2 - Transformações Geométricas em 2D e Coordenadas Homogêneas **
+
 - Translação
 - Escalonamento
 - Rotação
 - Sistemas de Coordenadas Homogêneas
 
-
-1.3 - Sistemas de Coordenadas da Window:
+** 1.3 - Sistemas de Coordenadas da Window **
 
 - Altere a representação dos objetos do mundo para suportar representação em um dos sistemas de coordenadas vistos em aula: *Sistema de Coordenadas Normalizado (SCN)* ou o *Sistema de Coordenadas do Plano de Projeção (PPC)*. Agora a transformada de viewport é feita com estas coordenadas novas.
 
@@ -48,31 +45,30 @@ Sugestões de Modelagem:
 - Chame o descritor para cada objeto de seu mundo.
 - Assim você só precisa se preocupar com o cabeçalho do .obj. O resto de se resove através de um percurso do display file com seu descritor.
 
-# Under development
+## Under development
 
-1.4 - Incremente seu SGI para suportar clipping dos objetos do mundo
+** 1.4 - Incremente seu SGI para suportar clipping dos objetos do mundo **
 
-Requisitos
+### Requisitos ###
 
-# Clipagem:
+** Clipagem **:
 
- 1. Clipagem de Pontos: 
+1. Clipagem de Pontos: 
 
- 2. (duas) técnicas distintas de clipagem de Segmentos de Reta, à escolha, passíveis de serem intercambiadas/selecionadas pelo usuário em um checkbox.
- 
- 3. Clipagem de Polígonos (técnica à escolha)
+2. (duas) técnicas distintas de clipagem de Segmentos de Reta, à escolha, passíveis de serem intercambiadas/selecionadas pelo usuário em um checkbox.
 
+3. Clipagem de Polígonos (técnica à escolha)
 
- #Representação: 
- Altere seu SGI para suportar clipping dos objetos do mundo:
-   
- --Faça sua Viewport ser menor do que o objeto de desenho da linguagem de programação, com uma moldura ao seu redor. Isto facilita na visualização do clipping e na detecção de erros (como visto nas transparências, link).
+** Representação **:
 
-- Implemente o clipping de pontos, retas e polígonos wireframe utilizando um dos 3 algoritmos de clipping de retas vistos em aula.
+Altere seu SGI para suportar clipping dos objetos do mundo:
+
+- Faça sua Viewport ser menor do que o objeto de desenho da linguagem de programação, com uma moldura ao seu redor. Isto facilita na visualização do clipping e na detecção de erros.
+
+- Implemente o clipping de pontos, retas e polígonos utilizando um dos 3 algoritmos de clipping de retas vistos em aula.
 
 - Estenda seu SGI para suportar polígonos preenchidos, utilizando as primitivas de preenchimento da sua linguagem de programação. O usuário escolhe se o polígono é em modelo de arame ou preenchido no momento de sua criação.
 
 - Implemente o clipping de polígonos preenchidos com o algoritmo de Weiler-Atherton. Para simplificar, considere apenas polígonos sem furos (mas possivelmente côncavos).
 
-
-For more informations visit: http://www.inf.ufsc.br/~awangenh/grafica
+For more informations [here](http://www.inf.ufsc.br/~awangenh/grafica)
