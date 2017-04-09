@@ -176,7 +176,7 @@ extern "C" G_MODULE_EXPORT void btn_save_file_obj_actived () {
 			printCommandLogs(descritor->transcrevaObjeto(objetos.second, nomeDoArquivo).c_str());
 		g_free (nomeDoArquivo);
 	}
-	gtk_widget_destroy (escolherArquivoParaSalvar);
+	gtk_widget_hide(escolherArquivoParaSalvar);
 }
 
 extern "C" G_MODULE_EXPORT void btn_open_file_obj_actived () {
@@ -198,7 +198,7 @@ extern "C" G_MODULE_EXPORT void btn_open_file_obj_actived () {
 		repaintWindow();
 		g_free (nomeDoArquivo);
 	}
-	gtk_widget_destroy (escolherArquivoParaAbrir);
+	gtk_widget_hide(escolherArquivoParaAbrir);
 }
 
 extern "C" G_MODULE_EXPORT void btn_cancel_insertion_actived () {

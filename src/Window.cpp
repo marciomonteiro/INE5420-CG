@@ -88,7 +88,8 @@ void Window::clipaPonto(std::vector<Coordenadas>& coord) {
 
 void Window::clipaLinha(std::vector<Coordenadas>& coords) {
 	std::cout<<"Window::clipaLinha"<<std::endl;
-	clipaLinhaComCS(coords);
+	// clipaLinhaComCS(coords);
+	clipaLinhaComLB(coords);
 }
 
 int Window::determinaRCDeCoordenada(Coordenadas& c) {
@@ -102,46 +103,79 @@ int Window::determinaRCDeCoordenada(Coordenadas& c) {
 
 void Window::clipaLinhaComCS(std::vector<Coordenadas>& coords){
 	auto RC0 = determinaRCDeCoordenada(coords.at(0));
-    auto RC1 = determinaRCDeCoordenada(coords.at(1));
-    if (RC0 == 0 && RC1 == 0) {
-        return;
-    }
-    if ((RC0 & RC1) != 0) {
-        coords.clear();
-        return;
-    }
-    int RC01 = (RC0 == 0) ? RC1 : RC0;
-    double coordXaux = coords.at(0).getX();
-    double coordYaux = coords.at(0).getY();
-    double coefAngular = (coords.at(1).getY() - coordYaux) / (coords.at(1).getX() - coordXaux);
-    double novoX, novoY;
-    if ((RC01 & 1) != 0) {
-        novoX = coordXaux + (1 - coordYaux) / coefAngular;
-        novoY = 1;
-    } else if ((RC01 & 2) != 0) {
-        novoX = coordXaux + (-1 - coordYaux) / coefAngular;
-        novoY = -1;
-    } else if ((RC01 & 4) != 0) {
-        novoX = 1;
-        novoY = coordYaux + coefAngular * (1 - coordXaux);
-    } else {
-        novoX = -1;
-        novoY = coordYaux + coefAngular * (-1 - coordXaux);
-    }
-    if (RC01 == RC0) {
-        coords.at(0) = Coordenadas(novoX, novoY,0,0);
-    } else {
-        coords.at(1) = Coordenadas(novoX, novoY,0,0);
-    }
-    std::cout<<"X: "<<coords.at(0).getX()<<" Y: "<<coords.at(0).getY()<<std::endl;
-    std::cout<<"X: "<<coords.at(1).getX()<<" Y: "<<coords.at(1).getY()<<std::endl;
-    clipaLinhaComCS(coords);
+	auto RC1 = determinaRCDeCoordenada(coords.at(1));
+	if (RC0 == 0 && RC1 == 0) {
+		return;
+	}
+	if ((RC0 & RC1) != 0) {
+		coords.clear();
+		return;
+	}
+	int RC01 = (RC0 == 0) ? RC1 : RC0;
+	double coordXaux = coords.at(0).getX();
+	double coordYaux = coords.at(0).getY();
+	double coefAngular = (coords.at(1).getY() - coordYaux) / (coords.at(1).getX() - coordXaux);
+	double novoX, novoY;
+	if ((RC01 & 1) != 0) {
+		novoX = coordXaux + (1 - coordYaux) / coefAngular;
+		novoY = 1;
+	} else if ((RC01 & 2) != 0) {
+		novoX = coordXaux + (-1 - coordYaux) / coefAngular;
+		novoY = -1;
+	} else if ((RC01 & 4) != 0) {
+		novoX = 1;
+		novoY = coordYaux + coefAngular * (1 - coordXaux);
+	} else {
+		novoX = -1;
+		novoY = coordYaux + coefAngular * (-1 - coordXaux);
+	}
+	if (RC01 == RC0) {
+		coords.at(0) = Coordenadas(novoX, novoY,0,0);
+	} else {
+		coords.at(1) = Coordenadas(novoX, novoY,0,0);
+	}
+	clipaLinhaComCS(coords);
 }
 
 void Window::clipaLinhaComLB(std::vector<Coordenadas>& coords){
-	std::cout<<"TO DO"<<std::endl;
+	std::cout<<"Window::clipaLinhaComLB"<<std::endl;
+	double xIni = coords.at(0).getX();
+	double yIni = coords.at(0).getY();
+	double deltaX = coords.at(1).getX() - xIni;
+	double deltaY = coords.at(1).getY() - yIni;
+	std::vector<double> p;
+	std::vector<double> q;
+	double zta1 = 0;
+	double zta2 = 1;
+	double r = 0;
+	p.push_back(-deltaX);
+	p.push_back(deltaX);
+	p.push_back(-deltaY);
+	p.push_back(deltaY);
+	q.push_back(xIni + 1);
+	q.push_back(1 - xIni);
+	q.push_back(yIni + 1);
+	q.push_back(1 - yIni);
+	for (int i = 0; i < 4; i++) {
+		r = q[i]/p[i];
+		if (p[i] < 0) {
+			zta1 = std::max(zta1, r);
+		} else {
+			zta2 = std::min(zta2, r);
+		}
+	}
+	if (zta1 > zta2) {
+		coords.clear();
+		return;
+	}
+	if (zta1 != 0 && zta1 != 1) {
+		coords.at(0) = Coordenadas(xIni + zta1 * deltaX, yIni + zta1 * deltaY, 0, 0);
+	}
+	if (zta2 != 0 && zta2 != 1) {
+		coords.at(1) = Coordenadas(xIni + zta2 * deltaX, yIni + zta2 * deltaY, 0, 0);
+	}
 }
 
 void Window::clipaPoligono(std::vector<Coordenadas>& coords){
-	std::cout<<"TO DO"<<std::endl;
+	std::cout<<"Window::clipaPoligono\nTO DO"<<std::endl;
 }

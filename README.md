@@ -13,21 +13,27 @@ Semester: 2017/1
 
 Works of computer graphics (CG) using C++ and Glade.
 
-** 1.1 - Conceitos Básicos de Computação Gráfica **
+#### Compiling and executing ####
+
+1. Open the terminal in the folder
+2. run make
+3. run ./bin/exec
+
+**1.1 - Conceitos Básicos de Computação Gráfica**
 
 - Histórico
 - Display Files
 - Window, Viewport e Transformada de Viewport
 - Operações de navegação na Window
 
-** 1.2 - Transformações Geométricas em 2D e Coordenadas Homogêneas **
+**1.2 - Transformações Geométricas em 2D e Coordenadas Homogêneas**
 
 - Translação
 - Escalonamento
 - Rotação
 - Sistemas de Coordenadas Homogêneas
 
-** 1.3 - Sistemas de Coordenadas da Window **
+**1.3 - Sistemas de Coordenadas da Window**
 
 - Altere a representação dos objetos do mundo para suportar representação em um dos sistemas de coordenadas vistos em aula: *Sistema de Coordenadas Normalizado (SCN)* ou o *Sistema de Coordenadas do Plano de Projeção (PPC)*. Agora a transformada de viewport é feita com estas coordenadas novas.
 
@@ -47,11 +53,15 @@ Sugestões de Modelagem:
 
 ## Under development
 
-** 1.4 - Incremente seu SGI para suportar clipping dos objetos do mundo **
+**1.4 - Incremente seu SGI para suportar clipping dos objetos do mundo**
+
+Implemente as principais técnicas de clipagem para windows retangulares vistas neste capítulo, usando clipagem de pontos e clipagem por C-S, L-B ou NLN para retas, de forma a integrá-las ao seu sistema gráfico de maneira que a transformada de viewport seja aplicada apenas aos objetos resultantes do clipping.
+
+Para ter certeza de que a clipagem está funcionando e não é o algoritmo de clipagem de pontos embutido no seu objeto de interface que está fazendo com que as linhas que você está desenhando sejam cortadas no lugar certo, faça sua viewport ser menor do que o seu objeto de desenho (canvas, subcanvas ou oura coisqa que você escolheu), de maneira que a viewport inicie em coordenadas do tipo 10,10 e termine antes do fim da área de desenho, cmo mostra a figura abaixo, onde a viewport está limitada pela moldura imediatamente interna à área de desenho. Dessa forma, se o seu algoritmo clipar algo de forma incorreta, deixando de recortar algum elemento, você vai enxergar imediatamente pois verá o objeto sair de dentro deste retângulo. Como forma de debugar seu exercíco este é um subterfúgio excelente e torna desnecessário analisar os dados gerados para uma lista enorme de objetos clipados para testar o sistema.
 
 ### Requisitos ###
 
-** Clipagem **:
+**Clipagem**:
 
 1. Clipagem de Pontos: 
 
@@ -59,9 +69,7 @@ Sugestões de Modelagem:
 
 3. Clipagem de Polígonos (técnica à escolha)
 
-** Representação **:
-
-Altere seu SGI para suportar clipping dos objetos do mundo:
+**Representação**: Altere seu SGI para suportar clipping dos objetos do mundo:
 
 - Faça sua Viewport ser menor do que o objeto de desenho da linguagem de programação, com uma moldura ao seu redor. Isto facilita na visualização do clipping e na detecção de erros.
 
@@ -71,4 +79,4 @@ Altere seu SGI para suportar clipping dos objetos do mundo:
 
 - Implemente o clipping de polígonos preenchidos com o algoritmo de Weiler-Atherton. Para simplificar, considere apenas polígonos sem furos (mas possivelmente côncavos).
 
-For more informations [here](http://www.inf.ufsc.br/~awangenh/grafica)
+More informations [here](http://www.inf.ufsc.br/~awangenh/grafica)
