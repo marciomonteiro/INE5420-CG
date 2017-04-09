@@ -87,8 +87,12 @@ void Window::clipaPonto(std::vector<Coordenadas>& coord) {
 }
 
 void Window::clipaLinha(std::vector<Coordenadas>& coords) {
-	std::cout<<"Window::clipaLinha"<<std::endl;
-	// clipaLinhaComCS(coords);
+	// std::cout<<"Window::clipaLinha"<<std::endl;
+	bool clipaComCS = true;
+	if (clipaComCS){
+		clipaLinhaComCS(coords);
+		return;
+	}
 	clipaLinhaComLB(coords);
 }
 
@@ -130,15 +134,14 @@ void Window::clipaLinhaComCS(std::vector<Coordenadas>& coords){
 		novoY = coordYaux + coefAngular * (-1 - coordXaux);
 	}
 	if (RC01 == RC0) {
-		coords.at(0) = Coordenadas(novoX, novoY,0,0);
+		coords.at(0).setAll(novoX, novoY, 0);
 	} else {
-		coords.at(1) = Coordenadas(novoX, novoY,0,0);
+		coords.at(1).setAll(novoX, novoY, 0);
 	}
 	clipaLinhaComCS(coords);
 }
 
 void Window::clipaLinhaComLB(std::vector<Coordenadas>& coords){
-	std::cout<<"Window::clipaLinhaComLB"<<std::endl;
 	double xIni = coords.at(0).getX();
 	double yIni = coords.at(0).getY();
 	double deltaX = coords.at(1).getX() - xIni;
@@ -169,13 +172,13 @@ void Window::clipaLinhaComLB(std::vector<Coordenadas>& coords){
 		return;
 	}
 	if (zta1 != 0 && zta1 != 1) {
-		coords.at(0) = Coordenadas(xIni + zta1 * deltaX, yIni + zta1 * deltaY, 0, 0);
+		coords.at(0).setAll(xIni + zta1 * deltaX, yIni + zta1 * deltaY, 0);
 	}
 	if (zta2 != 0 && zta2 != 1) {
-		coords.at(1) = Coordenadas(xIni + zta2 * deltaX, yIni + zta2 * deltaY, 0, 0);
+		coords.at(1).setAll(xIni + zta2 * deltaX, yIni + zta2 * deltaY, 0);
 	}
 }
 
 void Window::clipaPoligono(std::vector<Coordenadas>& coords){
-	std::cout<<"Window::clipaPoligono\nTO DO"<<std::endl;
+	std::cout<<"Window::clipaPoligono"<<std::endl;
 }

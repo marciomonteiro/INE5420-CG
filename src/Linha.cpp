@@ -25,6 +25,6 @@ void Linha::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){
 }
 
 void Linha::clipa(){
-	std::cout<<"Linha::clipa()"<<std::endl;
+	// std::cout<<"Linha::clipa()"<<std::endl;
 	Window::instancia().clipaLinha(normalized_coordenadas);
 }
