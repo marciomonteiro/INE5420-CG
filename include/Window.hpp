@@ -33,6 +33,7 @@ private:
 	void clipaLinhaComCS(std::vector<Coordenadas>& coords);
 	void clipaLinhaComLB(std::vector<Coordenadas>& coords);
 	int determinaRCDeCoordenada(Coordenadas& c);
+	bool calculaInterseccaoDeLinhas(std::pair<Coordenadas,Coordenadas> segmento1, std::pair<Coordenadas,Coordenadas> segmento2, Coordenadas &retorno);
 public:
 	static Window& instancia();
 	~Window(){};

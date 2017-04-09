@@ -21,6 +21,7 @@ void Linha::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){
 	cairo_set_line_width(cr, 1);
 	cairo_move_to(cr, coords.at(0).getX(), coords.at(0).getY());
 	cairo_line_to (cr, coords.at(1).getX(), coords.at(1).getY());
+	cairo_close_path(cr);
 	cairo_stroke(cr);
 }
 

@@ -79,6 +79,7 @@ std::vector<Coordenadas> wireframeCoords;
 Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
 Coordenadas fim = Coordenadas(400.0,400.0,0.0,0.0);
 double tamBorda = 10;
+bool preencherPoligono = false;
 
 static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data) {
   cairo_set_source_surface (cr, surface, 0, 0);
@@ -149,6 +150,10 @@ extern "C" G_MODULE_EXPORT void btn_rotate_window_left_clicked() {
 	printCommandLogs("btn_rotate_window_left_clicked\n");
 	Window::instancia().novoAngulo(10, 0, 0);
 	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void check_box_fill_wireframe() {
+	preencherPoligono = true;
 }
 
 extern "C" G_MODULE_EXPORT void btn_rotate_window_right_clicked() {
@@ -437,7 +442,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived() {
 		return;
 	}
 	wireframeCoords.push_back(wireframeCoords.front());
-	Poligono * poligono = new Poligono(std::string(entryWireframeName), "Poligono", wireframeCoords);
+	Poligono * poligono = new Poligono(std::string(entryWireframeName), "Poligono", wireframeCoords, preencherPoligono);
 	if (!world->adicionaObjetosNoMundo(poligono)) {
 		printCommandLogs("Erro: Poligono já existe\n");
 		wireframeCoords.clear();
@@ -445,6 +450,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived() {
 	}
 	Window::instancia().normalizaCoordenadasDoMundo();
 	wireframeCoords.clear();
+	preencherPoligono =  false;
 	repaintWindow();
 }
 
@@ -484,6 +490,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 	// double ZTranslacao = atof(entryZTranslacaoAux);
 
 	gtk_widget_hide(windowTranslacao);
+	if (!world->objetoExisteNoMundo(entryObjetoName)){
+		printCommandLogs("Erro: Objeto não encontrado\n");
+		return;
+	}
 	if (strcmp(entryObjetoName, "") == 0) {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
 		return;
@@ -510,6 +520,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto() {
 	// double ZEscalona = atof(entryZEscalonaAux);
 
 	gtk_widget_hide(windowEscalona);
+	if (!world->objetoExisteNoMundo(entryObjetoName)){
+		printCommandLogs("Erro: Objeto não encontrado\n");
+		return;
+	}
 	if (strcmp(entryObjetoName, "") == 0) {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
 		return;
@@ -527,6 +541,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 	const char *entryAngleRotate = gtk_entry_get_text (entryAngleRotaciona);
 	gtk_widget_hide(windowRotaciona);
 	double angulo = atof(entryAngleRotate);
+	if (!world->objetoExisteNoMundo(entryObjetoName)){
+		printCommandLogs("Erro: Objeto não encontrado\n");
+		return;
+	}
 	if (strcmp(entryObjetoName, "") == 0) {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
 		return;

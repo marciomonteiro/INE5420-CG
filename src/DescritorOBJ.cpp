@@ -109,6 +109,27 @@ std::string DescritorOBJ::leiaObjetoFromPath(std::string pathToObject){
 	return log;
 }
 
+std::string DescritorOBJ::criaObjetoEadicionaNoMundo(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas){
+	if (tipoObjeto == "poligono") {
+		Poligono * poli = new Poligono(nomeObjeto, tipoObjeto, coordenadas, false);
+		world->adicionaObjetosNoMundo(poli);
+	} else {
+		if (tipoObjeto == "linha") {
+			Linha * linha = new Linha(nomeObjeto, tipoObjeto, coordenadas);
+			world->adicionaObjetosNoMundo(linha);
+		} else {
+			if (tipoObjeto == "ponto") {
+				Ponto * ponto = new Ponto(nomeObjeto, tipoObjeto, coordenadas);
+				world->adicionaObjetosNoMundo(ponto);
+			} else {
+				log+="===========\nErro ao criar o objeto "+nomeObjeto+". Tipo desconhecido.\n===========\n";
+			}
+		}
+	}
+	return log;
+}
+
+
 /**
 * Busca os arquivos com extensao definada na classe DescritorOBJ num dado diretório.
 * \param pathToObjects uma string que indica o caminho a ser procurado.
@@ -147,26 +168,6 @@ std::string DescritorOBJ::leiaObjetoFromPath(std::string pathToObject){
 // 	}
 // 	std::cout<<"Criacao dos .obj finalizada."<<std::endl;
 // }
-
-std::string DescritorOBJ::criaObjetoEadicionaNoMundo(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas){
-	if (tipoObjeto == "poligono") {
-		Poligono * poli = new Poligono(nomeObjeto, tipoObjeto, coordenadas);
-		world->adicionaObjetosNoMundo(poli);
-	} else {
-		if (tipoObjeto == "linha") {
-			Linha * linha = new Linha(nomeObjeto, tipoObjeto, coordenadas);
-			world->adicionaObjetosNoMundo(linha);
-		} else {
-			if (tipoObjeto == "ponto") {
-				Ponto * ponto = new Ponto(nomeObjeto, tipoObjeto, coordenadas);
-				world->adicionaObjetosNoMundo(ponto);
-			} else {
-				log+="===========\nErro ao criar o objeto "+nomeObjeto+". Tipo desconhecido.\n===========\n";
-			}
-		}
-	}
-	return log;
-}
 
 /**
 Vertex data:

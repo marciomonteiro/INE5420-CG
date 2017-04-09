@@ -28,6 +28,7 @@ public:
 	~World(){};
 	bool adicionaObjetosNoMundo(Objeto* obj);
 	void removeObjetosNoMundo(std::string nome);
+	bool objetoExisteNoMundo(std::string nome);
 	void destroiTodosObjetosDoMundo();
 	DisplayFile* getDisplayfile();
 	void transformarObjeto(std::string nome, Matriz::Matriz<double> matriz);

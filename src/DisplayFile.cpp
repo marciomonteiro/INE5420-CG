@@ -28,6 +28,12 @@ bool DisplayFile::addObjectInTheWorld(Objeto* obj){
 	return true;
 }
 
+bool DisplayFile::objectExistsInTheWorld(std::string objName){
+	if (objectsInTheWorld.find(objName) != objectsInTheWorld.end())
+		return true;
+	return false;
+}
+
 void DisplayFile::removeObjectFromTheWorld(std::string objName){
 	objectsInTheWorld.erase(objName);
 }

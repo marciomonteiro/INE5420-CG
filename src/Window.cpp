@@ -167,7 +167,7 @@ void Window::clipaLinhaComLB(std::vector<Coordenadas>& coords){
 			zta2 = std::min(zta2, r);
 		}
 	}
-	if (zta1 > zta2) {
+	if (zta1 >= zta2) {
 		coords.clear();
 		return;
 	}
@@ -179,6 +179,97 @@ void Window::clipaLinhaComLB(std::vector<Coordenadas>& coords){
 	}
 }
 
+bool Window::calculaInterseccaoDeLinhas(std::pair<Coordenadas,Coordenadas> segmento1, std::pair<Coordenadas,Coordenadas> segmento2, Coordenadas &retorno){
+	double pontoX0 = segmento1.first.getX(),  pontoY0 = segmento1.first.getY(),
+		pontoX2 = segmento2.first.getX(),  pontoY2 = segmento2.first.getY();
+	double deltaX1 = pontoX0 - segmento1.second.getX();
+	double deltaY1 = pontoY0 - segmento1.second.getY();
+	double deltaX2 = pontoX2 - segmento2.second.getX();
+	double deltaY2 = pontoY2 - segmento2.second.getY();
+	double coefang1;
+	double coefang2;
+	if(deltaX1 == 0 && deltaX2 == 0)
+		return false;
+	if(deltaX1==0){
+		coefang2 = (deltaY2/deltaX2);
+		double y = coefang2 * (pontoX0 - pontoX2) + pontoY2;
+		retorno.setAll(pontoX0, y, 0);
+		return true;
+	}
+	if(deltaX2==0){
+		coefang1 = (deltaY1/deltaX1);
+		double y = coefang1 * (pontoX2 - pontoX0) + pontoY0;
+		retorno.setAll(pontoX2, y, 0);
+		return true;
+	}
+	coefang1 = (deltaY1/deltaX1);
+	coefang2 = (deltaY2/deltaX2);
+	if(coefang1==coefang2)
+		return false;
+	double x = (- coefang1 * pontoX0 + coefang2 * pontoX2 + pontoY0 - pontoY2) / (coefang2 - coefang1);
+	double y = coefang2 * (x - pontoX2) + pontoY2;
+	retorno.setAll(x, y, 0);
+	return true;
+}
+
+void pontoNoCanto(Coordenadas& c) {
+    if (c.getX() < -1) {
+        c.setX(-1);
+    }
+
+    if (c.getX() > 1) {
+        c.setX(1);
+    }
+
+    if (c.getY() < -1) {
+        c.setY(-1);
+    }
+
+    if (c.getY() > 1) {
+        c.setY(1);
+    }
+}
+
+bool comparaCoordenadas(Coordenadas coord1, Coordenadas coord2){
+	if (coord1.getX() != coord2.getX() || coord1.getY() != coord2.getY() || coord1.getZ() != coord2.getZ() || coord1.getAux() != coord2.getAux()) {
+		return false;
+	}
+	return true;
+}
+
 void Window::clipaPoligono(std::vector<Coordenadas>& coords){
 	std::cout<<"Window::clipaPoligono"<<std::endl;
+	coords.pop_back();
+	std::vector<Coordenadas> coordsClipadas;
+	Coordenadas ultima = coords.back();
+	bool adicionarPonto = false;
+	for (unsigned int i = 0; i < coords.size(); i++) {
+		std::vector<Coordenadas> linahAtual = {ultima, coords[i]};
+		std::vector<Coordenadas> linhaNoMundo = {ultima, coords[i]};
+		Coordenadas pontoMedio = Coordenadas(linahAtual[0].getX() + linahAtual[1].getX(), linahAtual[0].getY() + linahAtual[1].getY(), 0, 0);
+		clipaLinha(linahAtual);
+		bool clipped = false;
+		if (comparaCoordenadas(linahAtual[0], linhaNoMundo[0]) || comparaCoordenadas(linahAtual[1], linhaNoMundo[1]))
+			clipped = true;
+		if (linahAtual.size() > 1) {
+			if (clipped || !adicionarPonto || coordsClipadas.empty() || comparaCoordenadas(linahAtual[0], coordsClipadas.back())) {
+				coordsClipadas.push_back(linahAtual[0]);
+				clipped = false;
+			}
+			coordsClipadas.push_back(linahAtual[1]);
+			pontoNoCanto(linhaNoMundo[1]);
+			coordsClipadas.push_back(linhaNoMundo[1]);
+			adicionarPonto = true;
+		} else {
+			Coordenadas clipaPonto(coords[i]);
+			pontoNoCanto(clipaPonto);
+			pontoNoCanto(pontoMedio);
+			coordsClipadas.push_back(pontoMedio);
+			coordsClipadas.push_back(clipaPonto);
+			adicionarPonto = false;
+		}
+		ultima = coords[i];
+	}
+	coords = coordsClipadas;
 }
+	
