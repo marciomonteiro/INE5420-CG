@@ -77,8 +77,8 @@ GtkWidget *windowRotaciona;
 GtkTextBuffer *buffer;
 std::vector<Coordenadas> wireframeCoords;
 
-Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
-Coordenadas fim = Coordenadas(400.0,400.0,0.0,0.0);
+Coordenadas inicio = Coordenadas(0,0,0,1);
+Coordenadas fim = Coordenadas(400,400,0,1);
 double tamBorda = 10;
 bool preencherPoligono = false;
 
@@ -135,7 +135,7 @@ void repaintWindow() {
 	for (auto obj : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld()) {
 		obj.second->clipa();
 	}
-	viewportP->transformada(cr, Coordenadas(-1.0,-1.0,0.0,0.0), Coordenadas(1.0,1.0,0.0,0.0), world->getDisplayfile());
+	viewportP->transformada(cr, Coordenadas(-1,-1,0,1), Coordenadas(1,1,0,1), world->getDisplayfile());
 	gtk_widget_queue_draw (drawing_area);
 }
 
@@ -155,6 +155,17 @@ extern "C" G_MODULE_EXPORT void btn_rotate_window_left_clicked() {
 
 extern "C" G_MODULE_EXPORT void check_box_fill_wireframe() {
 	preencherPoligono = true;
+}
+
+extern "C" G_MODULE_EXPORT void check_box_cs_clippa_reta() {
+	GtkToggleButton *botaoCS = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "cohen-sutherland"));
+	GtkToggleButton *botaoLB = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "liang-barsky"));
+	if (gtk_toggle_button_get_active(botaoCS)) {
+		Window::instancia().setaAlgoritmoClippingReta(true);
+	}
+	if (gtk_toggle_button_get_active(botaoLB)) {
+		Window::instancia().setaAlgoritmoClippingReta(false);
+	}
 }
 
 extern "C" G_MODULE_EXPORT void btn_rotate_window_right_clicked() {
@@ -381,7 +392,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived() {
 	double YPoint = atof(entryYPointAux);
 	// double zPoint= atof(entryZPointAux);
 
-	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
+	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 1)}));
 	if (!world->adicionaObjetosNoMundo(ponto)) {
 		printCommandLogs("Erro: Ponto já existe\n");
 		return;
@@ -421,7 +432,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
 	double Y2Line= atof(entryY2LineAux);
 	// double Z2Line= atof(entryZ2LineAux);
 
-	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
+	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 1),Coordenadas(X2Line, Y2Line, 0, 1)}));
 	if (!world->adicionaObjetosNoMundo(linha)) {
 		printCommandLogs("Erro: Linha já existe\n");
 		return;
@@ -470,7 +481,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived() {
 	double Y1Wireframe = atof(entryY1WireframeAux);
 	// double Z1Wireframe= atof(entryZ1WireframeAux);
 
-	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0.0, 0.0));
+	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0, 1));
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
@@ -546,16 +557,14 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
 		return;
 	}
-	if (!world->objetoExisteNoMundo(entryObjetoName)){
-		printCommandLogs("Erro: Objeto não encontrado\n");
-		return;
-	}
+	// if (!world->objetoExisteNoMundo(entryObjetoName)){
+	// 	printCommandLogs("Erro: Objeto não encontrado\n");
+	// 	return;
+	// }
 	GtkToggleButton *BotaoCentroDoMundo = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaoCentroDoMundo"));
 	GtkToggleButton *BotaCentroDoObjeto = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaCentroDoObjeto"));
-
-	// printCommandLogs("Erro: Objeto não encontrado\n");
 	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)) {
-		Coordenadas centroDoMundo = Coordenadas(0.0,0.0,0.0,0.0);
+		Coordenadas centroDoMundo = Coordenadas(0,0,0,1);
 		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao2D::rotacao(angulo));
 	}
 	if (gtk_toggle_button_get_active(BotaCentroDoObjeto)) {
@@ -571,32 +580,9 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 		double XRotaciona = atof(entryXRotacionaAux);
 		double YRotaciona = atof(entryYRotacionaAux);
 		// double ZRotaciona = atof(entryZRotacionaAux);
-		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0.0,0.0}, Transformacao2D::rotacao(angulo));
+		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0,1}, Transformacao2D::rotacao(angulo));
 	}
 	repaintWindow();
-}
-
-// I don't know if this function is really necessary
-extern "C" G_MODULE_EXPORT void btn_x_clicked() {
-	printCommandLogs("btn_x_clicked\n");
-}
-
-// I don't know if this function is really necessary
-extern "C" G_MODULE_EXPORT void btn_y_clicked() {
-	printCommandLogs("btn_y_clicked\n");
-}
-
-// I don't know if this function is really necessary
-extern "C" G_MODULE_EXPORT void btn_z_clicked() {
-	printCommandLogs("btn_z_clicked\n");
-}
-
-extern "C" G_MODULE_EXPORT void btn_get_window_clicked() {
-	printCommandLogs("btn_get_window_clicked\n");
-}
-
-extern "C" G_MODULE_EXPORT void btn_parallel_actived() {
-	printCommandLogs("btn_parallel_actived\n");
 }
 
 int main(int argc, char *argv[]) {
@@ -622,7 +608,7 @@ int main(int argc, char *argv[]) {
 	// inicializa o displayfile, viewport e window
 	DisplayFile dp = DisplayFile();
 	displayFile = &dp;
-	Viewport vp = Viewport(Coordenadas(tamBorda,tamBorda,0,0),Coordenadas(fim.getX()-tamBorda, fim.getY()-tamBorda, 0,0));
+	Viewport vp = Viewport(Coordenadas(tamBorda,tamBorda,0,1),Coordenadas(fim.getX()-tamBorda, fim.getY()-tamBorda, 0,1));
 	viewportP = &vp;
 	Window::instancia().setWindow(&inicio, &fim, displayFile);
 	World wd = World();

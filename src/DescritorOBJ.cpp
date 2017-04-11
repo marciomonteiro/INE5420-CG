@@ -90,7 +90,7 @@ std::string DescritorOBJ::leiaObjetoFromPath(std::string pathToObject){
 							token = linha.substr(0, linha.find(delimiter));
 							double z = atof(token.c_str());
 							linha.erase(0, linha.find(delimiter) + delimiter.length());
-							coords.push_back(Coordenadas(x,y,z,0.0));
+							coords.push_back(Coordenadas(x,y,z,1));
 							}
 						} else {
 							linha.erase(0, pos + linha.length());	//deleta linha

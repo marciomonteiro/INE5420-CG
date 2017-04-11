@@ -25,6 +25,7 @@
 
 class Window {
 private:
+	bool clipaComCS = true;
 	Coordenadas *inicioDaWindow, *fimDaWindow, *centroDaWindow;
 	DisplayFile *displayfile;
 	double anguloX, anguloY, anguloZ;
@@ -33,7 +34,6 @@ private:
 	void clipaLinhaComCS(std::vector<Coordenadas>& coords);
 	void clipaLinhaComLB(std::vector<Coordenadas>& coords);
 	int determinaRCDeCoordenada(Coordenadas& c);
-	bool calculaInterseccaoDeLinhas(std::pair<Coordenadas,Coordenadas> segmento1, std::pair<Coordenadas,Coordenadas> segmento2, Coordenadas &retorno);
 public:
 	static Window& instancia();
 	~Window(){};
@@ -50,5 +50,6 @@ public:
 	void clipaPonto(std::vector<Coordenadas>& coords);
 	void clipaLinha(std::vector<Coordenadas>& coords);
 	void clipaPoligono(std::vector<Coordenadas>& coords);
+	void setaAlgoritmoClippingReta(bool b);
 };
 #endif /* INCLUDE_WINDOW_HPP_ */
