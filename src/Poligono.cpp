@@ -30,7 +30,7 @@ void Poligono::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){
 }
 
 void Poligono::clipa(){
-	Window::instancia().clipaPoligono(normalized_coordenadas);
+	Algoritmos::clipaPoligono(normalized_coordenadas);
 }
 
 void Poligono::setPreenchimento(bool estado){

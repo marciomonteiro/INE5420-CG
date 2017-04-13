@@ -25,15 +25,12 @@
 
 class Window {
 private:
-	bool clipaComCS = true;
 	Coordenadas *inicioDaWindow, *fimDaWindow, *centroDaWindow;
 	DisplayFile *displayfile;
 	double anguloX, anguloY, anguloZ;
 	void atualizaCentroDaWindow();
 	Window();
-	void clipaLinhaComCS(std::vector<Coordenadas>& coords);
-	void clipaLinhaComLB(std::vector<Coordenadas>& coords);
-	int determinaRCDeCoordenada(Coordenadas& c);
+
 public:
 	static Window& instancia();
 	~Window(){};
@@ -47,9 +44,6 @@ public:
 	Coordenadas* getFimDaWindow(){return fimDaWindow;}
 	Coordenadas* getCentroDaWindow(){return centroDaWindow;}
 	void setCoordsWindow(Coordenadas* inicio, Coordenadas* fim);	
-	void clipaPonto(std::vector<Coordenadas>& coords);
-	void clipaLinha(std::vector<Coordenadas>& coords);
-	void clipaPoligono(std::vector<Coordenadas>& coords);
-	void setaAlgoritmoClippingReta(bool b);
+
 };
 #endif /* INCLUDE_WINDOW_HPP_ */

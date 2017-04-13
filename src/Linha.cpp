@@ -25,6 +25,10 @@ void Linha::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){
 	cairo_stroke(cr);
 }
 
+void Linha::clipa(bool clipaComCS){
+	Algoritmos::clipaLinha(normalized_coordenadas, clipaComCS);
+}
+
 void Linha::clipa(){
-	Window::instancia().clipaLinha(normalized_coordenadas);
+	std::cout << "Nao use este metodo!" << std::endl;
 }

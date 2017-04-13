@@ -25,6 +25,7 @@
 #include "Coordenadas.hpp"
 #include "Matriz.hpp"
 #include "Transformacao2D.hpp"
+#include "Algoritmos.hpp"
 
 class Objeto{
 private:
@@ -36,6 +37,7 @@ protected:
 	void setTipo(std::string& type);
 public:
 	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas);
+	~Objeto(){};
 	std::string getName();
 	std::string& getTipo();
 	std::vector<Coordenadas>* getWorldCoordenadas();

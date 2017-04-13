@@ -58,6 +58,14 @@ Viewport *viewportP;
 DisplayFile *displayFile;
 DescritorOBJ *descritor;
 
+//Global Variables
+bool clipaComCS = true;
+std::vector<Coordenadas> wireframeCoords;
+Coordenadas inicio = Coordenadas(0,0,0,1);
+Coordenadas fim = Coordenadas(400,400,0,1);
+double tamBorda = 10;
+bool preencherPoligono = false;
+
 //Gtk and beyond
 GtkBuilder *gtkBuilder;
 GtkWidget *window_widget;
@@ -75,12 +83,7 @@ GtkWidget *windowListaObjetos;
 GtkWidget *windowRotaciona;
 
 GtkTextBuffer *buffer;
-std::vector<Coordenadas> wireframeCoords;
 
-Coordenadas inicio = Coordenadas(0,0,0,1);
-Coordenadas fim = Coordenadas(400,400,0,1);
-double tamBorda = 10;
-bool preencherPoligono = false;
 
 static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data) {
   cairo_set_source_surface (cr, surface, 0, 0);
@@ -161,10 +164,10 @@ extern "C" G_MODULE_EXPORT void check_box_cs_clippa_reta() {
 	GtkToggleButton *botaoCS = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "cohen-sutherland"));
 	GtkToggleButton *botaoLB = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "liang-barsky"));
 	if (gtk_toggle_button_get_active(botaoCS)) {
-		Window::instancia().setaAlgoritmoClippingReta(true);
+		clipaComCS = true;
 	}
 	if (gtk_toggle_button_get_active(botaoLB)) {
-		Window::instancia().setaAlgoritmoClippingReta(false);
+		clipaComCS = false;
 	}
 }
 
@@ -438,7 +441,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
 		return;
 	}
 	Window::instancia().normalizaCoordenadasDoMundo();
-	linha->clipa();
+	linha->clipa(clipaComCS);
 	repaintWindow();
 }
 

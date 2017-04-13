@@ -25,5 +25,5 @@ void Ponto::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){
 }
 
 void Ponto::clipa(){
-	Window::instancia().clipaPonto(normalized_coordenadas);
+	Algoritmos::clipaPonto(normalized_coordenadas);
 }
