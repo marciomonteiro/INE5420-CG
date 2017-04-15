@@ -29,6 +29,4 @@ private:
 	Coordenadas * fimDaWindow;
 };
 
-
-
 #endif /* INCLUDE_WINDOW_HPP_ */

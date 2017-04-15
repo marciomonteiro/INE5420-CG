@@ -31,7 +31,4 @@ private:
 	double z;
 	double aux;
 };
-
-
-
 #endif /* INCLUDE_COORDENADAS_HPP_ */
