@@ -8,17 +8,25 @@
 #ifndef INCLUDE_WINDOW_HPP_
 #define INCLUDE_WINDOW_HPP_
 
+#include <iostream>
+#include "DisplayFile.hpp"
+#include "Coordenadas.hpp"
+
 class Window {
 public:
-	Window(double larguraX, double alturaY) : largura(larguraX), altura(alturaY){}
+	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim), displayFile(world){}
 	~Window(){}
 
 	void zoom(double porcentagem);
 	void mover(double x, double y, double z);
+	Coordenadas* getInicioDaWindow(){return inicioDaWindow;}
+	Coordenadas* getFimDaWindow(){return fimDaWindow;}
 
-	//mexer nas coordenadas zoom
+	//mexer nas Coordenadas zoom
 private:
-	double altura, largura;
+	DisplayFile * displayFile;
+	Coordenadas * inicioDaWindow;
+	Coordenadas * fimDaWindow;
 };
 
 

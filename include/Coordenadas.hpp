@@ -1,15 +1,20 @@
 /*
- * Coordenadas.cpp
+ * Coordenadas.hpp
  *
  *  Created on: 14 de mar de 2017
  *      Author: rodrigo
  */
 
-#ifndef INCLUDE_COORDENADAS_CPP_
-#define INCLUDE_COORDENADAS_CPP_
+#ifndef INCLUDE_COORDENADAS_HPP_
+#define INCLUDE_COORDENADAS_HPP_
 
 class Coordenadas {
 public:
+
+	Coordenadas(double xE, double yE, double zE, double auxE) : x(xE), y(yE), z(zE), aux(auxE) {};
+	Coordenadas(){}
+	~Coordenadas(){};
+
 	void setX(double x);
 	void setY(double y);
 	void setZ(double z);
@@ -29,4 +34,4 @@ private:
 
 
 
-#endif /* INCLUDE_COORDENADAS_CPP_ */
+#endif /* INCLUDE_COORDENADAS_HPP_ */

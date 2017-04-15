@@ -9,6 +9,7 @@
 #define INCLUDE_POLIGONO_HPP_
 
 #include "../Objeto.hpp"
+#include <iostream>
 
 class Poligono : public Objeto {
 private:
@@ -21,21 +22,6 @@ public:
 
 	~Poligono(){}
 
-
-
-/**
-	void polígono (Ponto *vertices, int n) { //Desenha um polígono de n vértices
-
-		int i;
-
-		for (i = 0; i < n - 1; i++) {
-			linha (vertices[i].x, vertices[i].y, vertices[i +1].x, vertices[i +1].y);
-		}
-		linha (vertices[0].x, vertices[0].y, vertices[i].x, vertices[i].y);
-	}
- */
+	void desenhar(cairo_t* surf, std::vector<Coordenadas> coords);
 };
-
-
-
 #endif /* INCLUDE_POLIGONO_HPP_ */
