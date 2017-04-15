@@ -6,9 +6,3 @@ exec
 
 # .sh
 *.sh
-
-#deps
-.deps
-
-#build folder
-build

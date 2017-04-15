@@ -25,8 +25,9 @@ class Window {
 private:
 	Coordenadas *inicioDaWindow, *fimDaWindow;
 public:
-	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim){};
+	Window(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world) : inicioDaWindow(inicio), fimDaWindow(fim), displayFile(world){}
 	~Window(){}
+
 	void zoom(double porcentagem);
 	void mover(double x, double y, double z);
 	void setCoordenadas(Coordenadas* inicio, Coordenadas* fim){inicioDaWindow = inicio; fimDaWindow = fim;}
