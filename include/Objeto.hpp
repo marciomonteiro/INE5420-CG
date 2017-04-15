@@ -1,5 +1,5 @@
 /*
- * Objeto.h
+ * Objeto.hpp
  *
  *  Created on: 13 de mar de 2017
  *      Author: rodrigo
@@ -10,13 +10,14 @@
 
 #include <string>
 #include <vector>
+#include <gtk/gtk.h>
 #include "Coordenadas.hpp"
 
-class Objeto : public Coordenadas{
+class Objeto{
 private:
 	std::string nome, tipo;
 	std::vector<Coordenadas> world_coordenadas;
-
+	
 protected:
 	void setName(const std::string& name);
 	void setTipo(const std::string& tipo);
@@ -25,13 +26,12 @@ public:
 	Objeto(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas) : nome(nomeObjeto), tipo(tipoObjeto), world_coordenadas(coordenadas){
 	}
 
-	~Objeto(){}
+	virtual ~Objeto(){}
 
-	void setCoordenadas(double x, double y, double z, double aux);
-	void setCoordenadas2D(double x, double y);
-	void setCoordenadas3D(double x, double y, double z);
-	const std::string& getName() const;
+	const std::string getName() const;
 	const std::string& getTipo() const;
+	std::vector<Coordenadas>* getCoordenadas(){return &world_coordenadas;}
+	virtual void desenhar(cairo_t* surf, std::vector<Coordenadas> coords) = 0;	//=0 obriga implementar desenhar
 };
 
 #endif /* INCLUDE_OBJETO_HPP_ */
