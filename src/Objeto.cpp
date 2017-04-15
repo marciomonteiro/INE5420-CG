@@ -22,7 +22,3 @@ void Objeto::setName(const std::string& name){
 void Objeto::setTipo(const std::string& tipo) {
 	this->tipo = tipo;
 }
-
-
-
-

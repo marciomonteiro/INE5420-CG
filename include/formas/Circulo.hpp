@@ -10,7 +10,6 @@
 
 #include "../Objeto.hpp"
 
-
 class Circulo : public Objeto {
 public:
 	Circulo(std::string nome, std::string tipo, std::vector<Coordenadas> coordenadas) : Objeto(nome, tipo, coordenadas){}
@@ -20,6 +19,5 @@ public:
 
 private:
 };
-
 
 #endif /* INCLUDE_FORMAS_CIRCULO_HPP_ */

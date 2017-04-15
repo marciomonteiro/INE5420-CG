@@ -134,7 +134,7 @@
                       <object class="GtkFrame" id="WindowFrame">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label_xalign">0.5</property>
+                        <property name="label_xalign">0</property>
                         <property name="shadow_type">none</property>
                         <child>
                           <object class="GtkAlignment" id="alignment3">
@@ -238,6 +238,7 @@
                                   <object class="GtkFixed" id="StepGrid">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <signal name="check-resize" handler="btn_out_clicked" swapped="no"/>
                                     <child>
                                       <object class="GtkLabel" id="label1">
                                         <property name="width_request">15</property>
@@ -1227,6 +1228,7 @@
               <object class="GtkBox" id="box12">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="left_padding">12</property>
                 <child>
                   <object class="GtkLabel" id="label23">
                     <property name="visible">True</property>
@@ -1447,6 +1449,7 @@
               <object class="GtkBox" id="box17">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="left_padding">12</property>
                 <child>
                   <object class="GtkLabel" id="label30">
                     <property name="visible">True</property>
