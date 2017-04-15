@@ -11,11 +11,10 @@
  *	 Professor: Dr. rer.nat. Aldo von Wangenheim
  *
  *	This file is part of a project for the INE5420 Computer Graphics
- *	curse lectured in Federal University of Santa Catarina.
+ *	course lectured in Federal University of Santa Catarina.
  */
 
 #include "Transformacao2D.hpp"
-
 
 Matriz::Matriz<double> Transformacao2D::translacao(double dx, double dy){
 	std::vector<double> retorno {1, 0, 0, 0, 1, 0, dx, dy, 1};

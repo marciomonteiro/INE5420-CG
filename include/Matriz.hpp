@@ -11,7 +11,7 @@
  *	 Professor: Dr. rer.nat. Aldo von Wangenheim
  *
  *	This file is part of a project for the INE5420 Computer Graphics
- *	curse lectured in Federal University of Santa Catarina.
+ *	course lectured in Federal University of Santa Catarina.
  */
 
 // based on http://www.drdobbs.com/a-c-matrix-template-class/184403323
@@ -52,6 +52,8 @@ namespace Matriz{
          Matriz( const Matriz<T>& );
          ~Matriz();
 
+         Matriz<T>& operator=( const Matriz<T>& );
+         
          // matrix multiplication
          Matriz<T> operator*( Matriz<T>& M ) {
             Matriz<double> v(linha, M.coluna, elementos);
@@ -85,7 +87,7 @@ namespace Matriz{
       elementos = elements;
       else{
          elementos.reserve(linha*coluna);
-         for (int i = 0; i < linha*coluna; i++){
+         for (unsigned int i = 0; i < linha*coluna; i++){
             elementos.push_back(0.0);
          }
       }
@@ -97,6 +99,16 @@ namespace Matriz{
 
    template<class T>
    Matriz<T>::~Matriz(){
+   }
+
+   template<class T>
+   Matriz<T>& Matriz<T>::operator=( const Matriz<T>& cp )
+   {
+      if(cp.linha != linha && cp.coluna != coluna )
+         throw std::domain_error("Matriz op= not of same order");
+      for(unsigned i=0;i<linha*coluna;i++)
+         elementos[i] = cp.elementos[i];
+      return *this;
    }
 
    template<class T>

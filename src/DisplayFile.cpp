@@ -11,7 +11,7 @@
  *	 Professor: Dr. rer.nat. Aldo von Wangenheim
  *
  *	This file is part of a project for the INE5420 Computer Graphics
- *	curse lectured in Federal University of Santa Catarina.
+ *	course lectured in Federal University of Santa Catarina.
  */
 
 #include "DisplayFile.hpp"
@@ -22,11 +22,10 @@ DisplayFile& DisplayFile::instancia(){
 }
 
 bool DisplayFile::addObjectInTheWorld(Objeto* obj){
-
 	if(!objectsInTheWorld.insert(std::make_pair(obj->getName(),obj)).second){
-      return false;
+		return false;
 	}
-    return true;
+	return true;
 }
 
 void DisplayFile::removeObjectFromTheWorld(std::string objName){
@@ -37,7 +36,7 @@ Objeto* DisplayFile::getTheObjectFromTheWorld(std::string objName){
 	return objectsInTheWorld.find(objName)->second;
 }
 
-std::unordered_map<std::string, Objeto*> DisplayFile::getAllObjectsFromTheWorld(){
+std::unordered_map<std::string, Objeto* > DisplayFile::getAllObjectsFromTheWorld(){
 	return objectsInTheWorld;
 }
 

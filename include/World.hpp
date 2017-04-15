@@ -11,7 +11,7 @@
  *	 Professor: Dr. rer.nat. Aldo von Wangenheim
  *
  *	This file is part of a project for the INE5420 Computer Graphics
- *	curse lectured in Federal University of Santa Catarina.
+ *	course lectured in Federal University of Santa Catarina.
  */
 
 #ifndef INCLUDE_WORLD_HPP_
@@ -24,12 +24,12 @@ class World {
 private:
 	DisplayFile world_displayFile;
 public:
-	World(){}
-	~World(){}
+	World(){};
+	~World(){};
 	bool adicionaObjetosNoMundo(Objeto* obj);
 	void removeObjetosNoMundo(std::string nome);
 	void destroiTodosObjetosDoMundo();
-	DisplayFile* getDisplayfile(){return &world_displayFile;}
+	DisplayFile* getDisplayfile();
 	void transformarObjeto(std::string nome, Matriz::Matriz<double> matriz);
 	void scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz);
 	void rotacionarObjeto(std::string nome, bool coordArbitraria, Coordenadas coords, Matriz::Matriz<double> matriz);

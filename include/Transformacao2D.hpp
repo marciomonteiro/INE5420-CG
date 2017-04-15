@@ -11,7 +11,7 @@
  *	 Professor: Dr. rer.nat. Aldo von Wangenheim
  *
  *	This file is part of a project for the INE5420 Computer Graphics
- *	curse lectured in Federal University of Santa Catarina.
+ *	course lectured in Federal University of Santa Catarina.
  */
 
 #ifndef INCLUDE_TRANSFORMACAO2D_HPP_
@@ -23,10 +23,7 @@
 #include <vector>
 #include "Matriz.hpp"
 
-class Transformacao2D {
-public:
-	Transformacao2D(){}
-	~Transformacao2D(){};
+namespace Transformacao2D {
 	Matriz::Matriz<double> translacao(double dx, double dy);
 	Matriz::Matriz<double> escalonamento(double sx, double sy);
 	Matriz::Matriz<double> rotacao(double graus);
