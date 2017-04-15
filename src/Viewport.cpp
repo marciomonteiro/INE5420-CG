@@ -1,19 +1,23 @@
 /*
- * Viewport.cpp
+ *	================================================
+ *		FEDERAL UNIVERSITY OF SANTA CATARINA
+ *	================================================
  *
- *  Created on: 14 de mar de 2017
- *      Author: rodrigo
+ * $Viewport.cpp
+ *
+ *  Created on: $14 de mar de 2017.
+ *     Authors: Marcio Monteiro and Rodrigo Pedro Marques.
+ *	    GitHub: https://github.com/marciomonteiro/INE5420-CG.git
+ *	 Professor: Dr. rer.nat. Aldo von Wangenheim
+ *
+ *	This file is part of a project for the INE5420 Computer Graphics
+ *	curse lectured in Federal University of Santa Catarina.
  */
 
 #include "../include/Viewport.hpp"
 
-Viewport::Viewport(){
-	coordenadas_minimas = Coordenadas(0.0,0.0,0.0,0.0);
-	coordenadas_maximas = Coordenadas(300.0,300.0,0.0,0.0);
-}
-
-void Viewport::transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas fimDaWindow, DisplayFile* displayfile){
-	for (auto obj : displayfile->getAllObjectsFromTheWorld()){
+void Viewport::transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas fimDaWindow, DisplayFile* displayFile){
+	for (auto obj : displayFile->getAllObjectsFromTheWorld()){
 		std::vector<Coordenadas> coordenadasDaViewPort;
 		std::vector<Coordenadas>* coordsObjeto = obj.second->getCoordenadas();
 		for (auto coordenadas_objeto : *coordsObjeto)

@@ -1,8 +1,17 @@
 /*
- * Circulo.hpp
+ *	================================================
+ *		FEDERAL UNIVERSITY OF SANTA CATARINA
+ *	================================================
  *
- *  Created on: 14 de mar de 2017
- *      Author: rodrigo
+ * $Circulo.hpp
+ *
+ *  Created on: $14 de mar de 2017.
+ *     Authors: Marcio Monteiro and Rodrigo Pedro Marques.
+ *	    GitHub: https://github.com/marciomonteiro/INE5420-CG.git
+ *	 Professor: Dr. rer.nat. Aldo von Wangenheim
+ *
+ *	This file is part of a project for the INE5420 Computer Graphics
+ *	curse lectured in Federal University of Santa Catarina.
  */
 
 #ifndef INCLUDE_FORMAS_CIRCULO_HPP_
@@ -16,8 +25,6 @@ public:
 	~Circulo(){}
 
 	void desenhar(cairo_t* surf, std::vector<Coordenadas> coords);
-
-private:
 };
 
 #endif /* INCLUDE_FORMAS_CIRCULO_HPP_ */

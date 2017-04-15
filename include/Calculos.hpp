@@ -3,9 +3,9 @@
  *		FEDERAL UNIVERSITY OF SANTA CATARINA
  *	================================================
  *
- * $Linha.cpp
+ * $Calculos.hpp
  *
- *  Created on: $14 de mar de 2017.
+ *  Created on: $21 de mar de 2017.
  *     Authors: Marcio Monteiro and Rodrigo Pedro Marques.
  *	    GitHub: https://github.com/marciomonteiro/INE5420-CG.git
  *	 Professor: Dr. rer.nat. Aldo von Wangenheim
@@ -14,11 +14,18 @@
  *	curse lectured in Federal University of Santa Catarina.
  */
 
-#include "../include/formas/Linha.hpp"
 
-void Linha::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){
-	cairo_set_line_width(cr, 1);
-	cairo_move_to(cr, coords[0].getX(), coords[0].getY());
-	cairo_line_to (cr, coords[1].getX(), coords[1].getY());
-	cairo_stroke(cr);
-}
+/**
+ * Essa classe tem o intuíto de ter alguns dos diversos cálculos que terão que ser realizados
+ * ao longo dos trabalhos.
+ */
+
+#ifndef INCLUDE_CALCULOS_HPP_
+#define INCLUDE_CALCULOS_HPP_
+
+class Calculos {
+public:
+private:
+};
+
+#endif /* INCLUDE_CALCULOS_HPP_ */

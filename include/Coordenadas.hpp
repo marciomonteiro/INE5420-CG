@@ -1,16 +1,29 @@
 /*
- * Coordenadas.hpp
+ *	================================================
+ *		FEDERAL UNIVERSITY OF SANTA CATARINA
+ *	================================================
  *
- *  Created on: 14 de mar de 2017
- *      Author: rodrigo
+ * $Coordenadas.hpp
+ *
+ *  Created on: $14 de mar de 2017.
+ *     Authors: Marcio Monteiro and Rodrigo Pedro Marques.
+ *	    GitHub: https://github.com/marciomonteiro/INE5420-CG.git
+ *	 Professor: Dr. rer.nat. Aldo von Wangenheim
+ *
+ *	This file is part of a project for the INE5420 Computer Graphics
+ *	curse lectured in Federal University of Santa Catarina.
  */
 
 #ifndef INCLUDE_COORDENADAS_HPP_
 #define INCLUDE_COORDENADAS_HPP_
 
 class Coordenadas {
+private:
+	double x;
+	double y;
+	double z;
+	double aux;
 public:
-
 	Coordenadas(double xE, double yE, double zE, double auxE) : x(xE), y(yE), z(zE), aux(auxE) {};
 	Coordenadas(){}
 	~Coordenadas(){};
@@ -24,11 +37,5 @@ public:
 	double getY();
 	double getZ();
 	double getAux();
-
-private:
-	double x;
-	double y;
-	double z;
-	double aux;
 };
 #endif /* INCLUDE_COORDENADAS_HPP_ */

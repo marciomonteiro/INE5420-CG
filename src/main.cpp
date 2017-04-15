@@ -1,17 +1,33 @@
+/*
+ *	================================================
+ *		FEDERAL UNIVERSITY OF SANTA CATARINA
+ *	================================================
+ *
+ * $main.cpp
+ *
+ *  Created on: $13 de mar de 2017.
+ *     Authors: Marcio Monteiro and Rodrigo Pedro Marques.
+ *	    GitHub: https://github.com/marciomonteiro/INE5420-CG.git
+ *	 Professor: Dr. rer.nat. Aldo von Wangenheim
+ *
+ *	This file is part of a project for the INE5420 Computer Graphics
+ *	curse lectured in Federal University of Santa Catarina.
+ */
+
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
-
+#include <string>
 
 #include "Window.hpp"
 #include "World.hpp"
 #include "Viewport.hpp"
 #include "DisplayFile.hpp"
 #include "Objeto.hpp"
+#include "Transformacao2D.hpp"
 #include "formas/Ponto.hpp"
 #include "formas/Linha.hpp"
-// #include "formas/Circulo.hpp"
 #include "formas/Poligono.hpp"
 
 /**
@@ -38,7 +54,7 @@ Window *windowP;
 World *world;
 Viewport *viewportP;
 DisplayFile *displayFile;
-
+Transformacao2D *transformador;
 
 //Gtk and beyond
 GtkBuilder *gtkBuilder;
@@ -47,26 +63,22 @@ GtkWidget *window_widget;
 
 std::vector<Coordenadas> wireframeCoords;
 
-//TreeList
-GtkTreeStore *store;
-GtkWidget *treeViewList;
-GtkTreeViewColumn *column;
-GtkCellRenderer *renderer;
-enum{
-	NOME_OBJETO,
-	TIPO_OBJETO
-};
-
 //RightPanel
 GtkWidget *drawing_area;
 GtkTextView *outputCommandsShell;
 
-
 //WindowInsertionPanel
 GtkWidget *windowInsertion;
 GtkWidget *windowRemove;
+GtkWidget *windowTranslacao;
+GtkWidget *windowEscalona;
+GtkWidget *windowListaObjetos;
+GtkWidget *windowRotaciona;
 
 GtkTextBuffer *buffer;
+
+Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
+Coordenadas fim = Coordenadas(400.0,400.0,0.0,0.0);
 
 static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
   cairo_set_source_surface (cr, surface, 0, 0);
@@ -74,6 +86,27 @@ static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data){
   return FALSE;
 }
 
+/**
+ * Toda vez que a função draw é chamada, ativa essa função.
+ */
+static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data) {
+	cairo_set_source_surface(cr, surface, 0, 0);
+	cairo_paint(cr);
+
+	DisplayFile * aux = world->getDisplayfile();
+	std::unordered_map<std::string, Objeto*> objetos = aux->getAllObjectsFromTheWorld();
+
+	std::string print = "";
+
+	for (auto it = objetos.begin(); it != objetos.end(); ++it){
+		print.append(it->second->getName());
+		print.append("\n");
+	}
+
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(windowListaObjetos));
+	gtk_text_buffer_set_text(buffer, print.c_str(), -1);
+	return FALSE;
+}
 /*Clear the surface, removing the scribbles*/
 static void clear_surface (){
 	cairo_t *cr;
@@ -100,7 +133,7 @@ void repaintWindow (){
 	cairo_t *cr;
 	clear_surface();
 	cr = cairo_create (surface);
-	viewportP->transformada(cr, *(windowP->getInicioDaWindow()), *(windowP->getFimDaWindow()), displayFile);
+	viewportP->transformada(cr, *(windowP->getInicioDaWindow()), *(windowP->getFimDaWindow()), world->getDisplayfile());
 	gtk_widget_queue_draw (drawing_area);
 }
 
@@ -110,18 +143,6 @@ void printCommandLogs(const char* text) {
 	gtk_text_buffer_get_iter_at_mark (buffer, &it, textMarks);
 	gtk_text_buffer_insert(buffer, &it, text, -1);
 	gtk_text_view_scroll_to_mark(outputCommandsShell, textMarks, 0, false, 0, 0);
-}
-
-void setupTree(){
-	store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
-	treeViewList = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
-	g_object_unref (G_OBJECT (store));
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes ("Name", renderer, "text", NOME_OBJETO, NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (treeViewList), column);
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes ("Type", renderer, "text", TIPO_OBJETO, NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (treeViewList), column);
 }
 
 extern "C" G_MODULE_EXPORT void btn_cancel_insertion_actived () {
@@ -139,6 +160,36 @@ extern "C" G_MODULE_EXPORT void remove_object_window () {
 	gtk_widget_show(windowRemove);
 }
 
+extern "C" G_MODULE_EXPORT void btn_cancel_translada_actived () {
+	printCommandLogs("btn_cancel_translada_actived\n");
+	gtk_widget_hide(windowTranslacao);
+}
+
+extern "C" G_MODULE_EXPORT void translada_object_window () {
+	printCommandLogs("translada_object_window\n");
+	gtk_widget_show(windowTranslacao);
+}
+
+extern "C" G_MODULE_EXPORT void btn_cancel_escala_actived () {
+	printCommandLogs("btn_cancel_escala_actived\n");
+	gtk_widget_hide(windowEscalona);
+}
+
+extern "C" G_MODULE_EXPORT void escala_object_window () {
+	printCommandLogs("escala_object_window\n");
+	gtk_widget_show(windowEscalona);
+}
+
+extern "C" G_MODULE_EXPORT void btn_cancel_rotaciona_actived () {
+	printCommandLogs("btn_cancel_rotaciona_actived\n");
+	gtk_widget_hide(windowRotaciona);
+}
+
+extern "C" G_MODULE_EXPORT void rotaciona_object_window () {
+	printCommandLogs("rotaciona_object_window\n");
+	gtk_widget_show(windowRotaciona);
+}
+
 extern "C" G_MODULE_EXPORT void get_text_step(){
 	printCommandLogs("get_text_step\n");
 	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
@@ -150,7 +201,7 @@ extern "C" G_MODULE_EXPORT void get_text_degrees(){
 	printCommandLogs("get_text_degrees\n");
 	GtkEntry *entryDegrees = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryDegreesSize"));
 	const char *entryDegreesText = gtk_entry_get_text (entryDegrees);
-	// printf("Degrees: %f\n", atof(entryDegreesText));
+	printf("Degrees: %f\n", atof(entryDegreesText));
 }
 
 extern "C" G_MODULE_EXPORT void btn_remove_object_actived(){
@@ -158,9 +209,9 @@ extern "C" G_MODULE_EXPORT void btn_remove_object_actived(){
 	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "RemoveObjectName"));
 	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
 	gtk_widget_hide(windowRemove);
-	if (!displayFile->isEmpty())
+	if (!world->getDisplayfile()->isEmpty())
 	{
-		displayFile->removeObjectFromTheWorld(entryStepText);
+		world->removeObjetosNoMundo(entryStepText);
 		repaintWindow ();
 	}
 }
@@ -181,15 +232,15 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived(){
 	double YPoint = atof(entryYPointAux);
 	// double zPoint= atof(entryZPointAux);
 
-	//Arrumar quando adicionar Z e Aux
-	Ponto * ponto = new Ponto(entryPointName, "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
+	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
 	gtk_widget_hide(windowInsertion);
-	displayFile->addObjectInTheWorld(ponto);
+	world->adicionaObjetosNoMundo(ponto);
 	repaintWindow ();
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	printCommandLogs("btn_ok_insert_line_actived\n");
+
 	GtkEntry *entryNameNewLine = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameNewLine"));
 	GtkEntry *entryX1Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryX1Line"));
 	GtkEntry *entryY1Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryY1Line"));
@@ -213,11 +264,9 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived(){
 	double Y2Line= atof(entryY2LineAux);
 	// double Z2Line= atof(entryZ2LineAux);
 
-
-	//Arrumar quando adicionar Z e Aux
-	Linha * linha = new Linha(entryLineName, "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
+	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
 	gtk_widget_hide(windowInsertion);
-	displayFile->addObjectInTheWorld(linha);
+	world->adicionaObjetosNoMundo(linha);
 	repaintWindow ();
 }
 
@@ -227,9 +276,9 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
 	GtkEntry *entryNameNewWireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameNewWireframe"));
 	const char *entryWireframeName = gtk_entry_get_text (entryNameNewWireframe);
 	wireframeCoords.push_back(wireframeCoords.front());
-	Poligono * poligono = new Poligono(entryWireframeName, "Poligono", wireframeCoords);
+	Poligono * poligono = new Poligono(std::string(entryWireframeName), "Poligono", wireframeCoords);
 	gtk_widget_hide(windowInsertion);
-	displayFile->addObjectInTheWorld(poligono);
+	world->adicionaObjetosNoMundo(poligono);
 	repaintWindow ();
 }
 
@@ -251,8 +300,83 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived(){
 	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0.0, 0.0));
 }
 
-extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
-	printCommandLogs("btn_ok_insert_curve_actived\n");
+extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto(){
+	printCommandLogs("btn_ok_translacao_objeto\n");
+	
+	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjeto"));
+	GtkEntry *entryXTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXTranslacao"));
+	GtkEntry *entryYTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYTranslacao"));
+	// GtkEntry *entryZTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZTranslacao"));
+
+	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
+	const char *entryXTranslacaoAux = gtk_entry_get_text (entryXTranslacao);
+	const char *entryYTranslacaoAux = gtk_entry_get_text (entryYTranslacao);
+	// const char *entryZTranslacaoAux = gtk_entry_get_text (entryZTranslacao);
+
+	double XTranslacao = atof(entryXTranslacaoAux);
+	double YTranslacao = atof(entryYTranslacaoAux);
+	// double ZTranslacao = atof(entryZTranslacaoAux);
+
+	gtk_widget_hide(windowTranslacao);
+	world->transformarObjeto(std::string(entryObjetoName),transformador->translacao(XTranslacao, YTranslacao));
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto(){
+	printCommandLogs("btn_ok_escalona_objeto\n");
+	
+	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoEsc"));
+	GtkEntry *entryXEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXEscalona"));
+	GtkEntry *entryYEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYEscalona"));
+	// GtkEntry *entryZEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZEscalona"));
+
+	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
+	const char *entryXEscalonaAux = gtk_entry_get_text (entryXEscalona);
+	const char *entryYEscalonaAux = gtk_entry_get_text (entryYEscalona);
+	// const char *entryZEscalonaAux = gtk_entry_get_text (entryZEscalona);
+
+	double XEscalona = atof(entryXEscalonaAux);
+	double YEscalona = atof(entryYEscalonaAux);
+	// double ZEscalona = atof(entryZEscalonaAux);
+
+	gtk_widget_hide(windowEscalona);
+	world->scalonarObjeto(std::string(entryObjetoName),transformador->escalonamento(XEscalona, YEscalona));
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto(){
+	printCommandLogs("btn_ok_rotaciona_objeto\n");
+	
+	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoRot"));
+	GtkEntry *entryAngleRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "AngleToRotate"));
+	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
+	const char *entryAngleRotate = gtk_entry_get_text (entryAngleRotaciona);
+	double angulo = atof(entryAngleRotate);
+
+	GtkToggleButton *BotaoCentroDoMundo = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaoCentroDoMundo"));
+	GtkToggleButton *BotaCentroDoObjeto = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaCentroDoObjeto"));
+	gtk_widget_hide(windowRotaciona);
+
+	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)){
+		Coordenadas centroDoMundo = Coordenadas(0.0,0.0,0.0,0.0);
+		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, transformador->rotacao(angulo));
+	}
+	if (gtk_toggle_button_get_active(BotaCentroDoObjeto)){
+		Objeto* ob = world->getDisplayfile()->getTheObjectFromTheWorld(std::string(entryObjetoName));
+		world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), transformador->rotacao(angulo));
+	} else {
+		GtkEntry *entryXRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotaciona"));
+		GtkEntry *entryYRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotaciona"));
+		// GtkEntry *entryZRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZRotaciona"));
+		const char *entryXRotacionaAux = gtk_entry_get_text (entryXRotaciona);
+		const char *entryYRotacionaAux = gtk_entry_get_text (entryYRotaciona);
+		// const char *entryZRotacionaAux = gtk_entry_get_text (entryZRotaciona);
+		double XRotaciona = atof(entryXRotacionaAux);
+		double YRotaciona = atof(entryYRotacionaAux);
+		// double ZRotaciona = atof(entryZRotacionaAux);
+		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0.0,0.0}, transformador->rotacao(angulo));
+	}
+	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_up_clicked(){
@@ -279,6 +403,29 @@ extern "C" G_MODULE_EXPORT void btn_right_clicked(){
 	repaintWindow ();
 }
 
+extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked(){
+	printCommandLogs("btn_zoom_in_clicked\n");
+	windowP->zoom(0.9);
+	repaintWindow ();
+}
+
+extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
+	printCommandLogs("btn_zoom_out_clicked\n");
+	windowP->zoom(1.1);
+	repaintWindow ();
+}
+
+extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived(){
+	printCommandLogs("btn_reset_zoom_actived\n");
+	inicio = Coordenadas(0.0,0.0,0.0,0.0);
+	fim = Coordenadas(400.0,400.0,0.0,0.0);
+	repaintWindow ();
+}
+
+extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
+	printCommandLogs("btn_ok_insert_curve_actived\n");
+}
+
 // I don't know if this function is really necessary
 extern "C" G_MODULE_EXPORT void btn_get_step_in_clicked(){
 	printCommandLogs("btn_get_step_in_clicked\n");
@@ -287,18 +434,6 @@ extern "C" G_MODULE_EXPORT void btn_get_step_in_clicked(){
 // I don't know if this function is really necessary
 extern "C" G_MODULE_EXPORT void btn_get_step_out_clicked(){
 	printCommandLogs("btn_get_step_out_clicked\n");
-}
-
-extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked(){
-	printCommandLogs("btn_zoom_in_clicked\n");
-	windowP->zoom(1.1);
-	repaintWindow ();
-}
-
-extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked(){
-	printCommandLogs("btn_zoom_out_clicked\n");
-	windowP->zoom(0.9);
-	repaintWindow ();
 }
 
 // I don't know if this function is really necessary
@@ -324,49 +459,39 @@ extern "C" G_MODULE_EXPORT void btn_parallel_actived(){
 	printCommandLogs("btn_parallel_actived\n");
 }
 
-// // TO DO
-
-// extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived(){
-// 	printCommandLogs("btn_ok_insert_wireframe_actived\n");
-// 	gtk_widget_hide(windowInsertion);
-// }
-
-// // TO DO
-
-// extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived(){
-// 	printCommandLogs("btn_ok_insert_curve_actived\n");
-// 	gtk_widget_hide(windowInsertion);
-// }
-
-
 int main(int argc, char *argv[]){
-	
 	gtk_init(&argc, &argv);
 
 	gtkBuilder = gtk_builder_new();
 	gtk_builder_add_from_file(gtkBuilder, "mainwindow.glade", NULL);
-
 	window_widget = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "MainWindow") );
 	drawing_area = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "drawing_area") );
 	windowInsertion = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowInsertion") );
 	windowRemove = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "removeObject") );
 	outputCommandsShell = GTK_TEXT_VIEW(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "OutputCommandsShell"));
+	windowTranslacao = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowTranslacao"));
+	windowEscalona = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowEscalonamento"));
+	windowRotaciona = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "WindowRotaciona"));
+	windowListaObjetos = GTK_WIDGET( gtk_builder_get_object( GTK_BUILDER(gtkBuilder), "ObjectsInTheWorldInterface"));
 
+	gtk_text_view_set_editable(GTK_TEXT_VIEW(windowListaObjetos), FALSE);
 	buffer = gtk_text_buffer_new(NULL);
 	gtk_text_view_set_buffer(outputCommandsShell, buffer);
 	gtk_text_view_set_wrap_mode(outputCommandsShell, GTK_WRAP_NONE);
 
 	// inicializa o displayfile, viewport e window
-	Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
-	Coordenadas fim = Coordenadas(300.0,300.0,0.0,0.0);
 	DisplayFile dp = DisplayFile();
 	displayFile = &dp;
-	Viewport vp = Viewport();
+	Viewport vp = Viewport(inicio, fim);
 	viewportP = &vp;
 	Window cWindow = Window(&inicio, &fim, displayFile);
 	windowP = &cWindow;
+	World wd = World();
+	world = &wd;
+	Transformacao2D t = Transformacao2D();
+	transformador = &t;
 
-	setupTree();
+	g_signal_connect(drawing_area, "draw", G_CALLBACK(on_draw_event), NULL);
 	g_signal_connect (drawing_area, "draw", G_CALLBACK (drawWindow), NULL);
 	g_signal_connect (drawing_area,"configure-event", G_CALLBACK (configure_event_cb), NULL);
 

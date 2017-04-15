@@ -1,8 +1,17 @@
 /*
- * Ponto.hpp
+ *	================================================
+ *		FEDERAL UNIVERSITY OF SANTA CATARINA
+ *	================================================
  *
- *  Created on: 14 de mar de 2017
- *      Author: rodrigo
+ * $Ponto.hpp
+ *
+ *  Created on: $14 de mar de 2017.
+ *     Authors: Marcio Monteiro and Rodrigo Pedro Marques.
+ *	    GitHub: https://github.com/marciomonteiro/INE5420-CG.git
+ *	 Professor: Dr. rer.nat. Aldo von Wangenheim
+ *
+ *	This file is part of a project for the INE5420 Computer Graphics
+ *	curse lectured in Federal University of Santa Catarina.
  */
 
 #ifndef INCLUDE_FORMAS_PONTO_HPP_
@@ -14,12 +23,7 @@
 class Ponto : public Objeto {
 public:
 	Ponto(std::string nomePonto, std::string tipoPonto, std::vector<Coordenadas> coordenadas) : Objeto(nomePonto, tipoPonto, coordenadas){}
-
 	~Ponto(){}
 	void desenhar(cairo_t* surf, std::vector<Coordenadas> coords);
-
-private:
 };
-
-
 #endif /* INCLUDE_FORMAS_PONTO_HPP_ */
