@@ -51,8 +51,6 @@ Sugestões de Modelagem:
 - Chame o descritor para cada objeto de seu mundo.
 - Assim você só precisa se preocupar com o cabeçalho do .obj. O resto de se resove através de um percurso do display file com seu descritor.
 
-## Under development
-
 **1.4 - Incremente seu SGI para suportar clipping dos objetos do mundo**
 
 Implemente as principais técnicas de clipagem para windows retangulares vistas neste capítulo, usando clipagem de pontos e clipagem por C-S, L-B ou NLN para retas, de forma a integrá-las ao seu sistema gráfico de maneira que a transformada de viewport seja aplicada apenas aos objetos resultantes do clipping.
@@ -78,5 +76,20 @@ Para ter certeza de que a clipagem está funcionando e não é o algoritmo de cl
 - Estenda seu SGI para suportar polígonos preenchidos, utilizando as primitivas de preenchimento da sua linguagem de programação. O usuário escolhe se o polígono é em modelo de arame ou preenchido no momento de sua criação.
 
 - Implemente o clipping de polígonos preenchidos com o algoritmo de Weiler-Atherton. Para simplificar, considere apenas polígonos sem furos (mas possivelmente côncavos).
+
+## Under development
+
+**1.5 - Implemente Curvas em 2D**
+
+Implemente a curva de Hermite ou Bézier como mais um objeto gráfico 2D de seu sistema:
+
+###Requisitos:###
+
+1. Crie uma Classe Curva2
+2. A curva deverá utilizar funções de suavização (blending functions) para se mostrar.
+3. Um objeto Curva2D poderá conter uma ou mais curvas com continuidade no mínimo G(0).
+4. Crie uma interface para entrar com estes dados.
+5. Implemente o Clipping para esta curva utilizando o método descrito em aula (e nas transparências)
+
 
 More informations [here](http://www.inf.ufsc.br/~awangenh/grafica)

@@ -30,7 +30,7 @@
 #include "formas/Ponto.hpp"
 #include "formas/Linha.hpp"
 #include "formas/Poligono.hpp"
-#include "formas/Curva2D.hpp"
+#include "formas/CurvaDeBezier.hpp"
 #include "DescritorOBJ.hpp"
 
 /**
@@ -396,12 +396,18 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived() {
 		printCommandLogs("Erro: Ponto já existe\n");
 		return;
 	}
+	std::string ret = "btn_ok_insert_point_actived X1: ";
+	ret += entryXPointAux;
+	ret += " Y1: ";
+	ret += entryYPointAux;
+	ret += "\n";
+	printCommandLogs(ret.c_str());
 	ponto->clipa();
 	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
-	printCommandLogs("btn_ok_insert_line_actived\n");
+	// printCommandLogs("btn_ok_insert_line_actived\n");
 
 	GtkEntry *entryNameNewLine = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameNewLine"));
 	GtkEntry *entryX1Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryX1Line"));
@@ -436,6 +442,16 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
 		printCommandLogs("Erro: Linha já existe\n");
 		return;
 	}
+	std::string ret = "btn_ok_insert_line_actived X1: ";
+	ret += entryX1LineAux;
+	ret += " Y1: ";
+	ret += entryY1LineAux;
+	ret += " X2: ";
+	ret += entryX2LineAux;
+	ret += " Y2: ";
+	ret += entryY2LineAux;
+	ret += "\n";
+	printCommandLogs(ret.c_str());
 	Window::instancia().normalizaCoordenadasDoMundo();
 	linha->clipa(clipaComCS);
 	repaintWindow();
@@ -457,7 +473,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived() {
 		wireframeCoords.clear();
 		return;
 	}
-	Curva2D * curva = new Curva2D(std::string(entryWireframeName), "Curve", wireframeCoords);
+	CurvaDeBezier * curva = new CurvaDeBezier(std::string(entryWireframeName), "Curve", wireframeCoords);
 	if (!world->adicionaObjetosNoMundo(curva)) {
 		printCommandLogs("Erro: Curva já existe\n");
 		wireframeCoords.clear();
@@ -470,7 +486,6 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived() {
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_curve_actived() {
-	printCommandLogs("btn_ok_insert_coords_curve_actived\n");
 	
 	GtkEntry *entryX1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXCurve"));
 	GtkEntry *entryY1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYCurve"));
@@ -483,7 +498,12 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_curve_actived() {
 	double X1Wireframe = atof(entryX1WireframeAux);
 	double Y1Wireframe = atof(entryY1WireframeAux);
 	// double Z1Wireframe= atof(entryZ1WireframeAux);
-
+	std::string ret = "btn_ok_insert_coords_curve_actived X: ";
+	ret += entryX1WireframeAux;
+	ret += " Y: ";
+	ret += entryY1WireframeAux;
+	ret += "\n";
+	printCommandLogs(ret.c_str());
 	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0, 1));
 }
 
@@ -512,7 +532,6 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived() {
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived() {
-	printCommandLogs("btn_ok_insert_coords_wireframe_actived\n");
 	
 	GtkEntry *entryX1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryX1Wireframe"));
 	GtkEntry *entryY1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryY1Wireframe"));
@@ -526,6 +545,12 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived() {
 	double Y1Wireframe = atof(entryY1WireframeAux);
 	// double Z1Wireframe= atof(entryZ1WireframeAux);
 
+	std::string ret = "btn_ok_insert_coords_wireframe_actived X: ";
+	ret += entryX1WireframeAux;
+	ret += " Y: ";
+	ret += entryY1WireframeAux;
+	ret += "\n";
+	printCommandLogs(ret.c_str());
 	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0, 1));
 }
 

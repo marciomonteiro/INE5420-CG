@@ -30,8 +30,8 @@
 class Objeto{
 private:
 	std::string nome, tipo;
-	std::vector<Coordenadas> world_coordenadas;
 protected:
+	std::vector<Coordenadas> world_coordenadas;
 	std::vector<Coordenadas> normalized_coordenadas;	//Joel Santana Approves
 	void setName(std::string& name);
 	void setTipo(std::string& type);
