@@ -37,8 +37,6 @@ public:
 	~DescritorOBJ(){}
 	std::string transcrevaObjeto(Objeto* obj, std::string objectPath);
 	std::string leiaObjetoFromPath(std::string pathToObject);
-	// std::vector<std::string> getObjetosFromPath(std::string pathToObjects);
-	// void criaObjetosFromPathRoot();
 	std::string criaObjetoEadicionaNoMundo(std::string nome, std::string tipo, std::vector<Coordenadas> coordenadas);
 };
 #endif /* INCLUDE_DESCRITOROBJ_HPP_ */

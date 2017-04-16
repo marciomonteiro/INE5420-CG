@@ -24,10 +24,6 @@ void Algoritmos::clipaPonto(std::vector<Coordenadas>& coord) {
 }
 
 void Algoritmos::clipaLinha(std::vector<Coordenadas>& coords, bool clipaComCS) {
-	// std::cout<<"Window::clipaLinha"<<std::endl;
-	// for (auto coord : coords) {
-	// 	std::cout<<"cooords:\n X: "<<coord.getX()<<" Y "<<coord.getY()<<std::endl;
-	// }
 	if (clipaComCS){
 		clipaLinhaComCS(coords);
 	} else{
@@ -44,10 +40,7 @@ void Algoritmos::clipaPoligono(std::vector<Coordenadas>& coords){
 		std::vector<Coordenadas> linhaAtual = {ultima, coords[i]};
 		std::vector<Coordenadas> linhaNoMundo = {ultima, coords[i]};
 		Coordenadas pontoMedio = Coordenadas(linhaAtual[0].getX() + linhaAtual[1].getX(), linhaAtual[0].getY() + linhaAtual[1].getY(), 0, 1);
-		// std::cout<<"ponto medio:\n X: "<<pontoMedio.getX()<<" Y "<<pontoMedio.getY()<<std::endl;
-		// std::cout<<"linhaAtual:\n Xi: "<<linhaAtual[0].getX()<<" Yi "<<linhaAtual[0].getY()<<" Xf: "<<linhaAtual[1].getX()<<" Yf "<<linhaAtual[1].getY()<<std::endl;
 		clipaLinha(linhaAtual, true);
-		// std::cout<<"clipou linhaAtual:\n Xi: "<<linhaAtual[0].getX()<<" Yi "<<linhaAtual[0].getY()<<" Xf: "<<linhaAtual[1].getX()<<" Yf "<<linhaAtual[1].getY()<<std::endl;
 		bool linhaFoiClipada = false;
 		if (comparaCoordenadas(linhaAtual[0], linhaNoMundo[0]) || comparaCoordenadas(linhaAtual[1], linhaNoMundo[1]))
 			linhaFoiClipada = true;
@@ -70,11 +63,6 @@ void Algoritmos::clipaPoligono(std::vector<Coordenadas>& coords){
 		}
 		ultima = coords[i];
 	}
-	// coords.clear();
-	// std::cout<<"Window::clipaPoligono\ncoordsClipadas.size: "<<coordsClipadas.size()<<" coords.size: "<<coords.size()<<std::endl;
-	// for (auto coord : coordsClipadas) {
-	// 	std::cout<<"cooords:\n X: "<<coord.getX()<<" Y "<<coord.getY()<<std::endl;
-	// }
 	coords = coordsClipadas;
 }
 
@@ -181,7 +169,6 @@ int Algoritmos::determinaRCDeCoordenada(Coordenadas& c){
 
 
 void Algoritmos::clipaCurva(std::vector<Coordenadas>& coords){
-	// std::cout<<"Algoritmos::clipaCurva\n"<<std::endl;
 	std::vector<Coordenadas> coordTmp;
 	Coordenadas tmp = coords[0];
 	std::vector<Coordenadas> linhaAtual = {coords[0], coords[1]};
@@ -196,9 +183,5 @@ void Algoritmos::clipaCurva(std::vector<Coordenadas>& coords){
 		Algoritmos::pontoNoCanto(coords[i]);
 		coordTmp.push_back(coords[i+1]);
 	}
-	// std::cout<<"size: "<<coordTmp.size()<<std::endl;
-	// for (auto obj : coordTmp) {
-	// 	std::cout<<"X: "<<obj.getX()<<" Y: "<<obj.getY()<<std::endl;
-	// }
 	coords = coordTmp;
 }

@@ -396,9 +396,9 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived() {
 		printCommandLogs("Erro: Ponto já existe\n");
 		return;
 	}
-	std::string ret = "btn_ok_insert_point_actived X1: ";
+	std::string ret = "btn_ok_insert_point_actived X: ";
 	ret += entryXPointAux;
-	ret += " Y1: ";
+	ret += " Y: ";
 	ret += entryYPointAux;
 	ret += "\n";
 	printCommandLogs(ret.c_str());
