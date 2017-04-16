@@ -164,10 +164,18 @@ extern "C" G_MODULE_EXPORT void check_box_cs_clippa_reta() {
 	GtkToggleButton *botaoCS = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "cohen-sutherland"));
 	GtkToggleButton *botaoLB = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "liang-barsky"));
 	if (gtk_toggle_button_get_active(botaoCS)) {
-		clipaComCS = true;
+		for (auto obj : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld()) {
+			if (obj.second->getName() == "Linha") {
+				obj.second->setAlgoritmoDeClipagem(true);
+			}
+		}
 	}
 	if (gtk_toggle_button_get_active(botaoLB)) {
-		clipaComCS = false;
+		for (auto obj : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld()) {
+			if (obj.second->getName() == "Linha") {
+				obj.second->setAlgoritmoDeClipagem(false);
+			}
+		}
 	}
 }
 
@@ -453,7 +461,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
 	ret += "\n";
 	printCommandLogs(ret.c_str());
 	Window::instancia().normalizaCoordenadasDoMundo();
-	linha->clipa(clipaComCS);
+	linha->clipa();
 	repaintWindow();
 }
 
