@@ -25,9 +25,9 @@ void World::removeObjetosNoMundo(std::string nome){
 	world_displayFile.instancia().removeObjectFromTheWorld(nome);
 }
 
-bool World::objetoExisteNoMundo(std::string nome){
-	return world_displayFile.objectExistsInTheWorld(nome);
-}
+// bool World::objetoExisteNoMundo(std::string nome){
+// 	return world_displayFile.objectExistsInTheWorld(nome);
+// }
 
 DisplayFile* World::getDisplayfile(){
 	return &world_displayFile.instancia();

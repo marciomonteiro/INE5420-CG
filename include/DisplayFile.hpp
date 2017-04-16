@@ -31,7 +31,7 @@ public:
 	static DisplayFile& instancia();
 	bool addObjectInTheWorld(Objeto* obj);
 	void removeObjectFromTheWorld(std::string objName);
-	bool objectExistsInTheWorld(std::string objName);
+	// bool objectExistsInTheWorld(std::string objName);
 	Objeto* getTheObjectFromTheWorld(std::string objName);
 	std::unordered_map<std::string, Objeto* > getAllObjectsFromTheWorld();
 	bool isEmpty();
