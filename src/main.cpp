@@ -473,7 +473,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived() {
 		wireframeCoords.clear();
 		return;
 	}
-	CurvaDeBezier * curva = new CurvaDeBezier(std::string(entryWireframeName), "Curve", wireframeCoords);
+	CurvaDeBezier * curva = new CurvaDeBezier(std::string(entryWireframeName), "Curva", wireframeCoords);
 	if (!world->adicionaObjetosNoMundo(curva)) {
 		printCommandLogs("Erro: Curva já existe\n");
 		wireframeCoords.clear();

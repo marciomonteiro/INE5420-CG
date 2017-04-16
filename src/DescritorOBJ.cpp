@@ -68,18 +68,18 @@ std::string DescritorOBJ::leiaObjetoFromPath(std::string pathToObject){
 			while ((pos = linha.find(delimiter)) != std::string::npos) {
 				token = linha.substr(0, pos);
 				if(token == "g"){
-					linha.erase(0, pos + delimiter.length()); //Remove g
+					linha.erase(0, pos + delimiter.length()); //Remove g -> Nome do grupo
 					token = linha.substr(0, linha.length());
 					std::transform(token.begin(), token.end(), token.begin(), ::tolower);
 					tipo = token;
 				} else {
 				if (token == "o") {
-					linha.erase(0, pos + delimiter.length());	//Remove o
+					linha.erase(0, pos + delimiter.length());	//Remove o -> nome do objeto
 					token = linha.substr(0, linha.length());
 					nomeObjeto = token;
 				} else {
 					if (token == "v") {
-						linha.erase(0, pos + delimiter.length());	//Remove v
+						linha.erase(0, pos + delimiter.length());	//Remove v -> vertices
 						while ((pos = linha.find(delimiter)) != std::string::npos){
 							token = linha.substr(0, linha.find(delimiter));
 							double x = atof(token.c_str());
@@ -109,20 +109,32 @@ std::string DescritorOBJ::leiaObjetoFromPath(std::string pathToObject){
 	return log;
 }
 
+/**
+ * Cria um objeto e adiciona ele no mundo.
+ * \param nomeObjeto nome do objeto a ser criado.
+ * \param tipoObjeto tipo do objeto a ser criado.
+ * \param coordenadas vetor de coordenadas do objeto.
+ * \return log log da criacao do objeto.
+ */
 std::string DescritorOBJ::criaObjetoEadicionaNoMundo(std::string nomeObjeto, std::string tipoObjeto, std::vector<Coordenadas> coordenadas){
 	if (tipoObjeto == "poligono") {
 		Poligono * poli = new Poligono(nomeObjeto, tipoObjeto, coordenadas, false);
 		world->adicionaObjetosNoMundo(poli);
 	} else {
-		if (tipoObjeto == "linha") {
-			Linha * linha = new Linha(nomeObjeto, tipoObjeto, coordenadas);
-			world->adicionaObjetosNoMundo(linha);
+		if (tipoObjeto == "curva") {
+			Curva2D * curva = new Curva2D(nomeObjeto, tipoObjeto, coordenadas);
+			world->adicionaObjetosNoMundo(curva);
 		} else {
-			if (tipoObjeto == "ponto") {
-				Ponto * ponto = new Ponto(nomeObjeto, tipoObjeto, coordenadas);
-				world->adicionaObjetosNoMundo(ponto);
+			if (tipoObjeto == "linha") {
+				Linha * linha = new Linha(nomeObjeto, tipoObjeto, coordenadas);
+				world->adicionaObjetosNoMundo(linha);
 			} else {
-				log+="===========\nErro ao criar o objeto "+nomeObjeto+". Tipo desconhecido.\n===========\n";
+				if (tipoObjeto == "ponto") {
+					Ponto * ponto = new Ponto(nomeObjeto, tipoObjeto, coordenadas);
+					world->adicionaObjetosNoMundo(ponto);
+				} else {
+					log+="===========\nErro ao criar o objeto "+nomeObjeto+". Tipo desconhecido.\n===========\n";
+				}
 			}
 		}
 	}

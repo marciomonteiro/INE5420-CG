@@ -27,6 +27,7 @@
 #include "formas/Ponto.hpp"
 #include "formas/Linha.hpp"
 #include "formas/Poligono.hpp"
+#include "formas/Curva2D.hpp"
 
 class DescritorOBJ {
 private:
