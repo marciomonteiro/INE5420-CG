@@ -30,6 +30,7 @@
 #include "formas/Ponto.hpp"
 #include "formas/Linha.hpp"
 #include "formas/Poligono.hpp"
+#include "formas/Curva2D.hpp"
 #include "DescritorOBJ.hpp"
 
 /**
@@ -58,6 +59,14 @@ Viewport *viewportP;
 DisplayFile *displayFile;
 DescritorOBJ *descritor;
 
+//Global Variables
+bool clipaComCS = true;
+std::vector<Coordenadas> wireframeCoords;
+Coordenadas inicio = Coordenadas(0,0,0,1);
+Coordenadas fim = Coordenadas(400,400,0,1);
+double tamBorda = 10;
+bool preencherPoligono = false;
+
 //Gtk and beyond
 GtkBuilder *gtkBuilder;
 GtkWidget *window_widget;
@@ -75,12 +84,6 @@ GtkWidget *windowListaObjetos;
 GtkWidget *windowRotaciona;
 
 GtkTextBuffer *buffer;
-std::vector<Coordenadas> wireframeCoords;
-
-Coordenadas inicio = Coordenadas(0.0,0.0,0.0,0.0);
-Coordenadas fim = Coordenadas(400.0,400.0,0.0,0.0);
-double tamBorda = 10;
-bool preencherPoligono = false;
 
 static gboolean drawWindow (GtkWidget *widget, cairo_t *cr, gpointer data) {
   cairo_set_source_surface (cr, surface, 0, 0);
@@ -135,7 +138,7 @@ void repaintWindow() {
 	for (auto obj : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld()) {
 		obj.second->clipa();
 	}
-	viewportP->transformada(cr, Coordenadas(-1.0,-1.0,0.0,0.0), Coordenadas(1.0,1.0,0.0,0.0), world->getDisplayfile());
+	viewportP->transformada(cr, Coordenadas(-1,-1,0,1), Coordenadas(1,1,0,1), world->getDisplayfile());
 	gtk_widget_queue_draw (drawing_area);
 }
 
@@ -155,6 +158,17 @@ extern "C" G_MODULE_EXPORT void btn_rotate_window_left_clicked() {
 
 extern "C" G_MODULE_EXPORT void check_box_fill_wireframe() {
 	preencherPoligono = true;
+}
+
+extern "C" G_MODULE_EXPORT void check_box_cs_clippa_reta() {
+	GtkToggleButton *botaoCS = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "cohen-sutherland"));
+	GtkToggleButton *botaoLB = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "liang-barsky"));
+	if (gtk_toggle_button_get_active(botaoCS)) {
+		clipaComCS = true;
+	}
+	if (gtk_toggle_button_get_active(botaoLB)) {
+		clipaComCS = false;
+	}
 }
 
 extern "C" G_MODULE_EXPORT void btn_rotate_window_right_clicked() {
@@ -299,10 +313,6 @@ extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived() {
 	repaintWindow();
 }
 
-extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived() {
-	printCommandLogs("btn_ok_insert_curve_actived\n");
-}
-
 extern "C" G_MODULE_EXPORT void btn_rotate_left_by_clicked() {
 	printCommandLogs("btn_rotate_left_by_clicked\n");
 	double angulo = 0;
@@ -381,7 +391,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived() {
 	double YPoint = atof(entryYPointAux);
 	// double zPoint= atof(entryZPointAux);
 
-	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 0)}));
+	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 1)}));
 	if (!world->adicionaObjetosNoMundo(ponto)) {
 		printCommandLogs("Erro: Ponto já existe\n");
 		return;
@@ -421,14 +431,60 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
 	double Y2Line= atof(entryY2LineAux);
 	// double Z2Line= atof(entryZ2LineAux);
 
-	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 0),Coordenadas(X2Line, Y2Line, 0, 0)}));
+	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 1),Coordenadas(X2Line, Y2Line, 0, 1)}));
 	if (!world->adicionaObjetosNoMundo(linha)) {
 		printCommandLogs("Erro: Linha já existe\n");
 		return;
 	}
 	Window::instancia().normalizaCoordenadasDoMundo();
-	linha->clipa();
+	linha->clipa(clipaComCS);
 	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived() {
+	printCommandLogs("btn_ok_insert_curve_actived\n");
+
+	GtkEntry *entryNameNewCurve = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameNewCurve"));
+	const char *entryWireframeName = gtk_entry_get_text (entryNameNewCurve);
+	gtk_widget_hide(windowInsertion);
+	if (strcmp(entryWireframeName, "") == 0) {
+		printCommandLogs("Erro: Curva sem nome\n");
+		wireframeCoords.clear();
+		return;
+	}
+	if(wireframeCoords.size()<4){
+		printCommandLogs("Erro: Curva com menos de quatro pontos\n");
+		wireframeCoords.clear();
+		return;
+	}
+	Curva2D * curva = new Curva2D(std::string(entryWireframeName), "Curve", wireframeCoords);
+	if (!world->adicionaObjetosNoMundo(curva)) {
+		printCommandLogs("Erro: Curva já existe\n");
+		wireframeCoords.clear();
+		return;
+	}
+	wireframeCoords.clear();
+	Window::instancia().normalizaCoordenadasDoMundo();
+	curva->gerarPontosDaCurva();
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_curve_actived() {
+	printCommandLogs("btn_ok_insert_coords_curve_actived\n");
+	
+	GtkEntry *entryX1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXCurve"));
+	GtkEntry *entryY1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYCurve"));
+	// GtkEntry *entryZ1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZCurve"));
+
+	const char *entryX1WireframeAux = gtk_entry_get_text (entryX1Wireframe);
+	const char *entryY1WireframeAux = gtk_entry_get_text (entryY1Wireframe);
+	// const char *entryZ1WireframeAux = gtk_entry_get_text (entryZ1Wireframe);
+
+	double X1Wireframe = atof(entryX1WireframeAux);
+	double Y1Wireframe = atof(entryY1WireframeAux);
+	// double Z1Wireframe= atof(entryZ1WireframeAux);
+
+	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0, 1));
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived() {
@@ -470,7 +526,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived() {
 	double Y1Wireframe = atof(entryY1WireframeAux);
 	// double Z1Wireframe= atof(entryZ1WireframeAux);
 
-	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0.0, 0.0));
+	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0, 1));
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
@@ -546,16 +602,16 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
 		return;
 	}
-	if (!world->objetoExisteNoMundo(entryObjetoName)){
-		printCommandLogs("Erro: Objeto não encontrado\n");
-		return;
-	}
+	// if (!world->objetoExisteNoMundo(entryObjetoName)){
+	// 	printCommandLogs("Erro: Objeto não encontrado\n");
+	// 	return;
+	// }
 	GtkToggleButton *BotaoCentroDoMundo = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaoCentroDoMundo"));
 	GtkToggleButton *BotaCentroDoObjeto = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "botaCentroDoObjeto"));
 
 	// printCommandLogs("Erro: Objeto não encontrado\n");
 	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)) {
-		Coordenadas centroDoMundo = Coordenadas(0.0,0.0,0.0,0.0);
+		Coordenadas centroDoMundo = Coordenadas(0,0,0,1);
 		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao2D::rotacao(angulo));
 	}
 	if (gtk_toggle_button_get_active(BotaCentroDoObjeto)) {
@@ -571,7 +627,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 		double XRotaciona = atof(entryXRotacionaAux);
 		double YRotaciona = atof(entryYRotacionaAux);
 		// double ZRotaciona = atof(entryZRotacionaAux);
-		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0.0,0.0}, Transformacao2D::rotacao(angulo));
+		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0,1}, Transformacao2D::rotacao(angulo));
 	}
 	repaintWindow();
 }
@@ -622,7 +678,7 @@ int main(int argc, char *argv[]) {
 	// inicializa o displayfile, viewport e window
 	DisplayFile dp = DisplayFile();
 	displayFile = &dp;
-	Viewport vp = Viewport(Coordenadas(tamBorda,tamBorda,0,0),Coordenadas(fim.getX()-tamBorda, fim.getY()-tamBorda, 0,0));
+	Viewport vp = Viewport(Coordenadas(tamBorda,tamBorda,0,1),Coordenadas(fim.getX()-tamBorda, fim.getY()-tamBorda, 0,1));
 	viewportP = &vp;
 	Window::instancia().setWindow(&inicio, &fim, displayFile);
 	World wd = World();

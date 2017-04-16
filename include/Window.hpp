@@ -30,10 +30,7 @@ private:
 	double anguloX, anguloY, anguloZ;
 	void atualizaCentroDaWindow();
 	Window();
-	void clipaLinhaComCS(std::vector<Coordenadas>& coords);
-	void clipaLinhaComLB(std::vector<Coordenadas>& coords);
-	int determinaRCDeCoordenada(Coordenadas& c);
-	bool calculaInterseccaoDeLinhas(std::pair<Coordenadas,Coordenadas> segmento1, std::pair<Coordenadas,Coordenadas> segmento2, Coordenadas &retorno);
+
 public:
 	static Window& instancia();
 	~Window(){};
@@ -47,8 +44,6 @@ public:
 	Coordenadas* getFimDaWindow(){return fimDaWindow;}
 	Coordenadas* getCentroDaWindow(){return centroDaWindow;}
 	void setCoordsWindow(Coordenadas* inicio, Coordenadas* fim);	
-	void clipaPonto(std::vector<Coordenadas>& coords);
-	void clipaLinha(std::vector<Coordenadas>& coords);
-	void clipaPoligono(std::vector<Coordenadas>& coords);
+
 };
 #endif /* INCLUDE_WINDOW_HPP_ */

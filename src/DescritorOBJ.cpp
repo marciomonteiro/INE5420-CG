@@ -128,47 +128,6 @@ std::string DescritorOBJ::criaObjetoEadicionaNoMundo(std::string nomeObjeto, std
 	}
 	return log;
 }
-
-
-/**
-* Busca os arquivos com extensao definada na classe DescritorOBJ num dado diretório.
-* \param pathToObjects uma string que indica o caminho a ser procurado.
-* \return nomeObjetos é um vetor com os nomes dos objetos encontrados no diretório dado.
-*/
-// std::vector<std::string> DescritorOBJ::getObjetosFromPath(std::string pathToObjects){
-// 	std::vector<std::string> nomeObjetos;
-// 	DIR* dirFile = opendir( pathToObjects.c_str() );
-// 	if(dirFile) {
-// 		struct dirent* hFile;
-// 		errno = 0;
-// 		while (( hFile = readdir( dirFile )) != NULL ){
-// 			// if (!strcmp( hFile->d_name, ".")) continue;
-// 			// if (!strcmp( hFile->d_name, "..")) continue;
-// 			// if (strstr( hFile->d_name, extensao.c_str())){
-// 				log +="found file: " + hFile->d_name + "\n";
-// 				nomeObjetos.push_back(hFile->d_name);
-// 			// }
-// 		}
-// 		closedir(dirFile);
-// 	}
-// 	return nomeObjetos;
-// }
-
-/**
-* Método para criar todos os .obj inclusos na pasta "./objetos/" do projeto.
-*/
-// void DescritorOBJ::criaObjetosFromPathRoot(){
-// 	std::vector<std::string> arquivoDosObjetos = getObjetosFromPath(pathRoot);
-// 	std::string auxPath = pathRoot;
-// 	for(auto arquivo : arquivoDosObjetos){
-// 		auxPath.append(arquivo);
-// 		std::cout<<"Lendo arquivo "<<arquivo<<" do caminho "<<auxPath<<std::endl;
-// 		leiaObjetoFromPath(auxPath);
-// 		auxPath = pathRoot;
-// 	}
-// 	std::cout<<"Criacao dos .obj finalizada."<<std::endl;
-// }
-
 /**
 Vertex data:
 v	Geometric vertices
