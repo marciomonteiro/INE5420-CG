@@ -78,8 +78,16 @@ namespace Algoritmos {
 	 */
 	int determinaRCDeCoordenada(Coordenadas& c);
 
+	/**
+	 * Define o algoritmo de clipagem de reta.
+	 * \param v valor booleano que define se sera usado CS ou nao.
+	 */
 	void setaMetodoClippingReta(bool v);
 
+	/**
+	 * Algoritmo de clipagem de curva.
+	 * \param coords vetor de coordenadas da curva a ser clipada.
+	 */
 	void clipaCurva(std::vector<Coordenadas>& coords);
 
 }  // namespace Algoritmos
