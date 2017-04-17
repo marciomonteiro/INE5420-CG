@@ -17,10 +17,8 @@
 #include "../include/formas/CurvaDeBezier.hpp"
 
 void CurvaDeBezier::gerarPontosDaCurva(){
-	// std::cout<<"CurvaDeBezier::gerarPontosDaCurva"<<std::endl;
 	auto coordenadas = world_coordenadas;
 	world_coordenadas.clear();
-
 	int numeroDePontosDaCurva = ((coordenadas.size()-4)/3) + 1;
 	for (int i = 0; i < numeroDePontosDaCurva; i++){
 		for (double j = 0; j <= 1; j += tamanhoDosPassos){

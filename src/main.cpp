@@ -308,7 +308,7 @@ extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked() {
 
 extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived() {
 	printCommandLogs("btn_reset_zoom_actived\n");
-	Window::instancia().setCoordsWindow(&inicio, &fim);
+	Window::instancia().setCoordsWindow(Coordenadas(0,0,0,1), Coordenadas(400,400,0,1));
 	repaintWindow();
 }
 
@@ -338,20 +338,6 @@ extern "C" G_MODULE_EXPORT void btn_rotate_right_by_clicked() {
 	angulo = atof(entryStepText);
 	Window::instancia().novoAngulo(-angulo, 0, 0);
 	repaintWindow();
-}
-
-extern "C" G_MODULE_EXPORT void get_text_step() {
-	printCommandLogs("get_text_step\n");
-	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
-	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
-	printf("Step: %d\n", atoi(entryStepText));
-}
-
-extern "C" G_MODULE_EXPORT void get_text_degrees() {
-	printCommandLogs("get_text_degrees\n");
-	GtkEntry *entryDegrees = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryDegreesSize"));
-	const char *entryDegreesText = gtk_entry_get_text (entryDegrees);
-	printf("Degrees: %f\n", atof(entryDegreesText));
 }
 
 extern "C" G_MODULE_EXPORT void btn_remove_object_actived() {
@@ -654,29 +640,6 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0,1}, Transformacao2D::rotacao(angulo));
 	}
 	repaintWindow();
-}
-
-// I don't know if this function is really necessary
-extern "C" G_MODULE_EXPORT void btn_x_clicked() {
-	printCommandLogs("btn_x_clicked\n");
-}
-
-// I don't know if this function is really necessary
-extern "C" G_MODULE_EXPORT void btn_y_clicked() {
-	printCommandLogs("btn_y_clicked\n");
-}
-
-// I don't know if this function is really necessary
-extern "C" G_MODULE_EXPORT void btn_z_clicked() {
-	printCommandLogs("btn_z_clicked\n");
-}
-
-extern "C" G_MODULE_EXPORT void btn_get_window_clicked() {
-	printCommandLogs("btn_get_window_clicked\n");
-}
-
-extern "C" G_MODULE_EXPORT void btn_parallel_actived() {
-	printCommandLogs("btn_parallel_actived\n");
 }
 
 int main(int argc, char *argv[]) {

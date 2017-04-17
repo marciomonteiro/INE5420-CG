@@ -71,7 +71,6 @@ void Algoritmos::clipaPoligono(std::vector<Coordenadas>& coords){
 }
 
 void Algoritmos::clipaLinhaComCS(std::vector<Coordenadas>& coords){
-	// std::cout<<"Algoritmos::clipaLinhaComCS"<<std::endl;
 	auto RC0 = determinaRCDeCoordenada(coords[0]);
 	auto RC1 = determinaRCDeCoordenada(coords[1]);
 	if (RC0 == 0 && RC1 == 0) {
@@ -108,7 +107,6 @@ void Algoritmos::clipaLinhaComCS(std::vector<Coordenadas>& coords){
 }
 
 void Algoritmos::clipaLinhaComLB(std::vector<Coordenadas>& coords){
-	// std::cout<<"Algoritmos::clipaLinhaComLB"<<std::endl;
 	double xIni = coords[0].getX();
 	double yIni = coords[0].getY();
 	double deltaX = coords[1].getX() - xIni;
@@ -173,21 +171,16 @@ int Algoritmos::determinaRCDeCoordenada(Coordenadas& c){
 	return rc;
 }
 
-
 void Algoritmos::clipaCurva(std::vector<Coordenadas>& coords){
 	std::vector<Coordenadas> coordTmp;
-	Coordenadas tmp = coords[0];
-	std::vector<Coordenadas> linhaAtual = {coords[0], coords[1]};
-	Algoritmos::clipaLinhaComCS(linhaAtual);
-	for(int i = 0; i < coords.size() - 1; i++){
-		linhaAtual = {coords[i], coords[i+1]};
-		tmp = coords[i];
-		Algoritmos::clipaLinhaComCS(linhaAtual);
-		if (coords[i].getX() < -1 || coords[i].getX() > 1 || coords[i].getY() < -1 || coords[i].getY() > 1){
+	for(int i = 0; i < coords.size(); i++){
+		std::vector<Coordenadas> linhaAtual = {coords[i], coords[i+1]};
+		Algoritmos::clipaLinha(linhaAtual);
+		if (coords[i].getX() < -1.1 || coords[i].getX() > 1.1 || coords[i].getY() < -1.1 || coords[i].getY() > 1.1){
 			continue;
 		}
 		Algoritmos::pontoNoCanto(coords[i]);
-		coordTmp.push_back(coords[i+1]);
+		coordTmp.push_back(coords[i]);
 	}
 	coords = coordTmp;
 }

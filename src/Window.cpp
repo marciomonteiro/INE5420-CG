@@ -54,7 +54,6 @@ void Window::normalizaCoordenadasDoMundo(){
 	Matriz::Matriz<double> tmp3 = tmp2 * escala;
 	for (auto &objetos : displayfile->instancia().getAllObjectsFromTheWorld())
 		(objetos.second)->normalizaCoordenadas(tmp3);
-	// this->atualizaCentroDaWindow();
 }
 
 void Window::atualizaCentroDaWindow(){

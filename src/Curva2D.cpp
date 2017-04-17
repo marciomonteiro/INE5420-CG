@@ -27,6 +27,3 @@ void Curva2D::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){
 void Curva2D::clipa(){
 	Algoritmos::clipaCurva(normalized_coordenadas);
 }
-
-void Curva2D::gerarPontosDaCurva(){
-}
