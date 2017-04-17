@@ -21,15 +21,10 @@
 #include <iostream>
 
 class Linha : public Objeto {
-private:
-	bool clipaComCS;
 public:
-	Linha(std::string nomeLinha, std::string tipoLinha, std::vector<Coordenadas> coordenadas) : Objeto(nomeLinha, tipoLinha, coordenadas){
-		clipaComCS = true;
-	}
+	Linha(std::string nomeLinha, std::string tipoLinha, std::vector<Coordenadas> coordenadas) : Objeto(nomeLinha, tipoLinha, coordenadas){}
 	~Linha(){}
 	void desenhar(cairo_t* cr, std::vector<Coordenadas> coords);
 	void clipa();
-	void setAlgoritmoDeClipagem(bool algoritmoClipagem);
 };
 #endif /* INCLUDE_FORMAS_LINHA_HPP_ */

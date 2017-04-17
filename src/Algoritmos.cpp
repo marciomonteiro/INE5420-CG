@@ -16,6 +16,10 @@
 
 #include "../include/Algoritmos.hpp"
 
+void Algoritmos::setaMetodoClippingReta(bool v){
+	clipaMetodo = v;
+}
+
 void Algoritmos::clipaPonto(std::vector<Coordenadas>& coord) {
 	if (coord.front().getX() < -1 || coord.front().getX() > 1 ||
 		coord.front().getY() < -1 || coord.front().getY() > 1) {
@@ -23,8 +27,8 @@ void Algoritmos::clipaPonto(std::vector<Coordenadas>& coord) {
 	}
 }
 
-void Algoritmos::clipaLinha(std::vector<Coordenadas>& coords, bool clipaComCS) {
-	if (clipaComCS){
+void Algoritmos::clipaLinha(std::vector<Coordenadas>& coords) {
+	if (clipaMetodo){
 		clipaLinhaComCS(coords);
 	} else{
 		clipaLinhaComLB(coords);
@@ -40,7 +44,7 @@ void Algoritmos::clipaPoligono(std::vector<Coordenadas>& coords){
 		std::vector<Coordenadas> linhaAtual = {ultima, coords[i]};
 		std::vector<Coordenadas> linhaNoMundo = {ultima, coords[i]};
 		Coordenadas pontoMedio = Coordenadas(linhaAtual[0].getX() + linhaAtual[1].getX(), linhaAtual[0].getY() + linhaAtual[1].getY(), 0, 1);
-		clipaLinha(linhaAtual, true);
+		clipaLinha(linhaAtual);
 		bool linhaFoiClipada = false;
 		if (comparaCoordenadas(linhaAtual[0], linhaNoMundo[0]) || comparaCoordenadas(linhaAtual[1], linhaNoMundo[1]))
 			linhaFoiClipada = true;
@@ -67,6 +71,7 @@ void Algoritmos::clipaPoligono(std::vector<Coordenadas>& coords){
 }
 
 void Algoritmos::clipaLinhaComCS(std::vector<Coordenadas>& coords){
+	// std::cout<<"Algoritmos::clipaLinhaComCS"<<std::endl;
 	auto RC0 = determinaRCDeCoordenada(coords[0]);
 	auto RC1 = determinaRCDeCoordenada(coords[1]);
 	if (RC0 == 0 && RC1 == 0) {
@@ -103,6 +108,7 @@ void Algoritmos::clipaLinhaComCS(std::vector<Coordenadas>& coords){
 }
 
 void Algoritmos::clipaLinhaComLB(std::vector<Coordenadas>& coords){
+	// std::cout<<"Algoritmos::clipaLinhaComLB"<<std::endl;
 	double xIni = coords[0].getX();
 	double yIni = coords[0].getY();
 	double deltaX = coords[1].getX() - xIni;

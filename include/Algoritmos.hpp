@@ -23,6 +23,7 @@
 
 namespace Algoritmos {
 
+	static bool clipaMetodo = true;
 	/**
 	 * Algoritmo para clipagem de ponto.
 	 * \param coords Coordenadas do ponto a ser clipado
@@ -35,7 +36,7 @@ namespace Algoritmos {
 	 * \param clipaComCs valor booleano para definir se clipa com o algoritmo
 	 * CS ou LB.
 	 */
-	void clipaLinha(std::vector<Coordenadas>& coords, bool clipaComCS);
+	void clipaLinha(std::vector<Coordenadas>& coords);
 
 	/**
 	 * Algoritmo para clipar poligonos.
@@ -76,6 +77,8 @@ namespace Algoritmos {
 	 * \return int valor do Region Code da coordenada.
 	 */
 	int determinaRCDeCoordenada(Coordenadas& c);
+
+	void setaMetodoClippingReta(bool v);
 
 	void clipaCurva(std::vector<Coordenadas>& coords);
 

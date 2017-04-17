@@ -60,7 +60,6 @@ DisplayFile *displayFile;
 DescritorOBJ *descritor;
 
 //Global Variables
-bool clipaComCS = true;
 std::vector<Coordenadas> wireframeCoords;
 Coordenadas inicio = Coordenadas(0,0,0,1);
 Coordenadas fim = Coordenadas(400,400,0,1);
@@ -164,18 +163,10 @@ extern "C" G_MODULE_EXPORT void check_box_cs_clippa_reta() {
 	GtkToggleButton *botaoCS = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "cohen-sutherland"));
 	GtkToggleButton *botaoLB = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "liang-barsky"));
 	if (gtk_toggle_button_get_active(botaoCS)) {
-		for (auto obj : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld()) {
-			if (obj.second->getName() == "Linha") {
-				obj.second->setAlgoritmoDeClipagem(true);
-			}
-		}
+		Algoritmos::setaMetodoClippingReta(true);
 	}
 	if (gtk_toggle_button_get_active(botaoLB)) {
-		for (auto obj : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld()) {
-			if (obj.second->getName() == "Linha") {
-				obj.second->setAlgoritmoDeClipagem(false);
-			}
-		}
+		Algoritmos::setaMetodoClippingReta(false);
 	}
 }
 

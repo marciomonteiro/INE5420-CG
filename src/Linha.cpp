@@ -26,9 +26,5 @@ void Linha::desenhar(cairo_t* cr, std::vector<Coordenadas> coords){
 }
 
 void Linha::clipa(){
-	Algoritmos::clipaLinha(normalized_coordenadas, clipaComCS);
-}
-
-void Linha::setAlgoritmoDeClipagem(bool algoritmoClipagem){
-	clipaComCS = algoritmoClipagem;
+	Algoritmos::clipaLinha(normalized_coordenadas);
 }
