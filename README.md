@@ -77,13 +77,11 @@ Para ter certeza de que a clipagem está funcionando e não é o algoritmo de cl
 
 - Implemente o clipping de polígonos preenchidos com o algoritmo de Weiler-Atherton. Para simplificar, considere apenas polígonos sem furos (mas possivelmente côncavos).
 
-## Under development
-
-**1.5 - Implemente Curvas em 2D**
+1.5 - Implemente Curvas em 2D
 
 Implemente a curva de Hermite ou Bézier como mais um objeto gráfico 2D de seu sistema:
 
-###Requisitos:###
+Requisitos:
 
 1. Crie uma Classe Curva2
 2. A curva deverá utilizar funções de suavização (blending functions) para se mostrar.
@@ -91,5 +89,15 @@ Implemente a curva de Hermite ou Bézier como mais um objeto gráfico 2D de seu 
 4. Crie uma interface para entrar com estes dados.
 5. Implemente o Clipping para esta curva utilizando o método descrito em aula (e nas transparências)
 
+## Under development
+
+**1.6 - Implemente no seu programa gráfico B-Splines utilizando Forward Differences**
+
+Além de Hermite/Bezier, implemente também B-Splines com Forward Differences. Para tanto estenda a sua Curva2D.
+
+### Requisitos: ###
+
+ - Deve ser possível ao usuário entrar com quantos pontos de controle desejar, com um mínimo de n = 4.
+ - Devem ser desenhadas m = n - 3 curvas b-spline, utilizando-se todos os pontos, 4 a 4.
 
 More informations [here](http://www.inf.ufsc.br/~awangenh/grafica)
