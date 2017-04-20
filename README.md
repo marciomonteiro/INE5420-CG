@@ -89,15 +89,30 @@ Requisitos:
 4. Crie uma interface para entrar com estes dados.
 5. Implemente o Clipping para esta curva utilizando o método descrito em aula (e nas transparências)
 
-## Under development
 
 **1.6 - Implemente no seu programa gráfico B-Splines utilizando Forward Differences**
 
 Além de Hermite/Bezier, implemente também B-Splines com Forward Differences. Para tanto estenda a sua Curva2D.
 
-### Requisitos: ###
 
  - Deve ser possível ao usuário entrar com quantos pontos de controle desejar, com um mínimo de n = 4.
  - Devem ser desenhadas m = n - 3 curvas b-spline, utilizando-se todos os pontos, 4 a 4.
+
+## Under development
+
+**1.7 - Implementação da Classe Ponto 3D, Objetos 3D e Projeção Paralela Ortogonal**
+
+### Requisitos: ###
+
+ - Implemente uma classe Ponto3D capaz de realizar as 3 transformações básicas.
+ - Implemente uma Classe Objeto3D para representar um Modelo de Arame com as seguintes características:
+  -- Possui uma lista de segmentos de reta constituídos por um par de Pontos3D.
+  -- É capaz de realizar as 3 operações básicas e também a rotação em torno de um eixo arbitrário.
+
+ - Implemente o que foi visto hoje sobre Projeção Paralela Ortogonal.
+  -- Defina um VPN qualquer fornecendo dois pontos sobre uma reta.
+  -- O primeiro ponto pode ser o VRP.
+  -- Lembre-se que ao final do algoritmo o VPN deve ser (0, 0, 1), ou seja, paralelo ao eixo Z.
+
 
 More informations [here](http://www.inf.ufsc.br/~awangenh/grafica)
