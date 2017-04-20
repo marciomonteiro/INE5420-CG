@@ -31,6 +31,7 @@
 #include "formas/Linha.hpp"
 #include "formas/Poligono.hpp"
 #include "formas/CurvaDeBezier.hpp"
+#include "formas/CurvaBSpline.hpp"
 #include "DescritorOBJ.hpp"
 
 /**
@@ -308,7 +309,9 @@ extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked() {
 
 extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived() {
 	printCommandLogs("btn_reset_zoom_actived\n");
-	Window::instancia().setCoordsWindow(Coordenadas(0,0,0,1), Coordenadas(400,400,0,1));
+	inicio = Coordenadas(0,0,0,1);
+	fim = Coordenadas(400,400,0,1);
+	Window::instancia().setCoordsWindow(&inicio, &fim);
 	repaintWindow();
 }
 
@@ -453,20 +456,41 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived() {
 		wireframeCoords.clear();
 		return;
 	}
-	if(wireframeCoords.size()<4){
-		printCommandLogs("Erro: Curva com menos de quatro pontos\n");
+
+	GtkToggleButton *BotaoBezier = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "buttonBezierCurve"));
+	GtkToggleButton *BotaoBSpline = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "buttonBSplineCurve"));
+
+	if (gtk_toggle_button_get_active(BotaoBezier)) {
+		if(wireframeCoords.size()<4){
+			printCommandLogs("Erro: Curva com menos de quatro pontos\n");
+			wireframeCoords.clear();
+			return;
+		}
+		CurvaDeBezier * curvaBezier = new CurvaDeBezier(std::string(entryWireframeName), "Curva", wireframeCoords);
+		// printCommandLogs("Bezier\n");
+		std::cout<<"Bezier actived"<<std::endl;
+		if (!world->adicionaObjetosNoMundo(curvaBezier)) {
+			printCommandLogs("Erro: Curva já existe\n");
+			wireframeCoords.clear();
+			return;
+		}
 		wireframeCoords.clear();
-		return;
+		Window::instancia().normalizaCoordenadasDoMundo();
+		curvaBezier->gerarPontosDaCurva();
 	}
-	CurvaDeBezier * curva = new CurvaDeBezier(std::string(entryWireframeName), "Curva", wireframeCoords);
-	if (!world->adicionaObjetosNoMundo(curva)) {
-		printCommandLogs("Erro: Curva já existe\n");
+	if (gtk_toggle_button_get_active(BotaoBSpline)) {
+		CurvaBSpline * curvaBSpline = new CurvaBSpline(std::string(entryWireframeName), "Curva", wireframeCoords);
+		// printCommandLogs("BSpline\n");
+		std::cout<<"BSPLine actived"<<std::endl;
+		if (!world->adicionaObjetosNoMundo(curvaBSpline)) {
+			printCommandLogs("Erro: Curva já existe\n");
+			wireframeCoords.clear();
+			return;
+		}
 		wireframeCoords.clear();
-		return;
+		Window::instancia().normalizaCoordenadasDoMundo();
+		curvaBSpline->gerarPontosDaCurva();
 	}
-	wireframeCoords.clear();
-	Window::instancia().normalizaCoordenadasDoMundo();
-	curva->gerarPontosDaCurva();
 	repaintWindow();
 }
 
