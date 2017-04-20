@@ -360,7 +360,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived() {
 	GtkEntry *entryNameNewPoint =  GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameNewPoint"));
 	GtkEntry *entryXPoint =  GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXPoint"));
 	GtkEntry *entryYPoint =  GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYPoint"));
-	// GtkEntry *entryZPoint =  GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZPoint"));
+	GtkEntry *entryZPoint =  GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZPoint"));
 
 	gtk_widget_hide(windowInsertion);
 	const char *entryPointName = gtk_entry_get_text (entryNameNewPoint);
@@ -370,11 +370,11 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived() {
 	}
 	const char *entryXPointAux = gtk_entry_get_text (entryXPoint);
 	const char *entryYPointAux = gtk_entry_get_text (entryYPoint);
-	// const char *entryZPointAux = gtk_entry_get_text (entryZPoint);
+	const char *entryZPointAux = gtk_entry_get_text (entryZPoint);
 
 	double XPoint = atof(entryXPointAux);
 	double YPoint = atof(entryYPointAux);
-	// double zPoint= atof(entryZPointAux);
+	double zPoint= atof(entryZPointAux);
 
 	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 1)}));
 	if (!world->adicionaObjetosNoMundo(ponto)) {
@@ -397,10 +397,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
 	GtkEntry *entryNameNewLine = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameNewLine"));
 	GtkEntry *entryX1Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryX1Line"));
 	GtkEntry *entryY1Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryY1Line"));
-	// GtkEntry *entryZ1Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZ1Line"));
+	GtkEntry *entryZ1Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZ1Line"));
 	GtkEntry *entryX2Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryX2Line"));
 	GtkEntry *entryY2Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryY2Line"));
-	// GtkEntry *entryZ2Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZ2Line"));
+	GtkEntry *entryZ2Line = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZ2Line"));
 
 	gtk_widget_hide(windowInsertion);
 	const char *entryLineName = gtk_entry_get_text (entryNameNewLine);
@@ -410,17 +410,17 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
 	}
 	const char *entryX1LineAux = gtk_entry_get_text (entryX1Line);
 	const char *entryY1LineAux = gtk_entry_get_text (entryY1Line);
-	// const char *entryZ1LineAux = gtk_entry_get_text (entryZ1Line);
+	const char *entryZ1LineAux = gtk_entry_get_text (entryZ1Line);
 	const char *entryX2LineAux = gtk_entry_get_text (entryX2Line);
 	const char *entryY2LineAux = gtk_entry_get_text (entryY2Line);
-	// const char *entryZ2LineAux = gtk_entry_get_text (entryZ2Line);
+	const char *entryZ2LineAux = gtk_entry_get_text (entryZ2Line);
 
 	double X1Line = atof(entryX1LineAux);
 	double Y1Line = atof(entryY1LineAux);
-	// double Z1Line= atof(entryZ1LineAux);
+	double Z1Line= atof(entryZ1LineAux);
 	double X2Line= atof(entryX2LineAux);
 	double Y2Line= atof(entryY2LineAux);
-	// double Z2Line= atof(entryZ2LineAux);
+	double Z2Line= atof(entryZ2LineAux);
 
 	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 1),Coordenadas(X2Line, Y2Line, 0, 1)}));
 	if (!world->adicionaObjetosNoMundo(linha)) {
@@ -474,15 +474,15 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_curve_actived() {
 	
 	GtkEntry *entryX1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXCurve"));
 	GtkEntry *entryY1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYCurve"));
-	// GtkEntry *entryZ1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZCurve"));
+	GtkEntry *entryZ1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZCurve"));
 
 	const char *entryX1WireframeAux = gtk_entry_get_text (entryX1Wireframe);
 	const char *entryY1WireframeAux = gtk_entry_get_text (entryY1Wireframe);
-	// const char *entryZ1WireframeAux = gtk_entry_get_text (entryZ1Wireframe);
+	const char *entryZ1WireframeAux = gtk_entry_get_text (entryZ1Wireframe);
 
 	double X1Wireframe = atof(entryX1WireframeAux);
 	double Y1Wireframe = atof(entryY1WireframeAux);
-	// double Z1Wireframe= atof(entryZ1WireframeAux);
+	double Z1Wireframe= atof(entryZ1WireframeAux);
 	std::string ret = "btn_ok_insert_coords_curve_actived X: ";
 	ret += entryX1WireframeAux;
 	ret += " Y: ";
@@ -520,15 +520,15 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived() {
 	
 	GtkEntry *entryX1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryX1Wireframe"));
 	GtkEntry *entryY1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryY1Wireframe"));
-	// GtkEntry *entryZ1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZ1Wireframe"));
+	GtkEntry *entryZ1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZ1Wireframe"));
 
 	const char *entryX1WireframeAux = gtk_entry_get_text (entryX1Wireframe);
 	const char *entryY1WireframeAux = gtk_entry_get_text (entryY1Wireframe);
-	// const char *entryZ1WireframeAux = gtk_entry_get_text (entryZ1Wireframe);
+	const char *entryZ1WireframeAux = gtk_entry_get_text (entryZ1Wireframe);
 
 	double X1Wireframe = atof(entryX1WireframeAux);
 	double Y1Wireframe = atof(entryY1WireframeAux);
-	// double Z1Wireframe= atof(entryZ1WireframeAux);
+	double Z1Wireframe= atof(entryZ1WireframeAux);
 
 	std::string ret = "btn_ok_insert_coords_wireframe_actived X: ";
 	ret += entryX1WireframeAux;
@@ -545,16 +545,16 @@ extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjeto"));
 	GtkEntry *entryXTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXTranslacao"));
 	GtkEntry *entryYTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYTranslacao"));
-	// GtkEntry *entryZTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZTranslacao"));
+	GtkEntry *entryZTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZTranslacao"));
 
 	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
 	const char *entryXTranslacaoAux = gtk_entry_get_text (entryXTranslacao);
 	const char *entryYTranslacaoAux = gtk_entry_get_text (entryYTranslacao);
-	// const char *entryZTranslacaoAux = gtk_entry_get_text (entryZTranslacao);
+	const char *entryZTranslacaoAux = gtk_entry_get_text (entryZTranslacao);
 
 	double XTranslacao = atof(entryXTranslacaoAux);
 	double YTranslacao = atof(entryYTranslacaoAux);
-	// double ZTranslacao = atof(entryZTranslacaoAux);
+	double ZTranslacao = atof(entryZTranslacaoAux);
 
 	gtk_widget_hide(windowTranslacao);
 	if (strcmp(entryObjetoName, "") == 0) {
@@ -575,16 +575,16 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto() {
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoEsc"));
 	GtkEntry *entryXEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXEscalona"));
 	GtkEntry *entryYEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYEscalona"));
-	// GtkEntry *entryZEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZEscalona"));
+	GtkEntry *entryZEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZEscalona"));
 
 	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
 	const char *entryXEscalonaAux = gtk_entry_get_text (entryXEscalona);
 	const char *entryYEscalonaAux = gtk_entry_get_text (entryYEscalona);
-	// const char *entryZEscalonaAux = gtk_entry_get_text (entryZEscalona);
+	const char *entryZEscalonaAux = gtk_entry_get_text (entryZEscalona);
 
 	double XEscalona = atof(entryXEscalonaAux);
 	double YEscalona = atof(entryYEscalonaAux);
-	// double ZEscalona = atof(entryZEscalonaAux);
+	double ZEscalona = atof(entryZEscalonaAux);
 
 	gtk_widget_hide(windowEscalona);
 	if (strcmp(entryObjetoName, "") == 0) {
@@ -630,13 +630,13 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 	} else {
 		GtkEntry *entryXRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotaciona"));
 		GtkEntry *entryYRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotaciona"));
-		// GtkEntry *entryZRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZRotaciona"));
+		GtkEntry *entryZRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZRotaciona"));
 		const char *entryXRotacionaAux = gtk_entry_get_text (entryXRotaciona);
 		const char *entryYRotacionaAux = gtk_entry_get_text (entryYRotaciona);
-		// const char *entryZRotacionaAux = gtk_entry_get_text (entryZRotaciona);
+		const char *entryZRotacionaAux = gtk_entry_get_text (entryZRotaciona);
 		double XRotaciona = atof(entryXRotacionaAux);
 		double YRotaciona = atof(entryYRotacionaAux);
-		// double ZRotaciona = atof(entryZRotacionaAux);
+		double ZRotaciona = atof(entryZRotacionaAux);
 		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0,1}, Transformacao2D::rotacao(angulo));
 	}
 	repaintWindow();
