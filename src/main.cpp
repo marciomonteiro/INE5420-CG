@@ -121,7 +121,7 @@ static void clear_surface () {
 static gboolean configure_event_cb (GtkWidget *widget, GdkEventConfigure *event, gpointer data) {
 	if (surface)
 	cairo_surface_destroy (surface);
-	surface = gdk_window_create_similar_surface (gtk_widget_get_window (widget), 
+	surface = gdk_window_create_similar_surface (gtk_widget_get_window (widget),
 		CAIRO_CONTENT_COLOR, gtk_widget_get_allocated_width (widget),
 		gtk_widget_get_allocated_height (widget));
 	clear_surface ();
@@ -322,7 +322,7 @@ extern "C" G_MODULE_EXPORT void btn_rotate_left_by_clicked() {
 	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
 	if (strcmp(entryStepText, "") == 0) {
 		printCommandLogs("Erro: angulo não informado\n");
-		return; 
+		return;
 	}
 	angulo = atof(entryStepText);
 	Window::instancia().novoAngulo(angulo, 0, 0);
@@ -331,7 +331,7 @@ extern "C" G_MODULE_EXPORT void btn_rotate_left_by_clicked() {
 
 extern "C" G_MODULE_EXPORT void btn_rotate_right_by_clicked() {
 	printCommandLogs("btn_rotate_right_by_clicked\n");
-	double angulo = 0; 
+	double angulo = 0;
 	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
 	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
 	if (strcmp(entryStepText, "") == 0) {
@@ -495,7 +495,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived() {
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_curve_actived() {
-	
+
 	GtkEntry *entryX1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXCurve"));
 	GtkEntry *entryY1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYCurve"));
 	// GtkEntry *entryZ1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZCurve"));
@@ -541,7 +541,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived() {
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived() {
-	
+
 	GtkEntry *entryX1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryX1Wireframe"));
 	GtkEntry *entryY1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryY1Wireframe"));
 	// GtkEntry *entryZ1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZ1Wireframe"));
@@ -565,7 +565,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived() {
 
 extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 	printCommandLogs("btn_ok_translacao_objeto\n");
-	
+
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjeto"));
 	GtkEntry *entryXTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXTranslacao"));
 	GtkEntry *entryYTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYTranslacao"));
@@ -595,7 +595,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 
 extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto() {
 	printCommandLogs("btn_ok_escalona_objeto\n");
-	
+
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoEsc"));
 	GtkEntry *entryXEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXEscalona"));
 	GtkEntry *entryYEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYEscalona"));
@@ -625,7 +625,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto() {
 
 extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 	printCommandLogs("btn_ok_rotaciona_objeto\n");
-	
+
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoRot"));
 	GtkEntry *entryAngleRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "AngleToRotate"));
 	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
