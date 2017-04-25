@@ -20,7 +20,7 @@ void Coordenadas::setAll(double x, double y, double z){
 	this->x=x;
 	this->y=y;
 	this->z=z;
-	this->aux=0;
+	this->aux=0.0;
 }
 
 void Coordenadas::setX(double x){
