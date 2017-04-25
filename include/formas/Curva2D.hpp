@@ -22,7 +22,7 @@
 
 class Curva2D : public Objeto{
 protected:
-	double tamanhoDosPassos = 0.02;
+	double tamanhoDosPassos = 0.0001;
 public:
 	Curva2D(std::string nomeCurva, std::string tipoCurva, std::vector<Coordenadas> coordenadas) : Objeto(nomeCurva, tipoCurva, coordenadas){}
 	~Curva2D(){}
