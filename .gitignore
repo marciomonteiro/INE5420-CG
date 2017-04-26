@@ -12,3 +12,9 @@ exec
 
 #build folder
 build
+
+#merge files
+*.orig
+
+#gitignoe
+.gitignore

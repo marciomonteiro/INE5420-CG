@@ -31,6 +31,7 @@
 #include "formas/Linha.hpp"
 #include "formas/Poligono.hpp"
 #include "formas/CurvaDeBezier.hpp"
+#include "formas/CurvaBSpline.hpp"
 #include "DescritorOBJ.hpp"
 
 /**
@@ -61,9 +62,9 @@ DescritorOBJ *descritor;
 
 //Global Variables
 std::vector<Coordenadas> wireframeCoords;
-Coordenadas inicio = Coordenadas(0,0,0,1);
-Coordenadas fim = Coordenadas(400,400,0,1);
-double tamBorda = 10;
+Coordenadas inicio = Coordenadas(0.0,0.0,0.0,1.0);
+Coordenadas fim = Coordenadas(400.0,400.0,0.0,1.0);
+double tamBorda = 10.0;
 bool preencherPoligono = false;
 
 //Gtk and beyond
@@ -120,7 +121,7 @@ static void clear_surface () {
 static gboolean configure_event_cb (GtkWidget *widget, GdkEventConfigure *event, gpointer data) {
 	if (surface)
 	cairo_surface_destroy (surface);
-	surface = gdk_window_create_similar_surface (gtk_widget_get_window (widget), 
+	surface = gdk_window_create_similar_surface (gtk_widget_get_window (widget),
 		CAIRO_CONTENT_COLOR, gtk_widget_get_allocated_width (widget),
 		gtk_widget_get_allocated_height (widget));
 	clear_surface ();
@@ -137,7 +138,7 @@ void repaintWindow() {
 	for (auto obj : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld()) {
 		obj.second->clipa();
 	}
-	viewportP->transformada(cr, Coordenadas(-1,-1,0,1), Coordenadas(1,1,0,1), world->getDisplayfile());
+	viewportP->transformada(cr, Coordenadas(-1.0,-1.0,0.0,1.0), Coordenadas(1.0,1.0,0.0,1.0), world->getDisplayfile());
 	gtk_widget_queue_draw (drawing_area);
 }
 
@@ -172,7 +173,7 @@ extern "C" G_MODULE_EXPORT void check_box_cs_clippa_reta() {
 
 extern "C" G_MODULE_EXPORT void btn_rotate_window_right_clicked() {
 	printCommandLogs("btn_rotate_window_right_clicked\n");
-	Window::instancia().novoAngulo(-10, 0, 0);
+	Window::instancia().novoAngulo(-10.0, 0.0, 0.0);
 	repaintWindow();
 }
 
@@ -272,25 +273,25 @@ extern "C" G_MODULE_EXPORT void rotaciona_object_window () {
 
 extern "C" G_MODULE_EXPORT void btn_up_clicked() {
 	printCommandLogs("btn_up_clicked\n");
-	Window::instancia().mover(0,10,0);
+	Window::instancia().mover(0.0,10.0,0.0);
 	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_down_clicked() {
 	printCommandLogs("btn_down_clicked\n");
-	Window::instancia().mover(0,-10,0);
+	Window::instancia().mover(0.0,-10.0,0.0);
 	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_left_clicked() {
 	printCommandLogs("btn_left_clicked\n");
-	Window::instancia().mover(-10,0,0);
+	Window::instancia().mover(-10.0,0.0,0.0);
 	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_right_clicked() {
 	printCommandLogs("btn_right_clicked\n");
-	Window::instancia().mover(10,0,0);
+	Window::instancia().mover(10.0,0.0,0.0);
 	repaintWindow();
 }
 
@@ -308,27 +309,15 @@ extern "C" G_MODULE_EXPORT void btn_zoom_out_clicked() {
 
 extern "C" G_MODULE_EXPORT void btn_reset_zoom_actived() {
 	printCommandLogs("btn_reset_zoom_actived\n");
-	Window::instancia().setCoordsWindow(Coordenadas(0,0,0,1), Coordenadas(400,400,0,1));
+	inicio = Coordenadas(0.0,0.0,0.0,1.0);
+	fim = Coordenadas(400.0,400.0,0.0,1.0);
+	Window::instancia().setCoordsWindow(&inicio, &fim);
 	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_rotate_left_by_clicked() {
 	printCommandLogs("btn_rotate_left_by_clicked\n");
-	double angulo = 0;
-	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
-	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
-	if (strcmp(entryStepText, "") == 0) {
-		printCommandLogs("Erro: angulo não informado\n");
-		return; 
-	}
-	angulo = atof(entryStepText);
-	Window::instancia().novoAngulo(angulo, 0, 0);
-	repaintWindow();
-}
-
-extern "C" G_MODULE_EXPORT void btn_rotate_right_by_clicked() {
-	printCommandLogs("btn_rotate_right_by_clicked\n");
-	double angulo = 0; 
+	double angulo = 0.0;
 	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
 	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
 	if (strcmp(entryStepText, "") == 0) {
@@ -336,7 +325,21 @@ extern "C" G_MODULE_EXPORT void btn_rotate_right_by_clicked() {
 		return;
 	}
 	angulo = atof(entryStepText);
-	Window::instancia().novoAngulo(-angulo, 0, 0);
+	Window::instancia().novoAngulo(angulo, 0.0, 0.0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_rotate_right_by_clicked() {
+	printCommandLogs("btn_rotate_right_by_clicked\n");
+	double angulo = 0.0;
+	GtkEntry *entryStep = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryStepSize"));
+	const char *entryStepText = (char*) gtk_entry_get_text (entryStep);
+	if (strcmp(entryStepText, "") == 0) {
+		printCommandLogs("Erro: angulo não informado\n");
+		return;
+	}
+	angulo = atof(entryStepText);
+	Window::instancia().novoAngulo(-angulo, 0.0, 0.0);
 	repaintWindow();
 }
 
@@ -376,7 +379,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived() {
 	double YPoint = atof(entryYPointAux);
 	double zPoint= atof(entryZPointAux);
 
-	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0, 1)}));
+	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0.0, 1.0)}));
 	if (!world->adicionaObjetosNoMundo(ponto)) {
 		printCommandLogs("Erro: Ponto já existe\n");
 		return;
@@ -422,7 +425,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
 	double Y2Line= atof(entryY2LineAux);
 	double Z2Line= atof(entryZ2LineAux);
 
-	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0, 1),Coordenadas(X2Line, Y2Line, 0, 1)}));
+	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0.0, 1.0),Coordenadas(X2Line, Y2Line, 0.0, 1.0)}));
 	if (!world->adicionaObjetosNoMundo(linha)) {
 		printCommandLogs("Erro: Linha já existe\n");
 		return;
@@ -453,25 +456,42 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_curve_actived() {
 		wireframeCoords.clear();
 		return;
 	}
-	if(wireframeCoords.size()<4){
-		printCommandLogs("Erro: Curva com menos de quatro pontos\n");
+
+	GtkToggleButton *BotaoBezier = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "buttonBezierCurve"));
+	GtkToggleButton *BotaoBSpline = GTK_TOGGLE_BUTTON(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "buttonBSplineCurve"));
+
+	if (gtk_toggle_button_get_active(BotaoBezier)) {
+		if(wireframeCoords.size()<4){
+			printCommandLogs("Erro: Curva com menos de quatro pontos\n");
+			wireframeCoords.clear();
+			return;
+		}
+		CurvaDeBezier * curvaBezier = new CurvaDeBezier(std::string(entryWireframeName), "Curva", wireframeCoords);
+		if (!world->adicionaObjetosNoMundo(curvaBezier)) {
+			printCommandLogs("Erro: Curva já existe\n");
+			wireframeCoords.clear();
+			return;
+		}
 		wireframeCoords.clear();
-		return;
+		Window::instancia().normalizaCoordenadasDoMundo();
+		curvaBezier->gerarPontosDaCurva();
 	}
-	CurvaDeBezier * curva = new CurvaDeBezier(std::string(entryWireframeName), "Curva", wireframeCoords);
-	if (!world->adicionaObjetosNoMundo(curva)) {
-		printCommandLogs("Erro: Curva já existe\n");
+	if (gtk_toggle_button_get_active(BotaoBSpline)) {
+		CurvaBSpline * curvaBSpline = new CurvaBSpline(std::string(entryWireframeName), "Curva", wireframeCoords);
+		if (!world->adicionaObjetosNoMundo(curvaBSpline)) {
+			printCommandLogs("Erro: Curva já existe\n");
+			wireframeCoords.clear();
+			return;
+		}
 		wireframeCoords.clear();
-		return;
+		Window::instancia().normalizaCoordenadasDoMundo();
+		curvaBSpline->gerarPontosDaCurva();
 	}
-	wireframeCoords.clear();
-	Window::instancia().normalizaCoordenadasDoMundo();
-	curva->gerarPontosDaCurva();
 	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_curve_actived() {
-	
+
 	GtkEntry *entryX1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXCurve"));
 	GtkEntry *entryY1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYCurve"));
 	GtkEntry *entryZ1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZCurve"));
@@ -489,7 +509,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_curve_actived() {
 	ret += entryY1WireframeAux;
 	ret += "\n";
 	printCommandLogs(ret.c_str());
-	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0, 1));
+	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0.0, 1.0));
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived() {
@@ -517,7 +537,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived() {
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived() {
-	
+
 	GtkEntry *entryX1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryX1Wireframe"));
 	GtkEntry *entryY1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryY1Wireframe"));
 	GtkEntry *entryZ1Wireframe = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZ1Wireframe"));
@@ -536,12 +556,12 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived() {
 	ret += entryY1WireframeAux;
 	ret += "\n";
 	printCommandLogs(ret.c_str());
-	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0, 1));
+	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0.0, 1.0));
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 	printCommandLogs("btn_ok_translacao_objeto\n");
-	
+
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjeto"));
 	GtkEntry *entryXTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXTranslacao"));
 	GtkEntry *entryYTranslacao = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYTranslacao"));
@@ -571,7 +591,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 
 extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto() {
 	printCommandLogs("btn_ok_escalona_objeto\n");
-	
+
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoEsc"));
 	GtkEntry *entryXEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXEscalona"));
 	GtkEntry *entryYEscalona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYEscalona"));
@@ -601,7 +621,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto() {
 
 extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 	printCommandLogs("btn_ok_rotaciona_objeto\n");
-	
+
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoRot"));
 	GtkEntry *entryAngleRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "AngleToRotate"));
 	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
@@ -621,7 +641,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 
 	// printCommandLogs("Erro: Objeto não encontrado\n");
 	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)) {
-		Coordenadas centroDoMundo = Coordenadas(0,0,0,1);
+		Coordenadas centroDoMundo = Coordenadas(0.0,0.0,0.0,1.0);
 		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao2D::rotacao(angulo));
 	}
 	if (gtk_toggle_button_get_active(BotaCentroDoObjeto)) {
@@ -637,7 +657,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 		double XRotaciona = atof(entryXRotacionaAux);
 		double YRotaciona = atof(entryYRotacionaAux);
 		double ZRotaciona = atof(entryZRotacionaAux);
-		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0,1}, Transformacao2D::rotacao(angulo));
+		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0.0,1.0}, Transformacao2D::rotacao(angulo));
 	}
 	repaintWindow();
 }
@@ -665,7 +685,7 @@ int main(int argc, char *argv[]) {
 	// inicializa o displayfile, viewport e window
 	DisplayFile dp = DisplayFile();
 	displayFile = &dp;
-	Viewport vp = Viewport(Coordenadas(tamBorda,tamBorda,0,1),Coordenadas(fim.getX()-tamBorda, fim.getY()-tamBorda, 0,1));
+	Viewport vp = Viewport(Coordenadas(tamBorda, tamBorda, 0.0, 1.0),Coordenadas(fim.getX()-tamBorda, fim.getY()-tamBorda, 0.0, 1.0));
 	viewportP = &vp;
 	Window::instancia().setWindow(&inicio, &fim, displayFile);
 	World wd = World();

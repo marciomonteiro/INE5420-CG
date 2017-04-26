@@ -47,6 +47,6 @@ Coordenadas Viewport::calcCoordTransf(Coordenadas inicioDaWindow, Coordenadas fi
 	double xViewport = 0.0;
 	double yViewport = 0.0;
 	xViewport = ((coordenadas_objeto.getX() - inicioDaWindow.getX())/(fimDaWindow.getX() - inicioDaWindow.getX()))*(coordenadas_maximas.getX() - coordenadas_minimas.getX());
-	yViewport = (1 - ((coordenadas_objeto.getY() - inicioDaWindow.getY())/(fimDaWindow.getY() - inicioDaWindow.getY())))*(coordenadas_maximas.getY() - coordenadas_minimas.getY());
-	return Coordenadas(xViewport+10, yViewport+10, 0, 1);
+	yViewport = (1.0 - ((coordenadas_objeto.getY() - inicioDaWindow.getY())/(fimDaWindow.getY() - inicioDaWindow.getY())))*(coordenadas_maximas.getY() - coordenadas_minimas.getY());
+	return Coordenadas(xViewport+10, yViewport+10, 0.0, 1.0);
 }

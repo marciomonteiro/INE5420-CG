@@ -21,23 +21,23 @@ Window& Window::instancia() {
 }
 
 Window::Window(){
-	inicioDaWindow = new Coordenadas(0,0,0,1);
-	fimDaWindow = new Coordenadas(400,400,0,1);
+	inicioDaWindow = new Coordenadas(0.0,0.0,0.0,1.0);
+	fimDaWindow = new Coordenadas(400.0,400.0,0.0,1.0);
 	anguloX = 0.0;
 	anguloY = 0.0;
 	anguloZ = 0.0;
-	centroDaWindow = new Coordenadas((inicioDaWindow->getX() + fimDaWindow->getX())/2, (inicioDaWindow->getY() + fimDaWindow->getY())/2,0,1);
+	centroDaWindow = new Coordenadas((inicioDaWindow->getX() + fimDaWindow->getX())/2, (inicioDaWindow->getY() + fimDaWindow->getY())/2,0.0,1.0);
 }
 
 void Window::setWindow(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world){
-	inicioDaWindow->setAll(inicio->getX(),inicio->getY(),0);
-	fimDaWindow->setAll(fim->getX(), fim->getY(), 0);
+	inicioDaWindow->setAll(inicio->getX(),inicio->getY(),0.0);
+	fimDaWindow->setAll(fim->getX(), fim->getY(), 0.0);
 	displayfile = world;
 }
 
 void Window::setCoordsWindow(Coordenadas* inicio, Coordenadas* fim){
-	inicioDaWindow->setAll(inicio->getX(),inicio->getY(),0);
-	fimDaWindow->setAll(fim->getX(), fim->getY(), 0);
+	inicioDaWindow->setAll(inicio->getX(),inicio->getY(),0.0);
+	fimDaWindow->setAll(fim->getX(), fim->getY(), 0.0);
 }
 
 void Window::novoAngulo(double x, double y, double z){
@@ -57,7 +57,7 @@ void Window::normalizaCoordenadasDoMundo(){
 }
 
 void Window::atualizaCentroDaWindow(){
-	centroDaWindow->setAll((fimDaWindow->getX() + inicioDaWindow->getX())/2, (fimDaWindow->getY() + inicioDaWindow->getY())/2, 0);
+	centroDaWindow->setAll((fimDaWindow->getX() + inicioDaWindow->getX())/2, (fimDaWindow->getY() + inicioDaWindow->getY())/2, 0.0);
 }
 
 void Window::zoom(double porcentagem){
@@ -65,12 +65,12 @@ void Window::zoom(double porcentagem){
 	double alturaDaWindow = fimDaWindow->getY() - inicioDaWindow->getY();
 	larguraDaWindow = larguraDaWindow * porcentagem;
 	alturaDaWindow = alturaDaWindow * porcentagem;
-	inicioDaWindow->setAll(centroDaWindow->getX() - larguraDaWindow/2, centroDaWindow->getY() - alturaDaWindow/2, 0);
-	fimDaWindow->setAll(centroDaWindow->getX() + larguraDaWindow/2, centroDaWindow->getY() + alturaDaWindow/2, 0);
+	inicioDaWindow->setAll(centroDaWindow->getX() - larguraDaWindow/2, centroDaWindow->getY() - alturaDaWindow/2, 0.0);
+	fimDaWindow->setAll(centroDaWindow->getX() + larguraDaWindow/2, centroDaWindow->getY() + alturaDaWindow/2, 0.0);
 }
 
 void Window::mover(double x, double y, double z){
-	inicioDaWindow->setAll(inicioDaWindow->getX()+x, inicioDaWindow->getY()+y, 0);
-	fimDaWindow->setAll(fimDaWindow->getX()+x, fimDaWindow->getY()+y, 0);
+	inicioDaWindow->setAll(inicioDaWindow->getX()+x, inicioDaWindow->getY()+y, 0.0);
+	fimDaWindow->setAll(fimDaWindow->getX()+x, fimDaWindow->getY()+y, 0.0);
 	this->atualizaCentroDaWindow();
 }

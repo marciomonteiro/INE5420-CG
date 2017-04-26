@@ -77,7 +77,7 @@ Para ter certeza de que a clipagem está funcionando e não é o algoritmo de cl
 
 - Implemente o clipping de polígonos preenchidos com o algoritmo de Weiler-Atherton. Para simplificar, considere apenas polígonos sem furos (mas possivelmente côncavos).
 
-1.5 - Implemente Curvas em 2D
+**1.5 - Implemente Curvas em 2D**
 
 Implemente a curva de Hermite ou Bézier como mais um objeto gráfico 2D de seu sistema:
 

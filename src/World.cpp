@@ -41,7 +41,7 @@ void World::transformarObjeto(std::string nome, Matriz::Matriz<double> matriz){
 
 void World::scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz){
 	Objeto* ob = world_displayFile.instancia().getTheObjectFromTheWorld(nome);
-	std::vector<double> tmp0 = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+	std::vector<double> tmp0 = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
 	Matriz::Matriz<double> tmp1 = Matriz::Matriz<double>(3u,3u,tmp0);
 	tmp1(2,0) = -ob->centroDoObjeto().getX();
 	tmp1(2,1) = -ob->centroDoObjeto().getY();
@@ -54,7 +54,7 @@ void World::scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz){
 }
 
 void World::rotacionarObjeto(std::string nome, bool coordArbitraria, Coordenadas coords, Matriz::Matriz<double> matriz){
-	std::vector<double> tmp0 = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+	std::vector<double> tmp0 = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
 	Matriz::Matriz<double> ida = Matriz::Matriz<double>(3u,3u,tmp0);
 	Matriz::Matriz<double> volta = Matriz::Matriz<double>(3u,3u,tmp0);
 	if (coordArbitraria){

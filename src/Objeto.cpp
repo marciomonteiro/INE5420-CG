@@ -58,30 +58,30 @@ void Objeto::transformaObjeto(Matriz::Matriz<double> matriz){
 		std::vector<double> tmp0 = {coord.getX(), coord.getY(), 1};
 		Matriz::Matriz<double> tmp = Matriz::Matriz<double>(1u,3u,tmp0);
 		Matriz::Matriz<double> tmp2 = tmp * matriz;
-		coord.setAll(tmp2(0,0), tmp2(0,1), 0);
+		coord.setAll(tmp2(0,0), tmp2(0,1), 0.0);
 	}
 }
 
 Coordenadas Objeto::centroDoObjeto(){
-	double xDoCentro = 0;
-	double yDoCentro = 0;
+	double xDoCentro = 0.0;
+	double yDoCentro = 0.0;
 	for (auto coord : world_coordenadas){
 		xDoCentro += coord.getX();
 		yDoCentro += coord.getY();
 	}
 	xDoCentro = xDoCentro/world_coordenadas.size();
 	yDoCentro = yDoCentro/world_coordenadas.size();
-	return Coordenadas(xDoCentro,yDoCentro, 0, 1);
+	return Coordenadas(xDoCentro,yDoCentro, 0.0, 1.0);
 }
 
 void Objeto::normalizaCoordenadas(Matriz::Matriz<double> normalizadora){
 	normalized_coordenadas.clear();
 	normalized_coordenadas = world_coordenadas;
 	for (auto &coord : normalized_coordenadas){ 
-		std::vector<double> tmp0 = {coord.getX(), coord.getY(), 1};
+		std::vector<double> tmp0 = {coord.getX(), coord.getY(), 1.0};
 		Matriz::Matriz<double> tmp = Matriz::Matriz<double>(1u,3u,tmp0);
 		Matriz::Matriz<double> tmp2 = tmp * normalizadora;
-		coord.setAll(tmp2(0,0), tmp2(0,1), 0);
+		coord.setAll(tmp2(0,0), tmp2(0,1), 0.0);
 	}
 }
 

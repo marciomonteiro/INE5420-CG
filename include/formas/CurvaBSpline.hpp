@@ -3,7 +3,7 @@
  *		FEDERAL UNIVERSITY OF SANTA CATARINA
  *	================================================
  * 
- * Curva2D.hpp
+ * CurvaBSpline.hpp
  *
  *  Created on: 9 de abr de 2017.
  *     Authors: Marcio Monteiro and Rodrigo Pedro Marques.
@@ -14,21 +14,17 @@
  *	course lectured in Federal University of Santa Catarina. 
  */
 
-#ifndef INCLUDE_FORMAS_CURVA_CPP_
-#define INCLUDE_FORMAS_CURVA_CPP_
+#ifndef INCLUDE_FORMAS_CURVA_B_SPLINE_HPP_
+#define INCLUDE_FORMAS_CURVA_B_SPLINE_HPP_
 
-#include "../Objeto.hpp"
+#include "../formas/Curva2D.hpp"
 #include <iostream>
 
-class Curva2D : public Objeto{
-protected:
-	double tamanhoDosPassos = 0.0001;
+class CurvaBSpline : public Curva2D{
 public:
-	Curva2D(std::string nomeCurva, std::string tipoCurva, std::vector<Coordenadas> coordenadas) : Objeto(nomeCurva, tipoCurva, coordenadas){}
-	~Curva2D(){}
-	void desenhar(cairo_t* cr, std::vector<Coordenadas> coords);
-	void clipa();
+	CurvaBSpline(std::string nomeCurva, std::string tipoCurva, std::vector<Coordenadas> coordenadas) : Curva2D(nomeCurva, tipoCurva, coordenadas){}
+	~CurvaBSpline(){}
 	void gerarPontosDaCurva();
 };
 
-#endif /* INCLUDE_FORMAS_CURVA_CPP_ */
+#endif /* INCLUDE_FORMAS_CURVA_B_SPLINE_HPP_ */
