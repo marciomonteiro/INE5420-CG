@@ -27,6 +27,7 @@
 #include "DisplayFile.hpp"
 #include "Objeto.hpp"
 #include "Transformacao2D.hpp"
+#include "Transformacao3D.hpp"
 #include "formas/Ponto.hpp"
 #include "formas/Linha.hpp"
 #include "formas/Poligono.hpp"
@@ -379,7 +380,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived() {
 	double YPoint = atof(entryYPointAux);
 	double zPoint= atof(entryZPointAux);
 
-	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, 0.0, 1.0)}));
+	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, zPoint, 1.0)}));
 	if (!world->adicionaObjetosNoMundo(ponto)) {
 		printCommandLogs("Erro: Ponto já existe\n");
 		return;
@@ -388,6 +389,8 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived() {
 	ret += entryXPointAux;
 	ret += " Y: ";
 	ret += entryYPointAux;
+	ret += " Z: ";
+	ret += entryZPointAux;
 	ret += "\n";
 	printCommandLogs(ret.c_str());
 	ponto->clipa();
@@ -425,7 +428,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
 	double Y2Line= atof(entryY2LineAux);
 	double Z2Line= atof(entryZ2LineAux);
 
-	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, 0.0, 1.0),Coordenadas(X2Line, Y2Line, 0.0, 1.0)}));
+	Linha * linha = new Linha(std::string(entryLineName), "Linha", std::vector<Coordenadas>({Coordenadas(X1Line, Y1Line, Z1Line, 1.0),Coordenadas(X2Line, Y2Line, Z2Line, 1.0)}));
 	if (!world->adicionaObjetosNoMundo(linha)) {
 		printCommandLogs("Erro: Linha já existe\n");
 		return;
@@ -434,10 +437,14 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_line_actived() {
 	ret += entryX1LineAux;
 	ret += " Y1: ";
 	ret += entryY1LineAux;
+	ret += " Z1: ";
+	ret += entryZ1LineAux;
 	ret += " X2: ";
 	ret += entryX2LineAux;
 	ret += " Y2: ";
 	ret += entryY2LineAux;
+	ret += " Z2: ";
+	ret += entryZ2LineAux;
 	ret += "\n";
 	printCommandLogs(ret.c_str());
 	Window::instancia().normalizaCoordenadasDoMundo();
@@ -507,9 +514,11 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_curve_actived() {
 	ret += entryX1WireframeAux;
 	ret += " Y: ";
 	ret += entryY1WireframeAux;
+	ret += " Z: ";
+	ret += entryZ1WireframeAux;
 	ret += "\n";
 	printCommandLogs(ret.c_str());
-	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0.0, 1.0));
+	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, Z1Wireframe, 1.0));
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_insert_wireframe_actived() {
@@ -554,9 +563,11 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_coords_wireframe_actived() {
 	ret += entryX1WireframeAux;
 	ret += " Y: ";
 	ret += entryY1WireframeAux;
+	ret += " Z: ";
+	ret += entryZ1WireframeAux;
 	ret += "\n";
 	printCommandLogs(ret.c_str());
-	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, 0.0, 1.0));
+	wireframeCoords.push_back(Coordenadas(X1Wireframe, Y1Wireframe, Z1Wireframe, 1.0));
 }
 
 extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
@@ -586,6 +597,9 @@ extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 	// 	return;
 	// }
 	world->transformarObjeto(std::string(entryObjetoName),Transformacao2D::translacao(XTranslacao, YTranslacao));
+	// 
+	// Translacao em 3D
+	// world->transformarObjeto(std::string(entryObjetoName),Transformacao3D::translacao(XTranslacao, YTranslacao, ZTranslacao));
 	repaintWindow();
 }
 
@@ -616,6 +630,9 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto() {
 	// 	return;
 	// }
 	world->scalonarObjeto(std::string(entryObjetoName),Transformacao2D::escalonamento(XEscalona, YEscalona));
+	// 
+	// Escalonamento em 3D
+	// world->scalonarObjeto(std::string(entryObjetoName),Transformacao3D::escalonamento(XEscalona, YEscalona, ZEscalona));
 	repaintWindow();
 }
 
@@ -643,10 +660,18 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)) {
 		Coordenadas centroDoMundo = Coordenadas(0.0,0.0,0.0,1.0);
 		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao2D::rotacao(angulo));
+		// 
+		// Rotação em 3D
+		// world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao3D::rotacao(angulo));
+		// 
 	}
 	if (gtk_toggle_button_get_active(BotaCentroDoObjeto)) {
 		Objeto* ob = world->getDisplayfile()->getTheObjectFromTheWorld(std::string(entryObjetoName));
 		world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), Transformacao2D::rotacao(angulo));
+		// 
+		// Rotação em 3D
+		// world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), Transformacao3D::rotacao(angulo));
+		// 
 	} else {
 		GtkEntry *entryXRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotaciona"));
 		GtkEntry *entryYRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotaciona"));
@@ -657,7 +682,11 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 		double XRotaciona = atof(entryXRotacionaAux);
 		double YRotaciona = atof(entryYRotacionaAux);
 		double ZRotaciona = atof(entryZRotacionaAux);
-		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, 0.0,1.0}, Transformacao2D::rotacao(angulo));
+		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, ZRotaciona,1.0}, Transformacao2D::rotacao(angulo));
+		// 
+		// Rotação em 3D
+		// world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, ZRotaciona,1.0}, Transformacao3D::rotacao(angulo));
+		// 
 	}
 	repaintWindow();
 }

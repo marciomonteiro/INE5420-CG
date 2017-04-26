@@ -14,11 +14,12 @@
  *	course lectured in Federal University of Santa Catarina. 
  */
 
-#ifndef INCLUDE_TRANSFORMACAO3D_CPP_
-#define INCLUDE_TRANSFORMACAO3D_CPP_
+#ifndef INCLUDE_TRANSFORMACAO3D_HPP_
+#define INCLUDE_TRANSFORMACAO3D_HPP_
 
 #include "Matriz.hpp"
 #include "Coordenadas.hpp"
+#include <iostream>
 
 namespace Transformacao3D {
 	/**
@@ -37,6 +38,4 @@ namespace Transformacao3D {
 	Matriz::Matriz<double> rotacao(double grauX, double grauY, double grauZ, Coordenadas eixoArbitrario);
 };
 
-
-
-#endif /* INCLUDE_TRANSFORMACAO3D_CPP_ */
+#endif /* INCLUDE_TRANSFORMACAO3D_HPP_ */

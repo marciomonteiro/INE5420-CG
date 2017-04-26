@@ -16,5 +16,20 @@
 
 #include "../include/Transformacao3D.hpp"
 
+Matriz::Matriz<double> Transformacao3D::translacao(double dx, double dy, double dz){
+	std::cout<<"TO DO\nTransformacao3D::translacao"<<std::endl;
+	std::vector<double> retorno {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	return Matriz::Matriz<double>(3u,3u,retorno);
+}
 
+Matriz::Matriz<double> Transformacao3D::escalonamento(double sx, double sy, double sz){
+	std::cout<<"TO DO\nTransformacao3D::escalonamento"<<std::endl;
+	std::vector<double> retorno {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	return Matriz::Matriz<double>(3u,3u,retorno);
+}
 
+Matriz::Matriz<double> Transformacao3D::rotacao(double grauX, double grauY, double grauZ, Coordenadas eixoArbitrario){
+	std::cout<<"TO DO\nTransformacao3D::rotacao"<<std::endl;
+	std::vector<double> retorno {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	return Matriz::Matriz<double>(3u,3u,retorno);
+}
