@@ -32,6 +32,7 @@ void Viewport::transformada(cairo_t* cr, Coordenadas inicioDaWindow, Coordenadas
 }
 
 void Viewport::desenhaEnquadramento(cairo_t* cr){
+	//std::cout<<"Viewport::desenhaEnquadramento"<<std::endl;
 	cairo_set_line_width(cr, 1);
 	// cairo_rectangle (cr, coordenadas_minimas.getX(), coordenadas_minimas.getY(), coordenadas_maximas.getX(), coordenadas_maximas.getY());
 	cairo_move_to(cr, coordenadas_minimas.getX(), coordenadas_minimas.getY());

@@ -135,12 +135,12 @@ void repaintWindow() {
 	clear_surface();
 	cr = cairo_create (surface);
 	Window::instancia().normalizaCoordenadasDoMundo();
-	viewportP->desenhaEnquadramento(cr);
 	for (auto obj : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld()) {
 		obj.second->clipa();
 	}
 	viewportP->transformada(cr, Coordenadas(-1.0,-1.0,0.0,1.0), Coordenadas(1.0,1.0,0.0,1.0), world->getDisplayfile());
 	gtk_widget_queue_draw (drawing_area);
+  viewportP->desenhaEnquadramento(cr);
 }
 
 void printCommandLogs(const char* text) {
@@ -597,7 +597,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 	// 	return;
 	// }
 	world->transformarObjeto(std::string(entryObjetoName),Transformacao2D::translacao(XTranslacao, YTranslacao));
-	// 
+	//
 	// Translacao em 3D
 	// world->transformarObjeto(std::string(entryObjetoName),Transformacao3D::translacao(XTranslacao, YTranslacao, ZTranslacao));
 	repaintWindow();
@@ -630,7 +630,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto() {
 	// 	return;
 	// }
 	world->scalonarObjeto(std::string(entryObjetoName),Transformacao2D::escalonamento(XEscalona, YEscalona));
-	// 
+	//
 	// Escalonamento em 3D
 	// world->scalonarObjeto(std::string(entryObjetoName),Transformacao3D::escalonamento(XEscalona, YEscalona, ZEscalona));
 	repaintWindow();
@@ -660,18 +660,18 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)) {
 		Coordenadas centroDoMundo = Coordenadas(0.0,0.0,0.0,1.0);
 		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao2D::rotacao(angulo));
-		// 
+		//
 		// Rotação em 3D
 		// world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao3D::rotacao(angulo));
-		// 
+		//
 	}
 	if (gtk_toggle_button_get_active(BotaCentroDoObjeto)) {
 		Objeto* ob = world->getDisplayfile()->getTheObjectFromTheWorld(std::string(entryObjetoName));
 		world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), Transformacao2D::rotacao(angulo));
-		// 
+		//
 		// Rotação em 3D
 		// world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), Transformacao3D::rotacao(angulo));
-		// 
+		//
 	} else {
 		GtkEntry *entryXRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotaciona"));
 		GtkEntry *entryYRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotaciona"));
@@ -683,10 +683,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 		double YRotaciona = atof(entryYRotacionaAux);
 		double ZRotaciona = atof(entryZRotacionaAux);
 		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, ZRotaciona,1.0}, Transformacao2D::rotacao(angulo));
-		// 
+		//
 		// Rotação em 3D
 		// world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, ZRotaciona,1.0}, Transformacao3D::rotacao(angulo));
-		// 
+		//
 	}
 	repaintWindow();
 }
@@ -720,6 +720,7 @@ int main(int argc, char *argv[]) {
 	World wd = World();
 	world = &wd;
 	descritor = new DescritorOBJ(&wd);
+
 
 	g_signal_connect(drawing_area, "draw", G_CALLBACK(on_draw_event), NULL);
 	g_signal_connect(drawing_area, "draw", G_CALLBACK (drawWindow), NULL);
