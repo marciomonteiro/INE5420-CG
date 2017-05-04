@@ -20,6 +20,7 @@
 #include "Matriz.hpp"
 #include "Coordenadas.hpp"
 #include <iostream>
+#include <cmath>
 
 namespace Transformacao3D {
 	/**
@@ -36,6 +37,25 @@ namespace Transformacao3D {
 	 * Realiza a rotacao de um objeto 3D em torno a um eixo arbitrario.
 	 */
 	Matriz::Matriz<double> rotacao(double grauX, double grauY, double grauZ, Coordenadas eixoArbitrario);
+
+	/**
+	 * Realiza a rotação 3D do eixo X de um objeto;
+	 * \param grauX valor do grau em radianos
+	 */
+	Matriz::Matriz<double> Transformacao3D::rotacaoX(double grauX);
+
+	/**
+	 * Realiza a rotação 3D do eixo Y de um objeto;
+	 * \param grauY valor do grau em radianos
+	 */
+	Matriz::Matriz<double> Transformacao3D::rotacaoY(double grauY);
+
+
+	/**
+	 * Realiza a rotação 3D do eixo Z de um objeto;
+	 * \param grauZ valor do grau em radianos
+	 */
+	Matriz::Matriz<double> Transformacao3D::rotacaoZ(double grauZ);
 };
 
 #endif /* INCLUDE_TRANSFORMACAO3D_HPP_ */

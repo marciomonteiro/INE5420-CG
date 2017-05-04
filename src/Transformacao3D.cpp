@@ -39,7 +39,9 @@ Matriz::Matriz<double> Transformacao3D::rotacao(double grauX, double grauY, doub
 	Matriz::Matriz<double> rX = Matriz::Matriz<double>(4u,4u,retornoX);
 	Matriz::Matriz<double> rY = Matriz::Matriz<double>(4u,4u,retornoY);
 	Matriz::Matriz<double> rZ = Matriz::Matriz<double>(4u,4u,retornoZ);
-	return dummy;
+
+	Matriz::Matriz<double> resultado = rX*rY*rZ;
+	return resultado;
 }
 
 Matriz::Matriz<double> Transformacao3D::rotacaoX(double grauX){
