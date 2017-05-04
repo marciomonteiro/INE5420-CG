@@ -283,6 +283,52 @@
                                       </packing>
                                     </child>
                                     <child>
+                                      <object class="GtkButton" id="buttonNE">
+                                        <property name="label" translatable="yes">NE</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="margin_left">2</property>
+                                        <property name="margin_right">2</property>
+                                        <property name="margin_top">2</property>
+                                        <property name="margin_bottom">2</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">2</property>
+                                        <property name="top_attach">0</property>
+                                        <property name="width">1</property>
+                                        <property name="height">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkButton" id="buttonSO">
+                                        <property name="label" translatable="yes">SO</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">0</property>
+                                        <property name="top_attach">2</property>
+                                        <property name="width">1</property>
+                                        <property name="height">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkButton" id="buttonSE">
+                                        <property name="label" translatable="yes">SE</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">2</property>
+                                        <property name="top_attach">2</property>
+                                        <property name="width">1</property>
+                                        <property name="height">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
                                       <object class="GtkButton" id="DownButton">
                                         <property name="label" translatable="yes">Down</property>
                                         <property name="visible">True</property>
@@ -296,14 +342,27 @@
                                       </object>
                                       <packing>
                                         <property name="left_attach">1</property>
+                                        <property name="top_attach">2</property>
+                                        <property name="width">1</property>
+                                        <property name="height">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label3">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes"> </property>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">1</property>
                                         <property name="top_attach">1</property>
                                         <property name="width">1</property>
                                         <property name="height">1</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkButton" id="btnRotateWindowLeft">
-                                        <property name="label" translatable="yes">R E</property>
+                                      <object class="GtkButton" id="buttonNO">
+                                        <property name="label" translatable="yes">NO</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
@@ -313,29 +372,9 @@
                                         <property name="margin_bottom">2</property>
                                         <property name="xalign">0.50999999046325684</property>
                                         <property name="yalign">0.51999998092651367</property>
-                                        <signal name="clicked" handler="btn_rotate_window_left_clicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="left_attach">0</property>
-                                        <property name="top_attach">0</property>
-                                        <property name="width">1</property>
-                                        <property name="height">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkButton" id="button22">
-                                        <property name="label" translatable="yes">R D</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <property name="margin_left">2</property>
-                                        <property name="margin_right">2</property>
-                                        <property name="margin_top">2</property>
-                                        <property name="margin_bottom">2</property>
-                                        <signal name="clicked" handler="btn_rotate_window_right_clicked" swapped="no"/>
-                                      </object>
-                                      <packing>
-                                        <property name="left_attach">2</property>
                                         <property name="top_attach">0</property>
                                         <property name="width">1</property>
                                         <property name="height">1</property>
@@ -396,7 +435,7 @@
                                         <signal name="clicked" handler="btn_rotate_right_by_clicked" swapped="no"/>
                                       </object>
                                       <packing>
-                                        <property name="x">120</property>
+                                        <property name="x">100</property>
                                         <property name="y">30</property>
                                       </packing>
                                     </child>
@@ -414,13 +453,76 @@
                                         <property name="input_purpose">number</property>
                                       </object>
                                       <packing>
-                                        <property name="x">60</property>
+                                        <property name="x">40</property>
+                                        <property name="y">30</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkSeparator" id="separator1">
+                                        <property name="width_request">100</property>
+                                        <property name="height_request">80</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                      </object>
+                                      <packing>
+                                        <property name="x">100</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label5">
+                                        <property name="width_request">100</property>
+                                        <property name="height_request">80</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes">Arquivo</property>
+                                      </object>
+                                      <packing>
+                                        <property name="x">130</property>
+                                        <property name="y">-20</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkButton" id="button6">
+                                        <property name="label" translatable="yes">Abrir</property>
+                                        <property name="width_request">10</property>
+                                        <property name="height_request">10</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="margin_left">2</property>
+                                        <property name="margin_right">2</property>
+                                        <property name="margin_top">2</property>
+                                        <property name="margin_bottom">2</property>
+                                        <signal name="clicked" handler="btn_open_file_obj_actived" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="x">150</property>
+                                        <property name="y">30</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkButton" id="ButtonYDegrees1">
+                                        <property name="label" translatable="yes">Salvar</property>
+                                        <property name="width_request">10</property>
+                                        <property name="height_request">10</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="margin_left">2</property>
+                                        <property name="margin_right">2</property>
+                                        <property name="margin_top">2</property>
+                                        <property name="margin_bottom">2</property>
+                                        <signal name="clicked" handler="btn_save_file_obj_actived" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="x">200</property>
                                         <property name="y">30</property>
                                       </packing>
                                     </child>
                                   </object>
                                   <packing>
-                                    <property name="expand">True</property>
+                                    <property name="expand">False</property>
                                     <property name="fill">True</property>
                                     <property name="position">1</property>
                                   </packing>
@@ -535,72 +637,6 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkFixed" id="fixed2">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <object class="GtkFrame" id="frame1">
-                            <property name="width_request">80</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label_xalign">0</property>
-                            <property name="shadow_type">none</property>
-                            <child>
-                              <object class="GtkFixed" id="fixed3">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkButton" id="ButtonYDegrees">
-                                    <property name="label" translatable="yes">Salvar</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">True</property>
-                                    <property name="margin_left">2</property>
-                                    <property name="margin_right">2</property>
-                                    <property name="margin_top">2</property>
-                                    <property name="margin_bottom">2</property>
-                                    <property name="xalign">0.49000000953674316</property>
-                                    <signal name="clicked" handler="btn_save_file_obj_actived" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="x">70</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkButton" id="ButtonXDegrees">
-                                    <property name="label" translatable="yes">Abrir</property>
-                                    <property name="width_request">10</property>
-                                    <property name="height_request">10</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">True</property>
-                                    <property name="margin_left">2</property>
-                                    <property name="margin_right">2</property>
-                                    <property name="margin_top">2</property>
-                                    <property name="margin_bottom">2</property>
-                                    <property name="yalign">0.47999998927116394</property>
-                                    <signal name="clicked" handler="btn_open_file_obj_actived" swapped="no"/>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                            <child type="label">
-                              <object class="GtkLabel" id="label3">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Carrega arquivo</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">5</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkBox" id="box1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -707,6 +743,7 @@
                             <property name="sensitive">False</property>
                             <property name="can_focus">False</property>
                             <property name="double_buffered">False</property>
+                            <property name="margin_right">1</property>
                           </object>
                         </child>
                         <child type="label">
@@ -1095,7 +1132,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry" id="entry1">
+                          <object class="GtkEntry" id="EntryZPoint">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="margin_left">2</property>
@@ -1103,6 +1140,7 @@
                             <property name="margin_top">2</property>
                             <property name="margin_bottom">2</property>
                             <property name="width_chars">5</property>
+                            <property name="input_purpose">number</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2240,8 +2278,31 @@ B-Spline: minimo de três pontos.</property>
                 <property name="position">0</property>
               </packing>
             </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="box20">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
-              <object class="GtkEntry" id="AngleToRotate">
+              <object class="GtkLabel" id="label33">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">X: </property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="EntryXRotacionaAngle">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="margin_left">2</property>
@@ -2257,11 +2318,69 @@ B-Spline: minimo de três pontos.</property>
                 <property name="position">1</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkLabel" id="label35">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Y: </property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="EntryYRotacionaAngle">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_left">2</property>
+                <property name="margin_right">2</property>
+                <property name="margin_top">2</property>
+                <property name="margin_bottom">2</property>
+                <property name="width_chars">5</property>
+                <property name="input_purpose">number</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label37">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Z: </property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="EntryZRotacionaAngle">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_left">2</property>
+                <property name="margin_right">2</property>
+                <property name="margin_top">2</property>
+                <property name="margin_bottom">2</property>
+                <property name="width_chars">5</property>
+                <property name="input_purpose">number</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -2324,7 +2443,7 @@ B-Spline: minimo de três pontos.</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child>
@@ -2431,7 +2550,7 @@ B-Spline: minimo de três pontos.</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">4</property>
           </packing>
         </child>
         <child>
@@ -2479,7 +2598,7 @@ B-Spline: minimo de três pontos.</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">4</property>
+            <property name="position">5</property>
           </packing>
         </child>
       </object>

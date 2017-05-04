@@ -2,16 +2,16 @@
  *	================================================
  *		FEDERAL UNIVERSITY OF SANTA CATARINA
  *	================================================
- * 
+ *
  * Transformacao3D.cpp
  *
  *  Created on: 19 de abr de 2017.
  *     Authors: Marcio Monteiro and Rodrigo Pedro Marques.
  *	    GitHub: https://github.com/marciomonteiro/INE5420-CG.git
  *	 Professor: Dr. rer.nat. Aldo von Wangenheim
- * 	
+ *
  *	This file is part of a project for the INE5420 Computer Graphics
- *	course lectured in Federal University of Santa Catarina. 
+ *	course lectured in Federal University of Santa Catarina.
  */
 
 #ifndef INCLUDE_TRANSFORMACAO3D_HPP_
@@ -36,26 +36,25 @@ namespace Transformacao3D {
 	/**
 	 * Realiza a rotacao de um objeto 3D em torno a um eixo arbitrario.
 	 */
-	Matriz::Matriz<double> rotacao(double grauX, double grauY, double grauZ, Coordenadas eixoArbitrario);
+	Matriz::Matriz<double> rotacao(double grauX, double grauY, double grauZ);
 
 	/**
 	 * Realiza a rotação 3D do eixo X de um objeto;
 	 * \param grauX valor do grau em radianos
 	 */
-	Matriz::Matriz<double> Transformacao3D::rotacaoX(double grauX);
+	Matriz::Matriz<double> rotacaoX(double grauX);
 
 	/**
 	 * Realiza a rotação 3D do eixo Y de um objeto;
 	 * \param grauY valor do grau em radianos
 	 */
-	Matriz::Matriz<double> Transformacao3D::rotacaoY(double grauY);
-
+	Matriz::Matriz<double> rotacaoY(double grauY);
 
 	/**
 	 * Realiza a rotação 3D do eixo Z de um objeto;
 	 * \param grauZ valor do grau em radianos
 	 */
-	Matriz::Matriz<double> Transformacao3D::rotacaoZ(double grauZ);
+	Matriz::Matriz<double> rotacaoZ(double grauZ);
 };
 
 #endif /* INCLUDE_TRANSFORMACAO3D_HPP_ */

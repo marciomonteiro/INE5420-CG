@@ -151,12 +151,6 @@ void printCommandLogs(const char* text) {
 	gtk_text_view_scroll_to_mark(outputCommandsShell, textMarks, 0, false, 0, 0);
 }
 
-extern "C" G_MODULE_EXPORT void btn_rotate_window_left_clicked() {
-	printCommandLogs("btn_rotate_window_left_clicked\n");
-	Window::instancia().novoAngulo(10, 0, 0);
-	repaintWindow();
-}
-
 extern "C" G_MODULE_EXPORT void check_box_fill_wireframe() {
 	preencherPoligono = true;
 }
@@ -170,12 +164,6 @@ extern "C" G_MODULE_EXPORT void check_box_cs_clippa_reta() {
 	if (gtk_toggle_button_get_active(botaoLB)) {
 		Algoritmos::setaMetodoClippingReta(false);
 	}
-}
-
-extern "C" G_MODULE_EXPORT void btn_rotate_window_right_clicked() {
-	printCommandLogs("btn_rotate_window_right_clicked\n");
-	Window::instancia().novoAngulo(-10.0, 0.0, 0.0);
-	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_save_file_obj_actived () {
@@ -296,6 +284,30 @@ extern "C" G_MODULE_EXPORT void btn_right_clicked() {
 	repaintWindow();
 }
 
+extern "C" G_MODULE_EXPORT void btn_se_window() {
+	printCommandLogs("btn_se_window\n");
+	// Window::instancia().novoAngulo(10, 0, 0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_so_window() {
+	printCommandLogs("btn_so_window\n");
+	// Window::instancia().novoAngulo(-10.0, 0.0, 0.0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_ne_window() {
+	printCommandLogs("btn_ne_window\n");
+	// Window::instancia().novoAngulo(-10.0, 0.0, 0.0);
+	repaintWindow();
+}
+
+extern "C" G_MODULE_EXPORT void btn_no_window() {
+	printCommandLogs("btn_no_window\n");
+	// Window::instancia().novoAngulo(-10.0, 0.0, 0.0);
+	repaintWindow();
+}
+
 extern "C" G_MODULE_EXPORT void btn_zoom_in_clicked() {
 	printCommandLogs("btn_zoom_in_clicked\n");
 	Window::instancia().zoom(0.9);
@@ -380,7 +392,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_insert_point_actived() {
 	double YPoint = atof(entryYPointAux);
 	double zPoint= atof(entryZPointAux);
 
-	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, zPoint, 1.0)}));
+	Ponto * ponto = new Ponto(std::string(entryPointName), "Ponto", std::vector<Coordenadas>({Coordenadas(XPoint, YPoint, zPoint, 0.0)}));
 	if (!world->adicionaObjetosNoMundo(ponto)) {
 		printCommandLogs("Erro: Ponto já existe\n");
 		return;
@@ -596,10 +608,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 	// 	printCommandLogs("Erro: Objeto não encontrado\n");
 	// 	return;
 	// }
-	world->transformarObjeto(std::string(entryObjetoName),Transformacao2D::translacao(XTranslacao, YTranslacao));
+	// world->transformarObjeto(std::string(entryObjetoName),Transformacao2D::translacao(XTranslacao, YTranslacao));
 	//
 	// Translacao em 3D
-	// world->transformarObjeto(std::string(entryObjetoName),Transformacao3D::translacao(XTranslacao, YTranslacao, ZTranslacao));
+	world->transformarObjeto(std::string(entryObjetoName),Transformacao3D::translacao(XTranslacao, YTranslacao, ZTranslacao));
 	repaintWindow();
 }
 
@@ -629,10 +641,10 @@ extern "C" G_MODULE_EXPORT void btn_ok_escalona_objeto() {
 	// 	printCommandLogs("Erro: Objeto não encontrado\n");
 	// 	return;
 	// }
-	world->scalonarObjeto(std::string(entryObjetoName),Transformacao2D::escalonamento(XEscalona, YEscalona));
+	// world->scalonarObjeto(std::string(entryObjetoName),Transformacao2D::escalonamento(XEscalona, YEscalona));
 	//
 	// Escalonamento em 3D
-	// world->scalonarObjeto(std::string(entryObjetoName),Transformacao3D::escalonamento(XEscalona, YEscalona, ZEscalona));
+	world->scalonarObjeto(std::string(entryObjetoName),Transformacao3D::escalonamento(XEscalona, YEscalona, ZEscalona));
 	repaintWindow();
 }
 
@@ -640,11 +652,20 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 	printCommandLogs("btn_ok_rotaciona_objeto\n");
 
 	GtkEntry *entryNameObjeto = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryNameObjetoRot"));
-	GtkEntry *entryAngleRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "AngleToRotate"));
+	// GtkEntry *entryAngleRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "AngleToRotate"));
 	const char *entryObjetoName = gtk_entry_get_text (entryNameObjeto);
-	const char *entryAngleRotate = gtk_entry_get_text (entryAngleRotaciona);
+	// const char *entryAngleRotate = gtk_entry_get_text (entryAngleRotaciona);
+  GtkEntry *entryXRotacionaAngle = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotacionaAngle"));
+  GtkEntry *entryYRotacionaAngle = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotacionaAngle"));
+  GtkEntry *entryZRotacionaAngle = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZRotacionaAngle"));
+  const char *entryXRotacionaAngleAux = gtk_entry_get_text (entryXRotacionaAngle);
+  const char *entryYRotacionaAngleAux = gtk_entry_get_text (entryYRotacionaAngle);
+  const char *entryZRotacionaAngleAux = gtk_entry_get_text (entryZRotacionaAngle);
+  double XRotacionaAngle = atof(entryXRotacionaAngleAux);
+  double YRotacionaAngle = atof(entryYRotacionaAngleAux);
+  double ZRotacionaAngle = atof(entryZRotacionaAngleAux);
 	gtk_widget_hide(windowRotaciona);
-	double angulo = atof(entryAngleRotate);
+	// double angulo = atof(entryAngleRotate);
 	if (strcmp(entryObjetoName, "") == 0) {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
 		return;
@@ -659,33 +680,33 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 	// printCommandLogs("Erro: Objeto não encontrado\n");
 	if (gtk_toggle_button_get_active(BotaoCentroDoMundo)) {
 		Coordenadas centroDoMundo = Coordenadas(0.0,0.0,0.0,1.0);
-		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao2D::rotacao(angulo));
+		// world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao2D::rotacao(angulo));
 		//
 		// Rotação em 3D
-		// world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao3D::rotacao(angulo));
+		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao3D::rotacao(XRotacionaAngle, YRotacionaAngle, ZRotacionaAngle));
 		//
 	}
 	if (gtk_toggle_button_get_active(BotaCentroDoObjeto)) {
 		Objeto* ob = world->getDisplayfile()->getTheObjectFromTheWorld(std::string(entryObjetoName));
-		world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), Transformacao2D::rotacao(angulo));
+		// world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), Transformacao2D::rotacao(angulo));
 		//
 		// Rotação em 3D
-		// world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), Transformacao3D::rotacao(angulo));
+		world->rotacionarObjeto(std::string(entryObjetoName),false, ob->centroDoObjeto(), Transformacao3D::rotacao(XRotacionaAngle, YRotacionaAngle, ZRotacionaAngle));
 		//
 	} else {
-		GtkEntry *entryXRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotaciona"));
-		GtkEntry *entryYRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotaciona"));
-		GtkEntry *entryZRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZRotaciona"));
-		const char *entryXRotacionaAux = gtk_entry_get_text (entryXRotaciona);
-		const char *entryYRotacionaAux = gtk_entry_get_text (entryYRotaciona);
-		const char *entryZRotacionaAux = gtk_entry_get_text (entryZRotaciona);
-		double XRotaciona = atof(entryXRotacionaAux);
-		double YRotaciona = atof(entryYRotacionaAux);
-		double ZRotaciona = atof(entryZRotacionaAux);
-		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, ZRotaciona,1.0}, Transformacao2D::rotacao(angulo));
+    GtkEntry *entryXRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryXRotaciona"));
+    GtkEntry *entryYRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryYRotaciona"));
+    GtkEntry *entryZRotaciona = GTK_ENTRY(gtk_builder_get_object(GTK_BUILDER(gtkBuilder), "EntryZRotaciona"));
+    const char *entryXRotacionaAux = gtk_entry_get_text (entryXRotaciona);
+    const char *entryYRotacionaAux = gtk_entry_get_text (entryYRotaciona);
+    const char *entryZRotacionaAux = gtk_entry_get_text (entryZRotaciona);
+    double XRotaciona = atof(entryXRotacionaAux);
+    double YRotaciona = atof(entryYRotacionaAux);
+    double ZRotaciona = atof(entryZRotacionaAux);
+		// world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, ZRotaciona,1.0}, Transformacao2D::rotacao(angulo));
 		//
 		// Rotação em 3D
-		// world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, ZRotaciona,1.0}, Transformacao3D::rotacao(angulo));
+		world->rotacionarObjeto(std::string(entryObjetoName),true, Coordenadas{XRotaciona, YRotaciona, ZRotaciona,1.0}, Transformacao3D::rotacao(XRotacionaAngle, YRotacionaAngle, ZRotacionaAngle));
 		//
 	}
 	repaintWindow();

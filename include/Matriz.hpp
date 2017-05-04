@@ -53,7 +53,7 @@ namespace Matriz{
          ~Matriz();
 
          Matriz<T>& operator=( const Matriz<T>& );
-         
+
          // matrix multiplication
          Matriz<T> operator*( Matriz<T>& M ) {
             Matriz<double> v(linha, M.coluna, elementos);
@@ -67,6 +67,10 @@ namespace Matriz{
                }
             }
             return v;
+         }
+
+         Matriz<T>& operator*=(Matriz<T>& M) {
+           return *this = *this * M;
          }
          Matriz<T> getrow( unsigned j ) const;
          Matriz<T> getcol( unsigned i ) const;
