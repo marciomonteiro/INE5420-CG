@@ -33,9 +33,9 @@ Matriz::Matriz<double> Transformacao3D::rotacao(double grauX, double grauY, doub
 	double radX = (M_PI/180.0)*grauX;
 	double radY = (M_PI/180.0)*grauY;
 	double radZ = (M_PI/180.0)*grauZ;
-	std::vector<double> retornoX {1, 0.0, 0.0, 0.0, 0.0, cos(radX), sin(radX), 0.0, 0.0, -sin(radX), cos(radX), 0.0, 0.0, 0.0, 0.0, 1.0};
-	std::vector<double> retornoY {cos(grauY), 0.0, -sin(grauY), 0.0, 0.0, 1.0, 0.0, 0.0, sin(grauY), 0.0, cos(grauY), 0.0, 0.0, 0.0, 0.0, 1.0};
-	std::vector<double> retornoZ {cos(grauZ), sin(grauZ), 0.0, 0.0, -sin(grauZ), cos(grauZ), 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+	std::vector<double> retornoX {1.0, 0.0, 0.0, 0.0, 0.0, cos(radX), sin(radX), 0.0, 0.0, -sin(radX), cos(radX), 0.0, 0.0, 0.0, 0.0, 1.0};
+	std::vector<double> retornoY {cos(radY), 0.0, -sin(radY), 0.0, 0.0, 1.0, 0.0, 0.0, sin(radY), 0.0, cos(radY), 0.0, 0.0, 0.0, 0.0, 1.0};
+	std::vector<double> retornoZ {cos(radZ), sin(radZ), 0.0, 0.0, -sin(radZ), cos(radZ), 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 	Matriz::Matriz<double> rX = Matriz::Matriz<double>(4u,4u,retornoX);
 	Matriz::Matriz<double> rY = Matriz::Matriz<double>(4u,4u,retornoY);
 	Matriz::Matriz<double> rZ = Matriz::Matriz<double>(4u,4u,retornoZ);
