@@ -28,6 +28,8 @@ Window::Window(){
 	anguloZ = 0.0;
 	centroDaWindow = new Coordenadas((inicioDaWindow->getX() + fimDaWindow->getX())/2, (inicioDaWindow->getY() + fimDaWindow->getY())/2,0.0,1.0);
 	vrp = centroDaWindow;
+	Coordenadas *vpn_pontoB = new Coordenadas(0.0, 0.0, 1.0, 0.0);
+	vpn = new Vetor(vrp, vpn_pontoB);
 }
 
 void Window::setWindow(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world){

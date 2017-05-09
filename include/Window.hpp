@@ -22,10 +22,12 @@
 #include "Coordenadas.hpp"
 #include "Matriz.hpp"
 #include "Transformacao2D.hpp"
+#include "Vetor.hpp"
 
 class Window {
 private:
 	Coordenadas *inicioDaWindow, *fimDaWindow, *centroDaWindow, *vrp;
+	Vetor *vpn;
 	DisplayFile *displayfile;
 	double anguloX, anguloY, anguloZ;
 	void atualizaCentroDaWindow();
@@ -44,6 +46,7 @@ public:
 	Coordenadas* getFimDaWindow(){return fimDaWindow;}
 	Coordenadas* getCentroDaWindow(){return centroDaWindow;}
 	Coordenadas* get_vrp(){return vrp;}
+	Coordenadas* get_vpn(){return vpn;}
 	void setCoordsWindow(Coordenadas* inicio, Coordenadas* fim);	
 
 };
