@@ -25,7 +25,7 @@
 
 class Window {
 private:
-	Coordenadas *inicioDaWindow, *fimDaWindow, *centroDaWindow;
+	Coordenadas *inicioDaWindow, *fimDaWindow, *centroDaWindow, *vrp;
 	DisplayFile *displayfile;
 	double anguloX, anguloY, anguloZ;
 	void atualizaCentroDaWindow();
@@ -43,6 +43,7 @@ public:
 	Coordenadas* getInicioDaWindow(){return inicioDaWindow;}
 	Coordenadas* getFimDaWindow(){return fimDaWindow;}
 	Coordenadas* getCentroDaWindow(){return centroDaWindow;}
+	Coordenadas* get_vrp(){return vrp;}
 	void setCoordsWindow(Coordenadas* inicio, Coordenadas* fim);	
 
 };

@@ -27,6 +27,7 @@ Window::Window(){
 	anguloY = 0.0;
 	anguloZ = 0.0;
 	centroDaWindow = new Coordenadas((inicioDaWindow->getX() + fimDaWindow->getX())/2, (inicioDaWindow->getY() + fimDaWindow->getY())/2,0.0,1.0);
+	vrp = centroDaWindow;
 }
 
 void Window::setWindow(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world){
