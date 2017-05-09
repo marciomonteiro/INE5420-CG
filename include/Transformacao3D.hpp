@@ -34,7 +34,7 @@ namespace Transformacao3D {
 	Matriz::Matriz<double> escalonamento(double sx, double sy, double sz);
 
 	/**
-	 * Realiza a rotacao de um objeto 3D em torno a um eixo arbitrario.
+	 * Realiza a rotacao de um objeto 3D.
 	 */
 	Matriz::Matriz<double> rotacao(double grauX, double grauY, double grauZ);
 
@@ -55,6 +55,11 @@ namespace Transformacao3D {
 	 * \param grauZ valor do grau em radianos
 	 */
 	Matriz::Matriz<double> rotacaoZ(double grauZ);
+
+	/**
+	 * Realiza a rotacao de um objeto 3D em torno a um eixo arbitrario.
+	 */
+	Matriz::Matriz<double> rotacao_eixo_arbitrario(double grauX, double grauY, double grauZ, Coordenadas eixo);
 };
 
 #endif /* INCLUDE_TRANSFORMACAO3D_HPP_ */
