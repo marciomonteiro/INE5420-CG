@@ -138,7 +138,7 @@ void repaintWindow() {
 	for (auto obj : world->getDisplayfile()->instancia().getAllObjectsFromTheWorld()) {
 		obj.second->clipa();
 	}
-	viewportP->transformada(cr, Coordenadas(-1.0,-1.0,0.0,1.0), Coordenadas(1.0,1.0,0.0,1.0), world->getDisplayfile());
+	viewportP->transformada(cr, Coordenadas(-1.0,-1.0,-1.0,1.0), Coordenadas(1.0,1.0,1.0,1.0), world->getDisplayfile());
 	gtk_widget_queue_draw (drawing_area);
   viewportP->desenhaEnquadramento(cr);
 }

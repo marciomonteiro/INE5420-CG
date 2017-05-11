@@ -26,21 +26,21 @@ Window::Window(){
 	anguloX = 0.0;
 	anguloY = 0.0;
 	anguloZ = 0.0;
-	centroDaWindow = new Coordenadas((inicioDaWindow->getX() + fimDaWindow->getX())/2, (inicioDaWindow->getY() + fimDaWindow->getY())/2,0.0,1.0);
+	centroDaWindow = new Coordenadas((inicioDaWindow->getX() + fimDaWindow->getX())/2, (inicioDaWindow->getY() + fimDaWindow->getY())/2,(inicioDaWindow->getZ() + fimDaWindow->getZ())/2,1.0);
 	vrp = centroDaWindow;
 	Coordenadas *vpn_pontoB = new Coordenadas(0.0, 0.0, 1.0, 0.0);
 	vpn = new Vetor(vrp, vpn_pontoB);
 }
 
 void Window::setWindow(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world){
-	inicioDaWindow->setAll(inicio->getX(),inicio->getY(),0.0);
-	fimDaWindow->setAll(fim->getX(), fim->getY(), 0.0);
+	inicioDaWindow->setAll(inicio->getX(),inicio->getY(),inicio->getZ());
+	fimDaWindow->setAll(fim->getX(), fim->getY(), fim->getZ());
 	displayfile = world;
 }
 
 void Window::setCoordsWindow(Coordenadas* inicio, Coordenadas* fim){
-	inicioDaWindow->setAll(inicio->getX(),inicio->getY(),0.0);
-	fimDaWindow->setAll(fim->getX(), fim->getY(), 0.0);
+	inicioDaWindow->setAll(inicio->getX(),inicio->getY(),inicio->getZ());
+	fimDaWindow->setAll(fim->getX(), fim->getY(), fim->getZ());
 }
 
 void Window::novoAngulo(double x, double y, double z){
@@ -50,30 +50,48 @@ void Window::novoAngulo(double x, double y, double z){
 }
 
 void Window::normalizaCoordenadasDoMundo(){
-	Matriz::Matriz<double> translada = Transformacao2D::translacao(-centroDaWindow->getX(), -centroDaWindow->getY());
-	Matriz::Matriz<double> rotaciona = Transformacao2D::rotacao(anguloX);
-	Matriz::Matriz<double> escala = Transformacao2D::escalonamento(2/(fimDaWindow->getX() - inicioDaWindow->getX()),2/(fimDaWindow->getY() - inicioDaWindow->getY()));
+	Matriz::Matriz<double> translada = Transformacao3D::translacao(-centroDaWindow->getX(), -centroDaWindow->getY(), -centroDaWindow->getZ());
+	Matriz::Matriz<double> rotaciona = Transformacao3D::rotacao(anguloX, anguloY, anguloZ);
+	Matriz::Matriz<double> escala = Transformacao3D::escalonamento(2/(fimDaWindow->getX() - inicioDaWindow->getX()),2/(fimDaWindow->getY() - inicioDaWindow->getY()), 2/(fimDaWindow->getZ() - inicioDaWindow->getZ()));
 	Matriz::Matriz<double> tmp2 = translada * rotaciona;
 	Matriz::Matriz<double> tmp3 = tmp2 * escala;
 	for (auto &objetos : displayfile->instancia().getAllObjectsFromTheWorld())
 		(objetos.second)->normalizaCoordenadas(tmp3);
 }
 
+// void Window::normalizaCoordenadasDoMundo(){
+// 	Matriz::Matriz<double> translada = Transformacao2D::translacao(-centroDaWindow->getX(), -centroDaWindow->getY());
+// 	Matriz::Matriz<double> rotaciona = Transformacao2D::rotacao(anguloX);
+// 	Matriz::Matriz<double> escala = Transformacao2D::escalonamento(2/(fimDaWindow->getX() - inicioDaWindow->getX()),2/(fimDaWindow->getY() - inicioDaWindow->getY()));
+// 	Matriz::Matriz<double> tmp2 = translada * rotaciona;
+// 	Matriz::Matriz<double> tmp3 = tmp2 * escala;
+// 	for (auto &objetos : displayfile->instancia().getAllObjectsFromTheWorld())
+// 		(objetos.second)->normalizaCoordenadas(tmp3);
+// }
+
 void Window::atualizaCentroDaWindow(){
-	centroDaWindow->setAll((fimDaWindow->getX() + inicioDaWindow->getX())/2, (fimDaWindow->getY() + inicioDaWindow->getY())/2, 0.0);
+	centroDaWindow->setAll((fimDaWindow->getX() + inicioDaWindow->getX())/2, (fimDaWindow->getY() + inicioDaWindow->getY())/2,  (fimDaWindow->getZ() + inicioDaWindow->getZ())/2);
 }
 
 void Window::zoom(double porcentagem){
 	double larguraDaWindow = fimDaWindow->getX() - inicioDaWindow->getX();
 	double alturaDaWindow = fimDaWindow->getY() - inicioDaWindow->getY();
-	larguraDaWindow = larguraDaWindow * porcentagem;
+  double profDaWindow = fimDaWindow->getZ() - inicioDaWindow->getZ();
+  larguraDaWindow = larguraDaWindow * porcentagem;
 	alturaDaWindow = alturaDaWindow * porcentagem;
-	inicioDaWindow->setAll(centroDaWindow->getX() - larguraDaWindow/2, centroDaWindow->getY() - alturaDaWindow/2, 0.0);
-	fimDaWindow->setAll(centroDaWindow->getX() + larguraDaWindow/2, centroDaWindow->getY() + alturaDaWindow/2, 0.0);
+  profDaWindow = profDaWindow * porcentagem;
+	inicioDaWindow->setAll(centroDaWindow->getX() - larguraDaWindow/2, centroDaWindow->getY() - alturaDaWindow/2, centroDaWindow->getZ() - profDaWindow/2);
+	fimDaWindow->setAll(centroDaWindow->getX() + larguraDaWindow/2, centroDaWindow->getY() + alturaDaWindow/2, centroDaWindow->getZ() - profDaWindow/2);
 }
 
 void Window::mover(double x, double y, double z){
-	inicioDaWindow->setAll(inicioDaWindow->getX()+x, inicioDaWindow->getY()+y, 0.0);
-	fimDaWindow->setAll(fimDaWindow->getX()+x, fimDaWindow->getY()+y, 0.0);
+	inicioDaWindow->setAll(inicioDaWindow->getX()+x, inicioDaWindow->getY()+y, inicioDaWindow->getZ()+z);
+	fimDaWindow->setAll(fimDaWindow->getX()+x, fimDaWindow->getY()+y, inicioDaWindow->getZ()+z);
 	this->atualizaCentroDaWindow();
 }
+
+// void Window::mover(double x, double y, double z){
+// 	inicioDaWindow->setAll(inicioDaWindow->getX()+x, inicioDaWindow->getY()+y, 0.0);
+// 	fimDaWindow->setAll(fimDaWindow->getX()+x, fimDaWindow->getY()+y, 0.0);
+// 	this->atualizaCentroDaWindow();
+// }

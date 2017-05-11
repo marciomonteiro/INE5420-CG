@@ -67,15 +67,29 @@ Matriz::Matriz<double> Transformacao3D::rotacaoZ(double grauZ){
 	return Matriz::Matriz<double>(4u,4u,retornoZ);
 }
 
-Matriz::Matriz<double> rotacao_eixo_arbitrario(double grauX, double grauY, double grauZ, Coordenadas eixo){
-	double d = sqrt(eixo.getY()*eixo.getY() + eixo.getZ()*eixo.getZ());
-	double alfa = atan(eixo.getX()/eixo.getY());
-	double beta = atan(eixo.getY()/d);
-	double matriz_aux = Transformacao3D::rotacaoY(-beta) * Transformacao3D::rotacaoX(alfa);
-	matriz_aux = matriz_aux * Transformacao3D::rotacao(grauX, grauY, grauZ);
-	matriz_aux = matriz_aux * Transformacao3D::rotacaoX(-alfa);
-	matriz_aux = matriz_aux * Transformacao3D::rotacaoY(beta);
-	matriz_aux = matriz_aux * Transformacao3D::translacao(eixo.getX(), eixo.getY(), eixo.getZ());
-	double dz = -eixo.getZ() * matriz_aux;
-	return Transformacao3D::translacao(-eixo.getX(), -eixo.getY(), dz);
-}
+//
+// precisa ser feito isso
+//
+// Matriz::Matriz<double> rotacao_eixo_arbitrario(double grauX, double grauY, double grauZ, Coordenadas eixo){
+// 	double d = sqrt(eixo.getY()*eixo.getY() + eixo.getZ()*eixo.getZ());
+// 	double alfa = atan(eixo.getX()/eixo.getY());
+// 	double beta = atan(eixo.getY()/d);
+// 	// double matriz_aux = Transformacao3D::rotacaoY(-beta) * Transformacao3D::rotacaoX(alfa);
+// 	// matriz_aux = matriz_aux * Transformacao3D::rotacao(grauX, grauY, grauZ);
+// 	// matriz_aux = matriz_aux * Transformacao3D::rotacaoX(-alfa);
+// 	// matriz_aux = matriz_aux * Transformacao3D::rotacaoY(beta);
+// 	// matriz_aux = matriz_aux * Transformacao3D::translacao(eixo.getX(), eixo.getY(), eixo.getZ());
+// 	Matriz::Matriz<double> matriz_auxRotY = Transformacao3D::rotacaoY(-beta);
+// 	Matriz::Matriz<double> matriz_auxRotX = Transformacao3D::rotacaoX(alfa);
+// 	Matriz::Matriz<double> matriz_auxRot = Transformacao3D::rotacao(grauX, grauY, grauZ);
+// 	Matriz::Matriz<double> matriz_auxRotXAlfa = Transformacao3D::rotacaoX(-alfa);
+// 	Matriz::Matriz<double> matriz_auxRotYBeta = Transformacao3D::rotacaoY(beta);
+// 	Matriz::Matriz<double> matriz_auxTrans = Transformacao3D::translacao(eixo.getX(), eixo.getY(), eixo.getZ());
+// 	matriz_auxRotY = matriz_auxRotY * matriz_auxRotX;
+// 	matriz_auxRotY = matriz_auxRotY * matriz_auxRot;
+// 	matriz_auxRotY = matriz_auxRotY * matriz_auxRotXAlfa;
+// 	matriz_auxRotY = matriz_auxRotY * matriz_auxRotYBeta;
+// 	matriz_auxRotY = matriz_auxRotY * matriz_auxTrans;
+// 	Matriz::Matriz<double> dz = -eixo.getZ() * matriz_auxRotY;
+// 	return Transformacao3D::translacao(-eixo.getX(), -eixo.getY(), dz);
+// }
