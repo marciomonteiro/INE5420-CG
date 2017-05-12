@@ -683,7 +683,7 @@ extern "C" G_MODULE_EXPORT void btn_ok_rotaciona_objeto() {
 		// world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao2D::rotacao(angulo));
 		//
 		// Rotação em 3D
-		world->rotacionarObjeto(std::string(entryObjetoName), false, centroDoMundo, Transformacao3D::rotacao(XRotacionaAngle, YRotacionaAngle, ZRotacionaAngle));
+		world->rotacionarObjeto( std::string(entryObjetoName), false, centroDoMundo, Transformacao3D::rotacao(XRotacionaAngle, YRotacionaAngle, ZRotacionaAngle) );
 		//
 	}
 	if (gtk_toggle_button_get_active(BotaCentroDoObjeto)) {
