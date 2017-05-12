@@ -32,11 +32,19 @@ Matriz::Matriz<double> Transformacao3D::escalonamento(double sx, double sy, doub
 	return Matriz::Matriz<double>(4u,4u,retorno);
 }
 
+Matriz::Matriz<double> escalonamento_da_matriz(double sx, double sy, double sz){
+	std::vector<double> retorno {sx, 0.0, 0.0, 0.0,
+								 0.0, sy, 0.0, 0.0,
+								 0.0, 0.0, sz, 0.0,
+								 0.0, 0.0, 1.0};
+	return Matriz::Matriz<double>(4u,4u,retorno);
+}
+
 Matriz::Matriz<double> Transformacao3D::rotacao(double grauX, double grauY, double grauZ){
-	Matriz::Matriz<double> rX = rotacaoX(grauX);//Matriz::Matriz<double>(4u,4u,retornoX);
-	Matriz::Matriz<double> rY = rotacaoY(grauY);//Matriz::Matriz<double>(4u,4u,retornoY);
+	Matriz::Matriz<double> rX = rotacaoX(grauX);
+	Matriz::Matriz<double> rY = rotacaoY(grauY);
 	rX = rX * rY;
-	Matriz::Matriz<double> rZ = rotacaoZ(grauZ);//Matriz::Matriz<double>(4u,4u,retornoZ);
+	Matriz::Matriz<double> rZ = rotacaoZ(grauZ);
 	return rX * rZ;
 }
 

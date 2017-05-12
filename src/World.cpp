@@ -66,7 +66,7 @@ void World::scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz){
 void World::rotacionarObjeto(std::string nome, bool coordArbitraria, Coordenadas coords, Matriz::Matriz<double> matriz){
 	std::vector<double> tmp0 = {1.0, 0.0, 0.0, 0.0,
 								0.0, 1.0, 0.0, 0.0,
-								0.0, 0.0, 0.0, 1.0};
+								0.0, 0.0, 0.0, 1.0}; //checar aqui
 
 	Matriz::Matriz<double> ida = Matriz::Matriz<double>(4u,4u,tmp0);
 	Matriz::Matriz<double> volta = Matriz::Matriz<double>(4u,4u,tmp0);

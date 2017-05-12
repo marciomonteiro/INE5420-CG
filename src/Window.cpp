@@ -26,7 +26,10 @@ Window::Window(){
 	anguloX = 0.0;
 	anguloY = 0.0;
 	anguloZ = 0.0;
-	centroDaWindow = new Coordenadas((inicioDaWindow->getX() + fimDaWindow->getX())/2, (inicioDaWindow->getY() + fimDaWindow->getY())/2,(inicioDaWindow->getZ() + fimDaWindow->getZ())/2,1.0);
+	centroDaWindow = new Coordenadas((inicioDaWindow->getX() + fimDaWindow->getX())/2,
+									 (inicioDaWindow->getY() + fimDaWindow->getY())/2,
+									 0.0,
+									 1.0);
 	vrp = centroDaWindow;
 	Coordenadas *vpn_pontoB = new Coordenadas(0.0, 0.0, 1.0, 0.0);
 	vpn = new Vetor(vrp, vpn_pontoB);
@@ -52,7 +55,9 @@ void Window::novoAngulo(double x, double y, double z){
 void Window::normalizaCoordenadasDoMundo(){
 	Matriz::Matriz<double> translada = Transformacao3D::translacao(-centroDaWindow->getX(), -centroDaWindow->getY(), -centroDaWindow->getZ());
 	Matriz::Matriz<double> rotaciona = Transformacao3D::rotacao(anguloX, anguloY, anguloZ);
-	Matriz::Matriz<double> escala = Transformacao3D::escalonamento(2/(fimDaWindow->getX() - inicioDaWindow->getX()),2/(fimDaWindow->getY() - inicioDaWindow->getY()), 2/(fimDaWindow->getZ() - inicioDaWindow->getZ()));
+	Matriz::Matriz<double> escala = Transformacao3D::escalonamento(2/(fimDaWindow->getX() - inicioDaWindow->getX()),
+																   2/(fimDaWindow->getY() - inicioDaWindow->getY()),
+																   1.0);
 	Matriz::Matriz<double> tmp2 = translada * rotaciona;
 	Matriz::Matriz<double> tmp3 = tmp2 * escala;
 	for (auto &objetos : displayfile->instancia().getAllObjectsFromTheWorld())
@@ -70,7 +75,9 @@ void Window::normalizaCoordenadasDoMundo(){
 // }
 
 void Window::atualizaCentroDaWindow(){
-	centroDaWindow->setAll((fimDaWindow->getX() + inicioDaWindow->getX())/2, (fimDaWindow->getY() + inicioDaWindow->getY())/2,  (fimDaWindow->getZ() + inicioDaWindow->getZ())/2);
+	centroDaWindow->setAll((fimDaWindow->getX() + inicioDaWindow->getX())/2,
+						   (fimDaWindow->getY() + inicioDaWindow->getY())/2,
+						   0.0);
 }
 
 void Window::zoom(double porcentagem){

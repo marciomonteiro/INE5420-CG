@@ -31,7 +31,13 @@ namespace Transformacao3D {
 	/**
 	 * Realiza o escalonamento de um objeto 3D.
 	 */
+	/*
+	 * TO-DO
+	 * Adicionar o centro e fazer as modificações.
+	 */
 	Matriz::Matriz<double> escalonamento(double sx, double sy, double sz);
+
+	Matriz::Matriz<double> escalonamento_da_matriz(double sx, double sy, double sz);
 
 	/**
 	 * Realiza a rotacao de um objeto 3D.
