@@ -83,12 +83,14 @@ void Window::atualizaCentroDaWindow(){
 void Window::zoom(double porcentagem){
 	double larguraDaWindow = fimDaWindow->getX() - inicioDaWindow->getX();
 	double alturaDaWindow = fimDaWindow->getY() - inicioDaWindow->getY();
-	double profDaWindow = fimDaWindow->getZ() - inicioDaWindow->getZ();
+//	double profDaWindow = fimDaWindow->getZ() - inicioDaWindow->getZ();
 	larguraDaWindow = larguraDaWindow * porcentagem;
 	alturaDaWindow = alturaDaWindow * porcentagem;
-	profDaWindow = profDaWindow * porcentagem;
-	inicioDaWindow->setAll(centroDaWindow->getX() - larguraDaWindow/2, centroDaWindow->getY() - alturaDaWindow/2, centroDaWindow->getZ() - profDaWindow/2);
-	fimDaWindow->setAll(centroDaWindow->getX() + larguraDaWindow/2, centroDaWindow->getY() + alturaDaWindow/2, centroDaWindow->getZ() - profDaWindow/2);
+//	profDaWindow = profDaWindow * porcentagem;
+//	inicioDaWindow->setAll(centroDaWindow->getX() - larguraDaWindow/2, centroDaWindow->getY() - alturaDaWindow/2, centroDaWindow->getZ() - profDaWindow/2);
+	inicioDaWindow->setAll(centroDaWindow->getX() - larguraDaWindow/2, centroDaWindow->getY() - alturaDaWindow/2, 1.0);
+//	fimDaWindow->setAll(centroDaWindow->getX() + larguraDaWindow/2, centroDaWindow->getY() + alturaDaWindow/2, centroDaWindow->getZ() - profDaWindow/2);
+	fimDaWindow->setAll(centroDaWindow->getX() + larguraDaWindow/2, centroDaWindow->getY() + alturaDaWindow/2, 1.0);
 }
 
 void Window::mover(double x, double y, double z){

@@ -44,7 +44,7 @@ void World::scalonarObjeto(std::string nome, Matriz::Matriz<double> matriz){
 	std::vector<double> tmp0 = {1.0, 0.0, 0.0, 0.0,
 								0.0, 1.0, 0.0, 0.0,
 								0.0, 0.0, 1.0, 0.0,
-								0.0, 0.0, 0.0, 0.0};	//Verificar se a matriz esta correta
+								0.0, 0.0, 0.0, 1.0};	//Verificar se a matriz esta correta
 
 	Matriz::Matriz<double> tmp1 = Matriz::Matriz<double>(4u,4u,tmp0);
 	tmp1(2,0) = -ob->centroDoObjeto().getX();
