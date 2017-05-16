@@ -55,7 +55,7 @@ std::vector<Coordenadas>* Objeto::getNormalizedCoordenadas(){
 
 void Objeto::transformaObjeto(Matriz::Matriz<double> matriz){
 	for (auto& coord : world_coordenadas){
-		std::vector<double> tmp0 = {coord.getX(), coord.getY(), coord.getZ(), 0.0};
+		std::vector<double> tmp0 = {coord.getX(), coord.getY(), coord.getZ(), 0.0};	//Verificar se o aux eh 0.0 mesmo
 		Matriz::Matriz<double> tmp = Matriz::Matriz<double>(1u,4u,tmp0);
 		Matriz::Matriz<double> tmp2 = tmp * matriz;
 		coord.setAll(tmp2(0,0), tmp2(0,1), tmp2(0,2));
