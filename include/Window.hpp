@@ -37,8 +37,27 @@ private:
 public:
 	static Window& instancia();
 	~Window(){};
+
+	/**
+	 * Define as coordenadas de inicio e fim da window, junto do seu display file.
+	 * \param inicio coordenadas do inicio da window.
+	 * \param fim coordenadas do fim da window.
+	 * \param world ponteiro do mundo.
+	 */
 	void setWindow(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world);
+
+	/**
+	 * Rotaciona a window dado os novos angulos.
+	 * \param x rotaciona a window em x graus em torno do eixo x.
+	 * \param y rotaciona a window em y graus em torno do eixo y.
+	 * \param z rotaciona a window em z graus em torno do eixo z.
+	 */
 	void novoAngulo(double x, double y, double z);
+
+	/**
+	 * Funcao de zoom na window.
+	 * \param porcentagem quantidade para dar o zoom.
+	 */
 	void zoom(double porcentagem);
 	void normalizaCoordenadasDoMundo();
 	void mover(double x, double y, double z);

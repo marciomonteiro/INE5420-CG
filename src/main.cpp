@@ -604,14 +604,15 @@ extern "C" G_MODULE_EXPORT void btn_ok_translacao_objeto() {
 		printCommandLogs("Erro: Nome do objeto não informado\n");
 		return;
 	}
-	// if (!world->objetoExisteNoMundo(entryObjetoName)){
-	// 	printCommandLogs("Erro: Objeto não encontrado\n");
-	// 	return;
-	// }
+
+//	if (!world->objetoExisteNoMundo(entryObjetoName)){
+//		printCommandLogs("Erro: Objeto não encontrado\n");
+//		return;
+//	}
 	// world->transformarObjeto(std::string(entryObjetoName),Transformacao2D::translacao(XTranslacao, YTranslacao));
 	//
 	// Translacao em 3D
-	world->transformarObjeto(std::string(entryObjetoName),Transformacao3D::translacao(XTranslacao, YTranslacao, ZTranslacao));
+	world->transformarObjeto( std::string(entryObjetoName), Transformacao3D::translacao(XTranslacao, YTranslacao, ZTranslacao) );
 	repaintWindow();
 }
 

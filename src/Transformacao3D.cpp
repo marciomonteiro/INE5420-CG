@@ -75,5 +75,5 @@ Matriz::Matriz<double> Transformacao3D::rotacao_eixo_arbitrario(double grauX, do
 							   999.0, 999.0, 999.0, 999.0,
 							   999.0, 999.0, 999.0, 999.0,
 							   0.0, 0.0, 0.0, 1.0};
-	return dummy;
+	return Matriz::Matriz<double>(4u,4u,dummy);;
 }
