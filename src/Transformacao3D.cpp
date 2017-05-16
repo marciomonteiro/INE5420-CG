@@ -28,15 +28,7 @@ Matriz::Matriz<double> Transformacao3D::escalonamento(double sx, double sy, doub
 	std::vector<double> retorno {sx, 0.0, 0.0, 0.0,
 								 0.0, sy, 0.0, 0.0,
 								 0.0, 0.0, sz, 0.0,
-								 0.0, 0.0, 1.0};
-	return Matriz::Matriz<double>(4u,4u,retorno);
-}
-
-Matriz::Matriz<double> escalonamento_da_matriz(double sx, double sy, double sz){
-	std::vector<double> retorno {sx, 0.0, 0.0, 0.0,
-								 0.0, sy, 0.0, 0.0,
-								 0.0, 0.0, sz, 0.0,
-								 0.0, 0.0, 1.0};
+								 0.0, 0.0, 0.0, 1.0};
 	return Matriz::Matriz<double>(4u,4u,retorno);
 }
 

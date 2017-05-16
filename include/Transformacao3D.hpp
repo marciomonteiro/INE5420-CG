@@ -37,8 +37,6 @@ namespace Transformacao3D {
 	 */
 	Matriz::Matriz<double> escalonamento(double sx, double sy, double sz);
 
-	Matriz::Matriz<double> escalonamento_da_matriz(double sx, double sy, double sz);
-
 	/**
 	 * Realiza a rotacao de um objeto 3D.
 	 */
