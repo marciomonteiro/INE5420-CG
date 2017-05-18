@@ -98,11 +98,10 @@ Além de Hermite/Bezier, implemente também B-Splines com Forward Differences. P
  - Deve ser possível ao usuário entrar com quantos pontos de controle desejar, com um mínimo de n = 4.
  - Devem ser desenhadas m = n - 3 curvas b-spline, utilizando-se todos os pontos, 4 a 4.
 
-## Under development
 
 **1.7 - Implementação da Classe Ponto 3D, Objetos 3D e Projeção Paralela Ortogonal**
 
-### Requisitos: ###
+Requisitos:
 
  - Implemente uma classe Ponto3D capaz de realizar as 3 transformações básicas.
  - Implemente uma Classe Objeto3D para representar um Modelo de Arame com as seguintes características:
@@ -114,5 +113,12 @@ Além de Hermite/Bezier, implemente também B-Splines com Forward Differences. P
   -- O primeiro ponto pode ser o VRP.
   -- Lembre-se que ao final do algoritmo o VPN deve ser (0, 0, 1), ou seja, paralelo ao eixo Z.
 
+## Under development
+
+**VPL 1.8. Implementação de Projeção em Perspectiva**
+
+###Trabalho:###
+
+Implemente projeção em perspectiva (vista em aula e no material) realizando Clipping em 3D.
 
 More informations [here](http://www.inf.ufsc.br/~awangenh/grafica)
