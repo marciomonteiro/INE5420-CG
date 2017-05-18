@@ -53,6 +53,10 @@ void Window::novoAngulo(double x, double y, double z){
 }
 
 void Window::normalizaCoordenadasDoMundo(){
+//
+  // Esta faltado coisas aqui
+  // fazer a volta
+  //
 	Matriz::Matriz<double> translada = Transformacao3D::translacao(-centroDaWindow->getX(), -centroDaWindow->getY(), -centroDaWindow->getZ());
 	Matriz::Matriz<double> rotaciona = Transformacao3D::rotacao(anguloX, anguloY, anguloZ);
 	Matriz::Matriz<double> escala = Transformacao3D::escalonamento(2/(fimDaWindow->getX() - inicioDaWindow->getX()),
@@ -93,16 +97,16 @@ void Window::zoom(double porcentagem){
 	fimDaWindow->setAll(centroDaWindow->getX() + larguraDaWindow/2, centroDaWindow->getY() + alturaDaWindow/2, 0.0);
 }
 
-void Window::mover(double x, double y, double z){
+// void Window::mover(double x, double y, double z){
 //	inicioDaWindow->setAll(inicioDaWindow->getX()+x, inicioDaWindow->getY()+y, inicioDaWindow->getZ()+z);
 //	fimDaWindow->setAll(fimDaWindow->getX()+x, fimDaWindow->getY()+y, inicioDaWindow->getZ()+z);
+	// this->atualizaCentroDaWindow();
+// }
+
+void Window::mover(double x, double y, double z){
 	inicioDaWindow->setAll(inicioDaWindow->getX()+x, inicioDaWindow->getY()+y, 0.0);
+  std::cout<<"inicio:\nx: "<<inicioDaWindow->getX()<<"\ty: "<<inicioDaWindow->getY()<<std::endl;
 	fimDaWindow->setAll(fimDaWindow->getX()+x, fimDaWindow->getY()+y, 0.0);
+  std::cout<<"inicio:\nx: "<<fimDaWindow->getX()<<"\ty: "<<fimDaWindow->getY()<<std::endl;
 	this->atualizaCentroDaWindow();
 }
-
-// void Window::mover(double x, double y, double z){
-// 	inicioDaWindow->setAll(inicioDaWindow->getX()+x, inicioDaWindow->getY()+y, 0.0);
-// 	fimDaWindow->setAll(fimDaWindow->getX()+x, fimDaWindow->getY()+y, 0.0);
-// 	this->atualizaCentroDaWindow();
-// }

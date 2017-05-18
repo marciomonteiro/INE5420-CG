@@ -286,24 +286,28 @@ extern "C" G_MODULE_EXPORT void btn_right_clicked() {
 
 extern "C" G_MODULE_EXPORT void btn_se_window() {
 	printCommandLogs("btn_se_window\n");
+  Window::instancia().mover(-10.0,-10.0,0.0);
 	// Window::instancia().novoAngulo(10, 0, 0);
 	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_so_window() {
 	printCommandLogs("btn_so_window\n");
+  Window::instancia().mover(10.0,-10.0,0.0);
 	// Window::instancia().novoAngulo(-10.0, 0.0, 0.0);
 	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_ne_window() {
 	printCommandLogs("btn_ne_window\n");
+  Window::instancia().mover(10.0,10.0,0.0);
 	// Window::instancia().novoAngulo(-10.0, 0.0, 0.0);
 	repaintWindow();
 }
 
 extern "C" G_MODULE_EXPORT void btn_no_window() {
 	printCommandLogs("btn_no_window\n");
+  Window::instancia().mover(-10.0,10.0,0.0);
 	// Window::instancia().novoAngulo(-10.0, 0.0, 0.0);
 	repaintWindow();
 }

@@ -24,7 +24,6 @@
 #include <algorithm>
 #include "Coordenadas.hpp"
 #include "Matriz.hpp"
-#include "Transformacao2D.hpp"
 #include "Algoritmos.hpp"
 
 class Objeto{
@@ -49,5 +48,3 @@ public:
 	virtual void clipa() = 0;
 };
 #endif /* INCLUDE_OBJETO_HPP_ */
-
-
