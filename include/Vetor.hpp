@@ -39,5 +39,17 @@ public:
 	 * \return ponto B do vetor.
 	 */
 	Coordenadas* get_pontoB();
+
+	/**
+	 * Altera o ponto A do vetor.
+	 */
+	void set_pontoA(Coordenadas novoPonto);
+
+	/**
+	 * Altera o ponto B do vetor.
+	 */
+	void set_pontoB(Coordenadas novoPonto);
+
+
 };
 #endif /* INCLUDE_VETOR_HPP_ */

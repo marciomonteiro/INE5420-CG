@@ -28,7 +28,7 @@
 class Window {
 private:
 	Coordenadas *inicioDaWindow, *fimDaWindow, *centroDaWindow, *vrp;
-	Vetor *vpn;
+	Vetor *vpn, *cop;
 	DisplayFile *displayfile;
 	double anguloX, anguloY, anguloZ;
 	void atualizaCentroDaWindow();
@@ -100,5 +100,14 @@ public:
 	 */
 	void setCoordsWindow(Coordenadas* inicio, Coordenadas* fim);
 
+	/**
+	 * Retona o vetor do centro da projecao.
+	 */
+	Vetor* get_cop(){return cop;}
+
+	/**
+	 * Altera o ponto COP dado o novo ponto. COP seria o ponto A do vetor
+	 */
+	void set_cop(Coordenadas novoPonto);
 };
 #endif /* INCLUDE_WINDOW_HPP_ */

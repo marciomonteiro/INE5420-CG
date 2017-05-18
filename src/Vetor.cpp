@@ -23,3 +23,12 @@ Coordenadas* Vetor::get_pontoA(){
 Coordenadas* Vetor::get_pontoB(){
 	return pontoB;
 }
+
+void Vetor::set_pontoA(Coordenadas novoPonto){
+	this->pontoA = novoPonto;
+}
+
+void Vetor::set_pontoB(Coordenadas novoPonto){
+	this->pontoB = novoPonto;
+}
+

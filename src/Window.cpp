@@ -30,9 +30,13 @@ Window::Window(){
 									 (inicioDaWindow->getY() + fimDaWindow->getY())/2,
 									 0.0,
 									 1.0);
+
 	vrp = centroDaWindow;
 	Coordenadas *vpn_pontoB = new Coordenadas(0.0, 0.0, 1.0, 0.0);
 	vpn = new Vetor(vrp, vpn_pontoB);
+
+	Coordenadas *ponto_cop = new Coordenadas(centroDaWindow->getX(), centroDaWindow->getY(), -50.0, 0.0);
+	cop = new Vetor(ponto_cop, centroDaWindow);
 }
 
 void Window::setWindow(Coordenadas* inicio, Coordenadas* fim, DisplayFile * world){
@@ -106,3 +110,11 @@ void Window::mover(double x, double y, double z){
 // 	fimDaWindow->setAll(fimDaWindow->getX()+x, fimDaWindow->getY()+y, 0.0);
 // 	this->atualizaCentroDaWindow();
 // }
+
+Vetor* Window::get_cop(){
+	return this->cop;
+}
+
+void Window::set_cop(Coordenadas novoPonto){
+	this->cop->set_pontoA(novoPonto);
+}
