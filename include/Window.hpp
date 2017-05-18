@@ -59,14 +59,45 @@ public:
 	 * \param porcentagem quantidade para dar o zoom.
 	 */
 	void zoom(double porcentagem);
+
+	/**
+	 * Normaliza as coordenadas do mundo.
+	 */
 	void normalizaCoordenadasDoMundo();
+
+	/**
+	 * Move a window alterando os valores x e y da coordenada da window.
+	 */
 	void mover(double x, double y, double z);
-	void setCoordenadas(Coordenadas* inicio, Coordenadas* fim){inicioDaWindow = inicio; fimDaWindow = fim;}
+
+	/**
+	 * Retorna as coordenadas do inicio da window.
+	 */
 	Coordenadas* getInicioDaWindow(){return inicioDaWindow;}
+
+	/**
+	 * Retorna as coordenadas do final da window.
+	 */
 	Coordenadas* getFimDaWindow(){return fimDaWindow;}
+
+	/**
+	 * Retorna as coordenadas do centro da window.
+	 */
 	Coordenadas* getCentroDaWindow(){return centroDaWindow;}
+
+	/**
+	 * Retorna as coordenadas da VRP.
+	 */
 	Coordenadas* get_vrp(){return vrp;}
+
+	/**
+	 * Retorna o vetor da VPN.
+	 */
 	Vetor* get_vpn(){return vpn;}
+
+	/**
+	 * Altera as coordenadas de inicio e fim da window.
+	 */
 	void setCoordsWindow(Coordenadas* inicio, Coordenadas* fim);
 
 };

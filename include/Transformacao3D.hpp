@@ -64,6 +64,11 @@ namespace Transformacao3D {
 	 * Realiza a rotacao de um objeto 3D em torno a um eixo arbitrario.
 	 */
 	Matriz::Matriz<double> rotacao_eixo_arbitrario(double grauX, double grauY, double grauZ, Coordenadas eixo);
+
+	/**
+	 * Matriz perspectiva.
+	 */
+	Matriz::Matriz<double> matriz_PER(double d);
 };
 
 #endif /* INCLUDE_TRANSFORMACAO3D_HPP_ */
